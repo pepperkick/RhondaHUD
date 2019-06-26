@@ -8,13 +8,16 @@
     "server": "node server/main.js",
     "build-vue": "vue-cli-service build",
     "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* yarn electron",
-    "dev-server": "cross-env NODE_ENV=development DEBUG=app:* yarn server",
+    "dev-server": "cross-env NODE_ENV=development DEBUG=app:* nodemon --exec yarn server",
     "dev-vue": "cross-env NODE_ENV=development DEBUG=app:* yarn electron"
   },
   "dependencies": {
     "config": "^3.1.0",
     "debug": "^4.1.1",
     "electron": "^5.0.5",
+    "express": "^4.17.1",
+    "json5": "^2.1.0",
+    "socket.io": "^2.2.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
@@ -24,6 +27,7 @@
     "cross-env": "^5.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "nodemon": "^1.19.1",
     "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
