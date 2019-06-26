@@ -4,15 +4,24 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "electron": "electron electron/main.js",
+    "server": "node server/main.js",
+    "build-vue": "vue-cli-service build",
+    "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* yarn electron",
+    "dev-server": "cross-env NODE_ENV=development DEBUG=app:* yarn server",
+    "dev-vue": "cross-env NODE_ENV=development DEBUG=app:* yarn electron"
   },
   "dependencies": {
+    "config": "^3.1.0",
+    "debug": "^4.1.1",
+    "electron": "^5.0.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-service": "^3.8.0",
+    "cross-env": "^5.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "vue-template-compiler": "^2.6.10"
