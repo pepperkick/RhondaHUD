@@ -1,7 +1,8 @@
 const path = require('path')
 const config = require('config')
 
-process.env.VUE_APP_SOCKET_PORT = config.get('server.socket_port')
+process.env.VUE_APP_SERVER_SOCKET_PORT = config.get('server.socket_port')
+process.env.VUE_APP_ELECTRON_SOCKET_PORT = config.get('electron.socket_port')
 
 module.exports = {
     devServer: {
@@ -36,7 +37,8 @@ function addStyleResource (rule) {
         .loader('style-resources-loader')
         .options({
         patterns: [
-            path.resolve(__dirname, './vue/assets/_styles.less'),
+            path.resolve(__dirname, './vue/assets/_hud.less'),
+            path.resolve(__dirname, './vue/assets/_admin.less'),
         ],
     })
 }

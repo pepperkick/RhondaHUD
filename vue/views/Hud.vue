@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import TeamContainer from '@/components/TeamContainer'
-import TeamCenterPlayer from '@/components/TeamCenterPlayer'
-import RoundInfo from '@/components/RoundInfo'
-import ControlPoints from '@/components/ControlPoints'
+import TeamContainer from '@/components/Hud/TeamContainer'
+import TeamCenterPlayer from '@/components/Hud/TeamCenterPlayer'
+import RoundInfo from '@/components/Hud/RoundInfo'
+import ControlPoints from '@/components/Hud/ControlPoints'
 
 function hexToRgbA(hex, alpha) {
     let c;
@@ -51,9 +51,4 @@ export default {
 </script>
 
 <style lang="less">
-body {
-    font-family: 'Roboto', sans-serif;
-    background: transparent;
-    overflow: hidden;
-}
 </style>

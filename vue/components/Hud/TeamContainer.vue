@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import TeamPlayer from "@/components/TeamPlayer"
+import TeamPlayer from "@/components/Hud/TeamPlayer"
 
 export default {
     components: { TeamPlayer },

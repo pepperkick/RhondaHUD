@@ -1,11 +1,15 @@
 const { app, BrowserWindow, globalShortcut} = require('electron')
 const config = require('config')
+const debug = require('debug')
+const io = require('socket.io')(config.get('electron.socket_port'))
 
-const url = `http://${config.get('vue.host')}:${config.get('vue.port')}`
+const log = debug('app:main')
+const hudUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}`
+const adminUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}/admin?electron=true`
 
 const hudOptions = {
-    width: config.get("electron.width"),
-    height: config.get("electron.height"),
+    width: config.get("electron.hud.width"),
+    height: config.get("electron.hud.height"),
     frame: false,
     alwaysOnTop: true,
     transparent: true,
@@ -20,40 +24,77 @@ const hudOptions = {
     }
 };
 
+const adminOptions = {
+    width: config.get("electron.admin.width"),
+    height: config.get("electron.admin.height"),
+    frame: false,
+    resizable: false,
+};
+
+
 let mouseIgnored = false;
 
 app.on('ready', () => {
     const overlay = new BrowserWindow(hudOptions)
+    const admin = new BrowserWindow(adminOptions)
     
-    overlay.loadURL(url)
-    overlay.setIgnoreMouseEvents(true);
+    overlay.loadURL(hudUrl)
+    overlay.setIgnoreMouseEvents(true)
 
-    mouseIgnored = true;
+    admin.loadURL(adminUrl)
+    admin.hide()
+
+    mouseIgnored = true
 
     if (process.env.NODE_ENV === 'development') {
         globalShortcut.register('Alt+A', () => {
-            overlay.toggleDevTools();
+            overlay.toggleDevTools()
 
             if (mouseIgnored)
-                overlay.setIgnoreMouseEvents(false);
+                overlay.setIgnoreMouseEvents(false)
             else
-                overlay.setIgnoreMouseEvents(true);
+                overlay.setIgnoreMouseEvents(true)
         });
 
-        globalShortcut.register('Alt+D', () => {
-            overlay.reload();
+        globalShortcut.register('Alt+W', () => {
+            admin.toggleDevTools()
         });
+
+        globalShortcut.register('Alt+R', () => {
+            admin.reload()
+        })
+
+        globalShortcut.register('Alt+D', () => {
+            overlay.reload()
+        })
     }
 
     globalShortcut.register('Alt+S', () => {
-        overlay.minimize();
-    });
+        overlay.minimize()
+    })
 
     globalShortcut.register('Alt+Q', () => {
         if (overlay.isVisible()) {
-            overlay.hide();
+            overlay.hide()
         } else {
-            overlay.show();
+            overlay.show()
         }
-    });
+    })
+
+    globalShortcut.register('Alt+E', () => {
+        if (admin.isVisible()) {
+            admin.hide()
+        } else {
+            admin.show()
+        }
+    })
+
+    io.on('connect', client => {
+        log('Client connected')
+
+        client.on('admin-close', () => {
+            console.log('Admin Close Event')
+            admin.hide()
+        })
+    })
 })
