@@ -1,36 +1,30 @@
-const net = require("net");
-const debug = require("debug");
+const net = require('net')
+const debug = require('debug')
 const JSON5 = require('json5')
-const io = require("socket.io")(2565);
-const express = require("express");
+const config = require('config')
+const io = require('socket.io')(config.get('server.socket_port'))
 
-const GSI_PIPE_PATH = "\\\\.\\pipe\\tf2-gsi";
-const log = debug("app:main");
+const GSI_PIPE_PATH = '\\\\.\\pipe\\tf2-gsi'
+const log = debug('app:main')
 
-let info = {}, client;
-
-const app = new express();
-
-app.use("/", express.static("public"));
-
-app.listen(2560)
+let info = {}
 
 const server = net.createServer((stream) => {
     stream.on('data', async (data) => {    
-        log(data.toString());
-        const values = data.toString();
-        info = JSON5.parse(values);
+        // log(data.toString());
+        const values = data.toString()
+        info = JSON5.parse(values)
 
         // log(info.event);
 
-        if (client) client.emit("data", info);
+        io.sockets.emit('data', info)
     });
 });
 
-io.on("connect", _client => {
-    client = _client;
+io.on('connect', _client => {
+    log('Client connected')
 });
 
 server.listen(GSI_PIPE_PATH, () => {
-    log("GSI Pipe Started!");
+    log('GSI Pipe Started!')
 });

@@ -7,9 +7,9 @@
     "electron": "electron electron/main.js",
     "server": "node server/main.js",
     "build-vue": "vue-cli-service build",
-    "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* yarn electron",
-    "dev-server": "cross-env NODE_ENV=development DEBUG=app:* nodemon --exec yarn server",
-    "dev-vue": "cross-env NODE_ENV=development DEBUG=app:* yarn electron"
+    "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch electron --watch config --exec yarn electron",
+    "dev-server": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch server --watch config --exec yarn server",
+    "dev-vue": "cross-env NODE_ENV=development DEBUG=app:* yarn serve"
   },
   "dependencies": {
     "config": "^3.1.0",
@@ -18,8 +18,10 @@
     "express": "^4.17.1",
     "json5": "^2.1.0",
     "socket.io": "^2.2.0",
+    "style-resources-loader": "^1.2.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
+    "vue-socket.io": "^3.0.7",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

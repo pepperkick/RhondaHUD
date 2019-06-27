@@ -1,0 +1,13 @@
+{
+    "electron": {
+        "width": 1920,
+        "height": 1080
+    },
+    "server": {
+        "socket_port": 5510
+    },
+    "vue": {
+        "host": "localhost",
+        "port": 5520
+    }
+}
