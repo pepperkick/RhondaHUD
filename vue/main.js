@@ -5,6 +5,8 @@ import router from './router'
 
 import socket from 'vue-socket.io';
 
+import '@/assets/tailwind.css'
+
 Vue.config.productionTip = false
 
 Vue.use(new socket({
