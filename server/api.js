@@ -1,11 +1,14 @@
 const express = require('express')
 const config = require('config')
+const cors = require('cors')
 
 module.exports = async () => {
     const Store = await require('./store.js')()
 
     const app = new express()
 
+    app.use(cors())
+    
     app.get('/team/:id', async (req, res) => {
         const id = req.params.id
         const doc = await Store.Team.FindOneById(id)

@@ -27,7 +27,7 @@ export default {
     },
     created () {
         console.log(window.type)
-        this.socket = io(`http://127.0.0.1:${process.env.VUE_APP_ELECTRON_SOCKET_PORT}`)
+        this.socket = io(`http://${process.env.VUE_APP_ELECTRON_HOST}:${process.env.VUE_APP_ELECTRON_SOCKET_PORT}`)
         this.isElectron = this.$route.query.electron
     }
 }
