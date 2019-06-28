@@ -8,7 +8,7 @@
     "server": "node server/main.js",
     "build-vue": "vue-cli-service build",
     "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch electron --watch config --exec yarn electron",
-    "dev-server": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch server --watch config --exec yarn server",
+    "dev-server": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch server --watch config --ignore  server/collections --exec yarn server",
     "dev-vue": "cross-env NODE_ENV=development DEBUG=app:* yarn serve"
   },
   "dependencies": {
@@ -18,6 +18,8 @@
     "express": "^4.17.1",
     "image-webpack-loader": "^5.0.0",
     "json5": "^2.1.0",
+    "nedb": "^1.8.0",
+    "nedb-async": "^0.0.9",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "style-resources-loader": "^1.2.1",
