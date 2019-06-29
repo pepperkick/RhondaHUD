@@ -105,6 +105,8 @@ export default {
         }
         
         #round-timeleft-container {
+            margin-top: -16px;
+
             #timeleft {
                 color: #fff;
                 opacity: 0.66;

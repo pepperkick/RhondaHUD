@@ -23,6 +23,12 @@ module.exports = async () => {
         res.json(doc)
     })
 
+    app.get('/team', async (req, res) => {
+        const docs = await Store.Team.FindAll()
+
+        res.json(docs)
+    })
+
     app.post('/team', async (req, res) => {
         try {
             const Team = {
@@ -43,6 +49,12 @@ module.exports = async () => {
         const doc = await Store.Player.FindOneBySteamId(steamid)
     
         res.json(doc)
+    })
+
+    app.get('/player', async (req, res) => {
+        const docs = await Store.Player.FindAll()
+
+        res.json(docs)
     })
 
     app.post('/player', async (req, res) => {
@@ -70,5 +82,4 @@ module.exports = async () => {
     })
     
     app.listen(config.get('server.api_port'))
-
 }

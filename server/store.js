@@ -35,11 +35,13 @@ module.exports = async () => {
         Team: {
             Insert: AddTeam,
             FindOneById: async (_id) => await Team.asyncFindOne({ _id }),
-            FindOneByName: async (name) => await Team.asyncFindOne({ name })
+            FindOneByName: async (name) => await Team.asyncFindOne({ name }),
+            FindAll: async () => await Team.asyncFind({}, [ [ 'sort', { name: 1 } ] ])
         },
         Player: {
             Insert: AddPlayer,
-            FindOneBySteamId: async (steamid) => await Player.asyncFindOne({ steamid })
+            FindOneBySteamId: async (steamid) => await Player.asyncFindOne({ steamid }),
+            FindAll: async () => await Player.asyncFind({}, [ [ 'sort', { name: 1 } ] ])
         },
         Config: {
             Update: UpdateConfig,

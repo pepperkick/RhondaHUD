@@ -4,6 +4,7 @@
         <Sidebar />
         <div id='content'>
             <TeamPage v-if='currentTab == 0' />
+            <PlayerPage v-if='currentTab == 1' />
         </div>
     </div>
 </template>
@@ -13,11 +14,12 @@ import Sidebar from '@/components/Admin/Sidebar'
 import Topbar from '@/components/Admin/Topbar'
 
 import TeamPage from '@/components/Admin/Pages/Team'
+import PlayerPage from '@/components/Admin/Pages/Player'
 
 import io from 'socket.io-client'
 
 export default {
-    components: { Sidebar, Topbar, TeamPage },
+    components: { Sidebar, Topbar, TeamPage, PlayerPage },
     data () {
         return {
             socket: '',
@@ -48,7 +50,6 @@ export default {
 }
 
 .admin-page {
-    display: flex;
     width: 100%; height: 100%;
 }
 
