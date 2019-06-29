@@ -12,7 +12,7 @@ module.exports = async () => {
         if (!team.name) throw new Error('Team requires a name')
         if (!team.logo) throw new Error('Team requires a logo')
 
-        await Team.asyncInsert(team);
+        return Team.asyncInsert(team);
     }
 
     async function AddPlayer (player) {
@@ -20,7 +20,7 @@ module.exports = async () => {
         if (!player.steamid) throw new Error('Player requires steamid')
         if (!player.name) throw new Error('Player requires a name')
 
-        await Player.asyncInsert(player);
+        return Player.asyncInsert(player);
     }
 
     async function UpdateConfig (key, value) {

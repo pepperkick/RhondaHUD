@@ -1,16 +1,72 @@
 <template>
-    <div class="player-info">
-        <div class="player-main-info">
-            <div class="player-bar"></div>
-            <div class="player-health-bar" :class="{ 'align-right': player.team == 2, 'align-left': player.team == 3, 'player-main-info-blue': player.team == 3, 'player-main-info-red': player.team == 2 }" :style="{ width: getBarWidth() }"></div>
-            <div class="player-healthover-bar" :class="{ 'align-right': player.team == 2, 'align-left': player.team == 3 }" :style="{ width: getOverhealBarWidth() }"></div>
-            <span class="player-health">{{ player.alive == 1 ? player.health : `${parseInt(player.respawnTime > 0 ? (player.respawnTime + 1): 1)}s` }}</span>
-            <span class="player-name">{{ player.name }}</span>
-            <span class="player-class">{{ getClass() }}</span>
+    <div class="player-info-container">
+        <div class='player-stats-container align-side-blu' v-if='player.team == 3'>
+            <div class="player-info">
+                <div class="player-health-info">
+                    <div class='player-health-bar-container'>
+                        <div class='player-health-bar player-main-info-blu' :style='{ width: getBarWidth() }'></div>
+                        <div class='player-health-bar-delay player-main-info-blu-delay' :style='{ width: getBarWidth() }'></div>
+                    </div>
+                    <div class='player-healthover-bar' :style="{ width: getOverhealBarWidth() }"></div>
+                </div>
+                <div class='player-main-info'>
+                    <img class='player-class' :src='$parent.classIcons[player.class]' />     
+                    <div class='player-basic-info'>
+                        <div class='info-row-1 player-name'>
+                            <span>{{ player.name }}</span>
+                        </div>
+                        <div class='info-row-2 player-stats'>
+                            <span>{{ player.kills }} K</span>
+                            <span>{{ player.assists }} A</span>
+                            <span>{{ player.deaths }} D</span>
+                        </div>
+                    </div>
+                    <div class="player-health">
+                        <img class='health-effect-icon' :src='getHealthEffectIcon()' />
+                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>    
+                    </div>     
+                </div>
+            </div>
+            <div class='player-extra-stats' v-if='player.alive'>
+                <div class='player-status-icons'>
+                    <!-- <img class='player-status-icon' v-for='(i, index) in statusEffects' :key='index' :src='i' /> -->
+                </div>
+                <img class='player-weapon-icon' :src='GetWeaponIcon()' />
+            </div>
         </div>
-        <div class="player-sub-info" :class="{ 'align-right': player.team == 2, 'align-left': player.team == 3 }">
-            <span class="player-score">Score: {{ player.score }}</span>
-            <span class="player-kills">KDR: {{ player.kills / player.deaths == 0 ? 1 : player.deaths }}</span>
+        <div class='player-stats-container align-side-red' v-if='player.team == 2'>
+            <div class='player-extra-stats' v-if='player.alive'>
+                <div class='player-status-icons'>
+                    <!-- <img class='player-status-icon' v-for='(i, index) in statusEffects' :key='index' :src='i' /> -->
+                </div>
+                <img class='player-weapon-icon' :src='GetWeaponIcon()' />
+            </div>
+            <div class="player-info">
+                <div class="player-health-info">
+                    <div class='player-health-bar-container'>
+                        <div class='player-health-bar player-main-info-red' :style='{ width: getBarWidth() }'></div>
+                        <div class='player-health-bar-delay player-main-info-red-delay' :style='{ width: getBarWidth() }'></div>
+                    </div>
+                    <div class='player-healthover-bar' :style="{ width: getOverhealBarWidth() }"></div>
+                </div>
+                <div class='player-main-info'>
+                    <div class="player-health">
+                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>    
+                        <img class='health-effect-icon' :src='getHealthEffectIcon()' />
+                    </div>     
+                    <div class='player-basic-info'>
+                        <div class='info-row-1 player-name'>
+                            <span>{{ player.name }}</span>
+                        </div>
+                        <div class='info-row-2 player-stats'>
+                            <span>{{ player.kills }} K</span>
+                            <span>{{ player.assists }} A</span>
+                            <span>{{ player.deaths }} D</span>
+                        </div>
+                    </div>
+                    <img class='player-class' :src='$parent.classIcons[player.class]' />                
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -18,150 +74,337 @@
 <script>
 export default {
     props: ["player"],
+    data () {
+        return {
+            oldHealthBarWidth: '0',
+            statusEffects: [],
+        }    
+    },
     methods: {
         getClass () {
             const player = this.player;
 
-            if (player.class == 1) return "Scout";
-            else if (player.class == 2) return "Sniper";
-            else if (player.class == 3) return "Soldier";
-            else if (player.class == 4) return "Demoman";
-            else if (player.class == 5) return "Medic";
-            else if (player.class == 6) return "Heavy";
-            else if (player.class == 7) return "Pyro";
-            else if (player.class == 8) return "Spy";
-            else if (player.class == 9) return "Engineer";
+            if (player.class == 1) return "Scout"
+            else if (player.class == 2) return "Sniper"
+            else if (player.class == 3) return "Soldier"
+            else if (player.class == 4) return "Demoman"
+            else if (player.class == 5) return "Medic"
+            else if (player.class == 6) return "Heavy"
+            else if (player.class == 7) return "Pyro"
+            else if (player.class == 8) return "Spy"
+            else if (player.class == 9) return "Engineer"
             else return "Unknown"
         },
         
         getBarWidth() {
             if (this.player.alive == 1) {
-                let width = (this.player.health / this.player.maxHealth) * 100;
+                let width = (parseInt(this.player.health) / parseInt(this.player.maxHealth)) * 100
 
-                if (width > 100) width = 100;
+                if (width > 100) width = 100
 
-                return `${parseInt(width)}%`;
+                return `${parseInt(width)}%`
+            }
+            return "0%"
+        }, 
+        
+        getOverhealBarWidth() {
+            const overheal = [ 0, 185, 185, 300, 260, 225, 450, 260, 185, 185 ]
+
+            if (this.player.alive == 1 && parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
+                const maxoverheal = overheal[this.player.class]
+                const overhealth = maxoverheal - parseInt(this.player.maxHealth)
+                const curoverhealth = parseInt(this.player.health) - parseInt(this.player.maxHealth)
+
+                let width = (curoverhealth / overhealth) * 100
+
+                if (width > 100) width = 100
+
+                return `${parseInt(width)}%`
             }
 
             return "0%"
         },
-        
-        getOverhealBarWidth() {
+
+        getHealthEffectIcon () {
             if (this.player.alive == 1) {
-                let width = (this.player.health / this.player.maxHealth) * 100;
+                if (this.player.isUbered) {
+                    if (this.player.team == 3) 
+                        return this.$parent.bluUberedIcon
+                    else if (this.player.team == 2) 
+                        return this.$parent.redUberedIcon
+                }
 
-                if (width > 100) width -= 100;  
-                else return "0%"
-
-                return `${parseInt(width)}%`;
+                if (parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
+                    return this.$parent.overhealIcon
+                }
             }
+        },
 
-            return "0%"
+        getHealthClass () {
+            if (this.player.alive == 1) {
+                return {
+                    'overhealed-color': parseInt(this.player.health) > parseInt(this.player.maxHealth)
+                }
+            }
+        },
+
+        GetWeaponIcon () {
+            if (this.player.alive == 0) return
+
+            const wepindex = this.player.weapon.index
+            const wepclass = this.player.weapon.class
+
+            if (this.$parent.weaponIcons[wepclass]) {
+                if (this.$parent.weaponIcons[wepclass][wepindex]) return this.$parent.weaponIcons[wepclass][wepindex]
+                else return this.$parent.weaponIcons[wepclass][0]
+            }
+        },
+
+        GetStatusEffects() {
+            if (this.player.isAlive == 0) return
+            
+            this.statusEffects = []
+
+            if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
+                this.statusEffects.push(this.$parent.makredForDeathIcon)
+            }
         }
+    },
+
+    updated () {
+        this.GetStatusEffects()
     }
 }
 </script>
 
 <style lang="less">
-.player-info {
+.player-stats-container {
     display: flex;
-    flex-direction: column;
-    height: 96px;
-    width: 480px;
+    flex-direction: row;
+    height: 64px;
+    width: 420px;
     margin: auto;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     position: relative;
+
+    .player-extra-stats {
+        display: flex;
+        flex-direction: column;
+        width: 90px;
+
+        .player-status-icons {
+            height: 24px;
+
+            img {
+                height: 20px;
+            }
+        }
+
+        .player-weapon-icon {
+            height: 32px;
+        }
+    }
     
-    .player-main-info {
-        height: 48px;
-        width: 100%;
+    .player-info {
         display: flex;
-        color: white;
+        flex-direction: column;
+        height: 64px;
+        width: 320px;
+        margin-bottom: 12px;
         position: relative;
-
-        .player-bar {
-            background: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: -2;
-        }
-
-        .align-right {
-            left: unset !important;
-            right: 0 ;
-        }
-
-        .player-health-bar {
-            height: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: -1;
-            transition: 0.3s;
-        }
-
-        .player-healthover-bar {
-            height: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: -1;
-            background: rgba(255, 255, 255, 0.33);
-            transition: 0.3s;
-        }
-
-        .player-main-info-red {
-            background: @red-team-color;
-        }
-
-        .player-main-info-blue {
-            background: @blue-team-color;
-        }
-
-        .player-health {
-            margin-top: auto;
-            margin-bottom: auto;    
-            margin-left: 16px;
-            width: 24px;
-        }
-
-        .player-name {
-            margin: auto auto auto 16px;
-            font-size: 20px;
-        }
-
-        .player-class {
-            color: white;
-            margin: auto 16px auto auto;
-            font-size: 16px;
-        }
-    }
-
-    .align-right {
-        .player-score {
-            margin-left: auto !important;
-        }    
-    }
-
-    .player-sub-info {
-        height: 48px;
-        width: 100%;
-        display: flex;
-        color: white;
         background: rgba(0, 0, 0, 0.5);
 
-        .player-kills {
+        .health-effect-icon {
             margin-top: auto;
-            margin-bottom: auto;    
-            margin-left: 16px;
-            margin-right: 16px;
+            margin-bottom: 12px;
+            height: 18px;
         }
 
-        .player-score {
-            margin-top: auto;
-            margin-bottom: auto;
-            margin-left: 16px;
+        .player-health-info {
+            height: 24px;
+            width: 100%;
+            display: flex;
+            color: white;
+            position: relative;
+
+            .player-health-bar-container {
+                width: 100%;
+                z-index: 1;
+
+                .player-health-bar {
+                    height: 100%;
+                    transition: 0.3s;
+                    z-index: 3;
+                }
+
+                .player-health-bar-delay {
+                    height: 100%;
+                    transition: 0.3s;
+                    transition-delay: 0.5s;
+                    z-index: 1;
+                }
+            }
+
+            .player-healthover-bar {
+                height: 4px;
+                background: @overheal-color;
+                transition: 0.3s;
+                z-index: 3;
+            }
+
+            .player-main-info-red {
+                background: @red-team-color;
+            }
+
+            .player-main-info-red-delay {
+                background: rgba(red(@red-team-color), green(@red-team-color), blue(@red-team-color), 0.5);
+            }
+
+            .player-main-info-blu {
+                background: @blue-team-color;
+            }
+
+            .player-main-info-blu-delay {
+                background: rgba(red(@blue-team-color), green(@blue-team-color), blue(@blue-team-color), 0.5);            
+            }
         }
+
+        .player-main-info {
+            height: 72px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            color: white;
+
+            .player-health {
+                margin-top: auto;
+                margin-bottom: 0px;
+                font-size: 32px;
+                font-weight: 900;
+                display: flex;
+                flex-direction: row;
+
+                .overhealed-color {
+                    color: @overheal-color;
+                }
+
+                .bluubered-color {
+                    color: @blue-team-color;
+                }
+
+                .redubered-color {
+                    color: @red-team-color;
+                }
+            }
+
+            .player-class {
+                margin-top: auto;
+                margin-bottom: auto;
+                margin-left: 8px;
+                margin-right: 8px;
+                height: 40px;
+            }
+
+            .player-basic-info {
+                display: flex;
+                flex-direction: column;
+
+                .player-name {
+                    margin-top: 6px;
+                    margin-bottom: -4px;    
+                    font-size: 20px;
+                    line-height: 20px;
+                }
+
+                .player-stats {
+                    margin-top: auto;
+                    margin-bottom: auto;    
+                    font-size: 12px;
+
+                    span {
+                        margin-left: 8px;
+                        margin-right: 8px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.align-side-blu {
+    .player-info {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .player-health-bar {
+        position: absolute;
+        top: 0; left: 0;
+    }
+    
+    .player-health-bar-delay {
+        position: absolute;
+        top: 0; left: 0;
+    }
+
+    .player-healthover-bar {
+        position: absolute;
+        bottom: 0; left: 0;
+    }
+
+    .player-health {            
+        margin-left: auto;
+        margin-right: 12px;
+    }
+    
+    .player-name {
+        margin-left: 8px;
+    }
+
+    .player-weapon-icon {
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+.align-side-red {
+    .player-info {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .player-health-bar {
+        position: absolute;
+        top: 0; right: 0;
+    }
+    
+    .player-health-bar-delay {
+        position: absolute;
+        top: 0; right: 0;
+    }
+
+    .player-healthover-bar {
+        position: absolute;
+        bottom: 0; right: 0;
+    }
+
+    .player-health {            
+        margin-right: auto;
+        margin-left: 12px;
+    }
+    
+    .player-name {
+        margin-right: 8px;
+    }
+
+    .player-main-info {
+        text-align: right;
+    }
+
+    .player-weapon-icon {
+        transform: scaleX(-1);
+        margin-right: 0;
+        margin-left: auto;
     }
 }
 </style>

@@ -1,16 +1,32 @@
 <template>
     <div class="player-center-info">
-        <div class="player-main-info">
-            <div class="player-bar"></div>
-            <div class="player-health-bar" :class="{ 'player-main-info-blue': player.team == 3, 'player-main-info-red': player.team == 2 }" :style="{ width: getBarWidth() }"></div>
-            <div class="player-healthover-bar" :style="{ width: getOverhealBarWidth() }"></div>
-            <span class="player-health">{{ player.alive == 1 ? player.health : `${parseInt(player.respawnTime > 0 ? player.respawnTime : 0)}s` }}</span>
-            <span class="player-name">{{ player.name }}</span>
-            <span class="player-class">{{ getClass() }}</span>
+        <div class='player-center-health-info'>
+            <div class='player-center-health-bar-container '>
+                <div class='player-center-health-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}'></div>
+                <div class='player-center-health-bar-delay'></div>
+            </div>
+            <div class='player-center-healthover-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}'></div>
         </div>
-        <div class="player-sub-info">
-            <span class="player-score">Score: {{ player.score }}</span>
-            <span class="player-kills">KDR: {{ player.kills / player.deaths == 0 ? 1 : player.deaths }}</span>
+        <div class='player-center-main-info'>
+            <div class='player-center-basic-info'>
+                <div class='flex flex-colum info-row-1'>
+                    <img class='player-center-class' :src='$parent.classIcons[player.class]' />          
+                    <div class='player-center-name'>
+                        <span>{{ player.name }}</span>
+                    </div>
+                    <div class="player-center-health">
+                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>    
+                        <img class='center-health-effect-icon' :src='getHealthEffectIcon()' />
+                    </div>     
+                </div>
+                <div class='info-row-2'>
+                    <div class='player-center-stats'>
+                        <span>{{ player.kills }} K</span>
+                        <span>{{ player.assists }} A</span>
+                        <span>{{ player.deaths }} D</span>
+                    </div>
+                </div>
+            </div>      
         </div>
     </div>
 </template>
@@ -47,31 +63,116 @@ export default {
         },
         
         getOverhealBarWidth() {
-            if (this.player.alive == 1) {
-                let width = (this.player.health / this.player.maxHealth) * 100;
+            const overheal = [ 0, 185, 185, 300, 260, 225, 450, 260, 185, 185 ]
 
-                if (width > 100) width -= 100;
-                else return "0%"
+            if (this.player.alive == 1 && parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
+                const maxoverheal = overheal[this.player.class]
+                const overhealth = maxoverheal - parseInt(this.player.maxHealth)
+                const curoverhealth = parseInt(this.player.health) - parseInt(this.player.maxHealth)
 
-                return `${parseInt(width)}%`;
+                let width = (curoverhealth / overhealth) * 100
+
+                if (width > 100) width = 100
+
+                return `${parseInt(width)}%`
             }
 
             return "0%"
-        }
+        },
+
+        getHealthEffectIcon () {
+            if (this.player.alive == 1) {
+                if (this.player.isUbered) {
+                    if (this.player.team == 3) 
+                        return this.$parent.bluUberedIcon
+                    else if (this.player.team == 2) 
+                        return this.$parent.redUberedIcon
+                }
+
+                if (parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
+                    return this.$parent.overhealIcon
+                }
+            }
+        },
+
+        getHealthClass () {
+            if (this.player.alive == 1) {
+                return {
+                    'overhealed-color': parseInt(this.player.health) > parseInt(this.player.maxHealth)
+                }
+            }
+        },
     }
 }
 </script>
 
 <style lang="less">
+.team-red-color {
+    background: @red-team-color;
+}
+
+.team-blue-color {
+    background: @blue-team-color;
+}
+
 .player-center-info {
     position: fixed;
-    height: 96px;
+    height: 108px;
     width: 480px;
     left: 0; right: 0;
     bottom: 96px;
     margin: auto;
     margin-bottom: 16px;
     
+    .player-center-health-info {
+        height: 24px;
+        width: 100%;
+        display: flex;
+        color: white;
+        position: relative;
+
+        .player-center-health-bar-container {
+            width: 100%;
+            z-index: 1;
+
+            .player-center-health-bar {
+                height: 100%;
+                transition: 0.3s;
+                z-index: 3;
+            }
+
+            .player-center-health-bar-delay {
+                height: 100%;
+                transition: 0.3s;
+                transition-delay: 0.5s;
+                z-index: 1;
+            }
+        }
+
+        .player-center-healthover-bar {
+            height: 4px;
+            background: @overheal-color;
+            transition: 0.3s;
+            z-index: 3;
+        }
+
+        .player-main-info-red {
+            background: @red-team-color;
+        }
+
+        .player-main-info-red-delay {
+            background: rgba(red(@red-team-color), green(@red-team-color), blue(@red-team-color), 0.5);
+        }
+
+        .player-main-info-blu {
+            background: @blue-team-color;
+        }
+
+        .player-main-info-blu-delay {
+            background: rgba(red(@blue-team-color), green(@blue-team-color), blue(@blue-team-color), 0.5);            
+        }
+    }
+
     .player-main-info {
         height: 48px;
         width: 100%;
@@ -137,30 +238,71 @@ export default {
         }
     }
 
-    .align-right {
-        .player-score {
-            margin-left: auto !important;
-        }    
-    }
-
-    .player-sub-info {
-        height: 48px;
+    .player-center-main-info {
+        height: 72px;
         width: 100%;
         display: flex;
         color: white;
         background: rgba(0, 0, 0, 0.5);
 
-        .player-kills {
-            margin-top: auto;
-            margin-bottom: auto;    
-            margin-left: 16px;
-            margin-right: 16px;
-        }
+        .player-center-basic-info {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
 
-        .player-score {
-            margin-top: auto;
-            margin-bottom: auto;
-            margin-left: 16px;
+            .info-row-1 {
+                width: 100%;
+
+                .player-center-class {
+                    margin-top: auto;
+                    margin-bottom: auto;
+                    margin-left: 16px;
+                    height: 40px;
+                }
+
+                .player-center-health {
+                    margin-bottom: auto;
+                    margin-top: 0px;
+                    margin-left: auto;
+                    margin-right: 8px;
+                    font-size: 32px;
+                    font-weight: 900;
+                    display: flex;
+                    flex-direction: row;
+
+                    .overhealed-color {
+                        color: @overheal-color;
+                    }
+
+                    .bluubered-color {
+                        color: @blue-team-color;
+                    }
+
+                    .redubered-color {
+                        color: @red-team-color;
+                    }
+                }
+
+                .player-center-name {
+                    margin-top: 14px; 
+                    margin-left: 16px;
+                    font-size: 20px;
+                    line-height: 20px;
+                }
+            }
+
+            .info-row-2 {
+                .player-center-stats {
+                    margin-top: -4px;    
+                    margin-left: 64px;
+                    font-size: 12px;
+
+                    span {
+                        margin-left: 8px;
+                        margin-right: 8px;
+                    }
+                }
+            }
         }
     }
 }

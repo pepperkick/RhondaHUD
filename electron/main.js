@@ -50,10 +50,10 @@ app.on('ready', () => {
         globalShortcut.register('Alt+A', () => {
             overlay.toggleDevTools()
 
-            if (mouseIgnored)
-                overlay.setIgnoreMouseEvents(false)
-            else
-                overlay.setIgnoreMouseEvents(true)
+            // if (mouseIgnored)
+            //     overlay.setIgnoreMouseEvents(false)
+            // else
+            //     overlay.setIgnoreMouseEvents(true)
         });
 
         globalShortcut.register('Alt+W', () => {

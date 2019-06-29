@@ -28,9 +28,7 @@ export default {
         getCaputreProgressStyle (i) {
             let percentage = parseInt(parseFloat(this.round[`cap${i}`].percentage) * 100)
             percentage = percentage < 0 ? 0 : percentage > 100 ? 100 : percentage;
-
-            console.log(percentage)
-
+            
             return {
                 'width': `${percentage}%`
             }

@@ -18,12 +18,16 @@
                     <span>Team Blue</span>
                     <div class='actionbar'>
                         <span><i class='fas fa-trash-alt'></i></span>
-                        <span @click='AddTeam'><i class='fas fa-plus'></i></span>
+                        <span @click='AddTeam(0)'><i class='fas fa-plus'></i></span>
                     </div>
                 </div>
                 <div class="field">
                     <label class="input-label">Team Name</label>
                     <input class="input" type="text" v-model="team.blu.name" />
+                </div>
+                <div class="field">
+                    <label class="input-label">Team Logo URL</label>
+                    <input class="input" type="text" v-model="team.blu.logo" />
                 </div>
             </div>
             <div class='team w-1/2 h-12' id='team-red'>
@@ -31,12 +35,16 @@
                     <span>Team Red</span>
                     <div class='actionbar'>
                         <span><i class='fas fa-trash-alt'></i></span>
-                        <span @click='AddTeam'><i class='fas fa-plus'></i></span>
+                        <span @click='AddTeam(1)'><i class='fas fa-plus'></i></span>
                     </div>
                 </div>
                 <div class="field">
                     <label class="input-label">Team Name</label>
                     <input class="input" type="text" v-model="team.red.name" />
+                </div>
+                <div class="field">
+                    <label class="input-label">Team Logo URL</label>
+                    <input class="input" type="text" v-model="team.red.logo" />
                 </div>
             </div>
         </div>
@@ -85,6 +93,15 @@ export default {
             this.teams = allteams.data
             this.team.red = teamred.data
             this.team.blu = teamblu.data
+        },
+        
+        async AddTeam (side) {
+            let team;
+
+            if (side) team = this.team.red
+            else team = this.team.blu
+
+            const obj = await this.$axios.post('/team', team)
         }
     },
 

@@ -36,9 +36,11 @@ module.exports = async () => {
                 logo: req.body.logo
             }
     
-            await Store.Team.Insert(Team)
+            const team = await Store.Team.Insert(Team)
     
-            res.status(200)
+            console.log(team)
+            
+            res.status(200).json(team)
         } catch (error) {
             res.status(400).send(error)
         }
