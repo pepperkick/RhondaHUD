@@ -10,7 +10,7 @@
                     <div class='player-healthover-bar' :style="{ width: getOverhealBarWidth() }"></div>
                 </div>
                 <div class='player-main-info'>
-                    <img class='player-class' :src='$parent.classIcons[player.class]' />     
+                    <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />     
                     <div class='player-basic-info'>
                         <div class='info-row-1 player-name'>
                             <span>{{ player.name }}</span>
@@ -64,7 +64,7 @@
                             <span>{{ player.deaths }} D</span>
                         </div>
                     </div>
-                    <img class='player-class' :src='$parent.classIcons[player.class]' />                
+                    <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />                
                 </div>
             </div>
         </div>
@@ -135,7 +135,7 @@ export default {
                 }
 
                 if (parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
-                    return this.$parent.overhealIcon
+                    return this.$parent.$parent.overhealIcon
                 }
             }
         },
@@ -154,9 +154,9 @@ export default {
             const wepindex = this.player.weapon.index
             const wepclass = this.player.weapon.class
 
-            if (this.$parent.weaponIcons[wepclass]) {
-                if (this.$parent.weaponIcons[wepclass][wepindex]) return this.$parent.weaponIcons[wepclass][wepindex]
-                else return this.$parent.weaponIcons[wepclass][0]
+            if (this.$parent.$parent.weaponIcons[wepclass]) {
+                if (this.$parent.$parent.weaponIcons[wepclass][wepindex]) return this.$parent.$parent.weaponIcons[wepclass][wepindex]
+                else return this.$parent.$parent.weaponIcons[wepclass][0]
             }
         },
 
@@ -166,7 +166,7 @@ export default {
             this.statusEffects = []
 
             if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
-                this.statusEffects.push(this.$parent.makredForDeathIcon)
+                this.statusEffects.push(this.$parent.$parent.makredForDeathIcon)
             }
         }
     },
@@ -202,6 +202,7 @@ export default {
 
         .player-weapon-icon {
             height: 32px;
+            filter: brightness(0) invert(1);
         }
     }
     

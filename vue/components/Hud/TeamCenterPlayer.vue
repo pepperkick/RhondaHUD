@@ -2,10 +2,10 @@
     <div class="player-center-info">
         <div class='player-center-health-info'>
             <div class='player-center-health-bar-container '>
-                <div class='player-center-health-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}'></div>
-                <div class='player-center-health-bar-delay'></div>
+                <div class='player-center-health-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}' :style='{ width: getBarWidth() }'></div>
+                <div class='player-center-health-bar-delay' :style='{ width: getBarWidth() }'></div>
             </div>
-            <div class='player-center-healthover-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}'></div>
+            <div class='player-center-healthover-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}' :style='{ width: getOverhealBarWidth() }'></div>
         </div>
         <div class='player-center-main-info'>
             <div class='player-center-basic-info'>
@@ -24,10 +24,15 @@
                         <span>{{ player.kills }} K</span>
                         <span>{{ player.assists }} A</span>
                         <span>{{ player.deaths }} D</span>
+                        <div class='player-center-ammo' v-if='player.alive'>
+                            <img class='player-center-ammo-icon' :src='$parent.ammoIcon' />
+                            <span class='player-center-ammo-value'>{{ getAmmo() }}</span>
+                        </div>
                     </div>
                 </div>
             </div>      
         </div>
+        <div class='player-center-bottom-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}'></div>
     </div>
 </template>
 
@@ -102,6 +107,18 @@ export default {
                 }
             }
         },
+
+        getAmmo () {
+            if (this.player.alive == 0) return `- / -`
+
+            const pclass = this.player.class
+
+            if (pclass == 5) {
+                return `${parseInt(this.player.medigun.charge * 100)}%`
+            } else {
+                return `${this.player.weapon.clip1} / ${this.player.weapon.reserve}`
+            }
+        },
     }
 }
 </script>
@@ -115,6 +132,11 @@ export default {
     background: @blue-team-color;
 }
 
+.player-center-bottom-bar {
+    height: 8px;
+    width: 100%;
+}
+
 .player-center-info {
     position: fixed;
     height: 108px;
@@ -123,25 +145,36 @@ export default {
     bottom: 96px;
     margin: auto;
     margin-bottom: 16px;
-    
+
+    .center-health-effect-icon {
+        margin-top: auto;
+        margin-bottom: 12px;
+        height: 18px;
+    }
+
     .player-center-health-info {
         height: 24px;
         width: 100%;
         display: flex;
         color: white;
         position: relative;
+        background: rgba(0, 0, 0, 0.5);
 
         .player-center-health-bar-container {
             width: 100%;
             z-index: 1;
 
             .player-center-health-bar {
+                position: absolute;
+                top: 0; left: 0;
                 height: 100%;
                 transition: 0.3s;
                 z-index: 3;
             }
 
             .player-center-health-bar-delay {
+                position: absolute;
+                top: 0; left: 0;
                 height: 100%;
                 transition: 0.3s;
                 transition-delay: 0.5s;
@@ -150,6 +183,8 @@ export default {
         }
 
         .player-center-healthover-bar {
+            position: absolute;
+            bottom: 0; left: 0;
             height: 4px;
             background: @overheal-color;
             transition: 0.3s;
@@ -296,10 +331,29 @@ export default {
                     margin-top: -4px;    
                     margin-left: 64px;
                     font-size: 12px;
+                    display: flex;
+                    flex-direction: row;
 
                     span {
                         margin-left: 8px;
                         margin-right: 8px;
+                    }
+
+                    .player-center-ammo {
+                        height: 16px;
+                        display: flex;
+                        flex-direction: row;
+                        margin-right: 2px;
+                        margin-left: auto;
+
+                        img {   
+                            margin-top: -2px;
+                            height: 20px;
+                        }
+
+                        span {
+                            font-size: 12px;
+                        }
                     }
                 }
             }
