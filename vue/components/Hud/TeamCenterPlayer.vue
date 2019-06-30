@@ -209,7 +209,7 @@ export default {
     }
 
     .player-main-info {
-        height: 48px;
+        height: 72px;
         width: 100%;
         display: flex;
         color: white;
@@ -274,7 +274,7 @@ export default {
     }
 
     .player-center-main-info {
-        height: 72px;
+        height: 84px;
         width: 100%;
         display: flex;
         color: white;
@@ -287,6 +287,7 @@ export default {
 
             .info-row-1 {
                 width: 100%;
+                margin-top: 4px;
 
                 .player-center-class {
                     margin-top: auto;
@@ -321,22 +322,23 @@ export default {
                 .player-center-name {
                     margin-top: 14px; 
                     margin-left: 16px;
-                    font-size: 20px;
+                    font-size: 28px;
                     line-height: 20px;
                 }
             }
 
             .info-row-2 {
                 .player-center-stats {
-                    margin-top: -4px;    
+                    margin-top: -8px;    
                     margin-left: 64px;
-                    font-size: 12px;
+                    font-size: 18px;
                     display: flex;
                     flex-direction: row;
 
                     span {
                         margin-left: 8px;
                         margin-right: 8px;
+                        opacity: 0.67;
                     }
 
                     .player-center-ammo {
@@ -347,12 +349,12 @@ export default {
                         margin-left: auto;
 
                         img {   
-                            margin-top: -2px;
-                            height: 20px;
+                            margin-top: -4px;
+                            height: 32px;
                         }
 
                         span {
-                            font-size: 12px;
+                            font-size: 18px;
                         }
                     }
                 }

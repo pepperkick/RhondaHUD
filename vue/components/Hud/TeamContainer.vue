@@ -71,13 +71,13 @@ export default {
 
     .team-blue {
         position: fixed;
-        left: 16px;
+        left: 2px;
         bottom: 32px;
     }
 
     .team-red {
         position: fixed;
-        right: 16px;
+        right: 2px;
         bottom: 32px;
     }
 }

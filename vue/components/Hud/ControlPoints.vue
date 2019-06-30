@@ -1,18 +1,75 @@
 <template>
     <div class='points-info'>
         <div id='points-container' v-if="round.gameType === '5CP'">
-            <div class='point-info' v-for='i in 5' :class='getPointClasses(i - 1)' :key='i'>
+            <div class='point-info' v-for='i in 5' :key='i'>
+                <div class='point-ring-container'>
+                    <div class='progress-point-ring' v-if='showPointRing[i - 1]'>
+                        <vue-circle
+                            class='point-progress-ring__circle'
+                            :progress="getCaputreProgress(i - 1)"
+                            :size="66"
+                            :ref="`pointProgress${i - 1}`"
+                            :reverse="false"
+                            line-cap="round"
+                            :fill="getPointProgressColor(i - 1)"
+                            empty-fill="rgba(0, 0, 0, 0)"
+                            :animation="false"
+                            :animation-start-value="0.0"
+                            :start-angle="-1.57"
+                            insert-mode="append"
+                            :thickness="8"
+                            :show-percent="false">
+                        </vue-circle>
+                    </div>
+                    <svg class="point-ring" height="90" width="90" >
+                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
+                    </svg>
+                </div>
+            </div>
+            <!-- <div class='point-info' v-for='i in 5' :class='getPointClasses(i - 1)' :key='i'>
                 <span class='num-capping' v-if='isCapping(i - 1)'>x{{ getNumCapping(i - 1) }}</span>
                 <div class='cap-progress' :class='getCaputreProgressClass(i - 1)' :style='getCaputreProgressStyle(i - 1)' v-if='getCappingTeam(i - 1) > 1'></div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 
 <script>
+import VueCircle from 'vue2-circle-progress/src/index.vue'
+
 export default {
     props: [ 'round' ],
+    components: {
+      VueCircle
+    },
+    data () {
+        return {
+            pointProgress: [],
+            showPointRing: []
+        }
+    },
     methods: {
+        getPointColor (i) {
+            if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff`
+            if (this.round[`cap${i}`].cappedTeam == 3) return `#00a9e4`
+            if (this.round[`cap${i}`].cappedTeam == 2) return `#cd4037`
+        },
+
+        getPointProgressColor (i) {
+            if (this.round[`cap${i}`].cappingTeam == 3) return { color: "#00a9e4" }
+            if (this.round[`cap${i}`].cappingTeam == 2) return { color: "#cd4037" }
+
+            return { color: 'rgba(0, 0, 0, 0)' }
+        },
+
+        setPointProgress (i, percent) {
+            const circumference = 182.12
+            const offset = circumference - percent / 100 * circumference
+            this.$refs[`pointProgressBar${i}`][0].style.strokeDashoffset = offset
+
+            console.log(i, percent, offset)
+        },
+
         getPointClasses(i) {
             return {
                 'point-owned-none': this.round[`cap${i}`].cappedTeam == 0,
@@ -25,9 +82,15 @@ export default {
             }
         },
 
-        getCaputreProgressStyle (i) {
+        getCaputreProgress (i) {
             let percentage = parseInt(parseFloat(this.round[`cap${i}`].percentage) * 100)
-            percentage = percentage < 0 ? 0 : percentage > 100 ? 100 : percentage;
+            percentage = percentage < 0 ? 0 : percentage > 100 ? 100 : percentage
+            
+            return percentage
+        },
+
+        getCaputreProgressStyle (i) {
+            const percentage = this.getCaputreProgress(i)
             
             return {
                 'width': `${percentage}%`
@@ -53,7 +116,22 @@ export default {
 
         getCappingTeam(i) {
             return this.round[`cap${i}`].cappingTeam
-        }
+        },
+    },
+
+    updated () { 
+        if (this.round.gameType == '5CP') {
+            for (let i = 0; i < 5; i++) {
+                const perc = this.getCaputreProgress(i)
+
+                if (perc == 0) {
+                    this.showPointRing[i] = false;
+                } else {                
+                    this.showPointRing[i] = true;
+                    this.$refs[`pointProgress${i}`][0].updateProgress(perc);
+                }
+            }
+        }   
     }
 }
 </script>
@@ -84,7 +162,23 @@ export default {
             transition: 0.3s;
             display: flex;
             margin: auto;
-            background: rgba(0, 0, 0, 0.5);
+
+            .point-ring-container {
+                position: absolute;
+                top: -12px; left: -12px;
+                
+                .point-ring {
+                    position: absolute;
+                    top: 0; left: 0;
+                    z-index: 1;
+                }
+
+                .point-progress-ring__circle {
+                    position: absolute;
+                    top: 12px; left: 12px;
+                    z-index: 3;
+                }
+            }
 
             .num-capping {
                 position: absolute;
