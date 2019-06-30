@@ -125,11 +125,11 @@ export default {
 
 <style lang="less">
 .team-red-color {
-    background: @red-team-color;
+    background: linear-gradient(90deg, @red-team-color-dark 0%, @red-team-color 100%);
 }
 
 .team-blue-color {
-    background: @blue-team-color;
+    background: linear-gradient(90deg, @blue-team-color-dark 0%, @blue-team-color 100%);
 }
 
 .player-center-bottom-bar {
@@ -158,7 +158,7 @@ export default {
         display: flex;
         color: white;
         position: relative;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.7);
 
         .player-center-health-bar-container {
             width: 100%;
@@ -300,7 +300,7 @@ export default {
                     margin-bottom: auto;
                     margin-top: 0px;
                     margin-left: auto;
-                    margin-right: 8px;
+                    margin-right: 16px;
                     font-size: 32px;
                     font-weight: 900;
                     display: flex;
@@ -345,7 +345,7 @@ export default {
                         height: 16px;
                         display: flex;
                         flex-direction: row;
-                        margin-right: 2px;
+                        margin-right: 8px;
                         margin-left: auto;
 
                         img {   

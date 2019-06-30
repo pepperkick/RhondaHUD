@@ -3,6 +3,9 @@
         <div id='points-container' v-if="round.gameType === '5CP'">
             <div class='point-info' v-for='i in 5' :key='i'>
                 <div class='point-ring-container'>
+                    <div class="point-status-icon">
+                        <img :src="getPointStatus(i - 1)"/>
+                    </div>
                     <div class='progress-point-ring' v-if='showPointRing[i - 1]'>
                         <vue-circle
                             class='point-progress-ring__circle'
@@ -40,7 +43,7 @@ import VueCircle from 'vue2-circle-progress/src/index.vue'
 export default {
     props: [ 'round' ],
     components: {
-      VueCircle
+        VueCircle
     },
     data () {
         return {
@@ -117,6 +120,64 @@ export default {
         getCappingTeam(i) {
             return this.round[`cap${i}`].cappingTeam
         },
+
+        isPointLocked(i) {
+            const point0 = this.round.cap0
+            const point1 = this.round.cap1
+            const point2 = this.round.cap2
+            const point3 = this.round.cap3
+            const point4 = this.round.cap4
+
+            if (i == 0) {
+                if (point0.cappedTeam == 3 && point1.cappedTeam == 3) {
+                    return true
+                }
+            } else if (i == 1) {
+                if (point1.cappedTeam == 3 && point2.cappedTeam == 3) {
+                    return true
+                } else if (point2.cappedTeam == 0) {
+                    return true
+                } else if (point0.cappedTeam == 2) {
+                    return true
+                }
+            } else if (i == 2) {
+                if (point2.cappedTeam == 3 && point3.cappedTeam == 3) {
+                    return true
+                } else if (point2.cappedTeam == 2 && point1.cappedTeam == 2) {
+                    return true
+                }
+            } else if (i == 3) {
+                if (point3.cappedTeam == 2 && point2.cappedTeam == 2) {
+                    return true
+                } else if (point2.cappedTeam == 0) {
+                    return true
+                } else if (point4.cappedTeam == 3) {
+                    return true
+                }
+            } else if (i == 4) {
+                if (point4.cappedTeam == 2 && point3.cappedTeam == 2) {
+                    return true
+                }
+            } 
+
+            return false
+        },
+
+        getPointStatus(i) {
+            const point = this.round[`cap${i}`]
+
+            if (this.round.gameType == '5CP') {
+                if (this.isPointLocked(i) == 1) {
+                    return this.$parent.controlPointIcons.locked
+                } else if (point.playersOnCap == 1) {
+                    return this.$parent.controlPointIcons.oneOnPoint
+                } else if (point.playersOnCap == 2) {
+                    return this.$parent.controlPointIcons.twoOnPoint
+                } else if (point.playersOnCap >= 3) {
+                    return this.$parent.controlPointIcons.threeOnPoint
+                }
+            }
+        }
     },
 
     updated () { 
@@ -171,6 +232,19 @@ export default {
                     position: absolute;
                     top: 0; left: 0;
                     z-index: 1;
+                }
+
+                .point-status-icon {
+                    position: absolute;
+                    filter: brightness(0) invert(1);
+                    z-index: 5;
+                    
+                    img {
+                        margin-top: 30px;
+                        margin-left: 32px;
+                        height: 28px;
+                        z-index: 5;
+                    }
                 }
 
                 .point-progress-ring__circle {

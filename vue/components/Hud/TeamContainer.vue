@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <div class="team-blue">
-            <Uber :player='bluMedic' />
+            <Uber v-if="bluMedic" :player='bluMedic' />
             <div v-for="(player, key) of sortedPlayers" :key="`team3_${key}`">
                 <TeamPlayer v-if="player.team == 3" :player="player" />
             </div>
         </div>
         <div class="team-red">
-            <Uber :player='redMedic' />
+            <Uber v-if="redMedic" :player='redMedic' />
             <div v-for="(player, key) of sortedPlayers" :key="`team2_${key}`">
                 <TeamPlayer v-if="player.team == 2" :player="player" />
             </div>

@@ -104,6 +104,7 @@ export default {
         display: flex;
         color: white;
         position: relative;
+        background: rgba(0, 0, 0, 0.25);
 
         .uber-health-bar {
             height: 100%;
@@ -111,11 +112,11 @@ export default {
         }
 
         .uber-bar-red {
-            background: @red-team-color;
+            background: linear-gradient(270deg, @red-team-color-dark 0%, @red-team-color 100%);
         }
 
         .uber-bar-blu {
-            background: @blue-team-color;
+            background: linear-gradient(90deg, @blue-team-color-dark 0%, @blue-team-color 100%);
         }
     }
 
@@ -154,6 +155,7 @@ export default {
     .uber-info-container {
         margin-right: auto;
         margin-left: 0;
+        border-left: 8px solid @blue-team-color-dark;
     }
 
     .uber-health-bar {
@@ -175,6 +177,7 @@ export default {
     .uber-info-container {
         margin-left: 100px !important;
         margin-right: 0;
+        border-right: 8px solid @red-team-color-dark;
     }
 
     .uber-health-bar {

@@ -310,6 +310,12 @@ export default {
             bluUberedIcon: require('@/assets/icons/status_effects/uber_blue.png'),
             makredForDeathIcon: require('@/assets/icons/status_effects/marked_for_death.png'),
             ammoIcon: require('@/assets/icons/ammo.png'),
+            controlPointIcons: {
+                oneOnPoint: require('@/assets/icons/control_points/1s.png'),
+                twoOnPoint: require('@/assets/icons/control_points/2s.png'),
+                threeOnPoint: require('@/assets/icons/control_points/3s.png'),
+                locked: require('@/assets/icons/control_points/rounded-lock.png'),
+            }
         }
     },
     watch: {
