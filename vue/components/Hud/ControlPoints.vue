@@ -1,6 +1,6 @@
 <template>
     <div class='points-info'>
-        <div id='points-container' v-if="round.gameType === '5CP'">
+        <div id='points-container' v-if="round.gameType == '5CP'">
             <div class='point-info' v-for='i in 5' :key='i'>
                 <div class='point-ring-container'>
                     <div class="point-status-icon">
@@ -25,12 +25,13 @@
                         </vue-circle>
                     </div>
                     <svg class="point-ring" height="90" width="90" >
+                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
                         <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" :fill="getPointFill(i - 1)" r="29" cx="45" cy="45" />
                     </svg>
                 </div>
             </div>
         </div>
-        <div id='points-container' v-else-if="round.gameType === 'KOTH'">
+        <div id='points-container' v-else-if="round.gameType == 'KOTH'">
             <div class='point-info'>
                 <div class='point-ring-container'>
                     <div class="point-status-icon">
@@ -41,7 +42,7 @@
                             class='point-progress-ring__circle'
                             :progress="getCaputreProgress(0)"
                             :size="66"
-                            :ref="`pointProgress${0}`"
+                            :ref="`pointProgress0`"
                             :reverse="false"
                             line-cap="round"
                             :fill="getPointProgressColor(0)"
@@ -55,7 +56,8 @@
                         </vue-circle>
                     </div>
                     <svg class="point-ring" height="90" width="90" >
-                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
+                        <circle class="point-ring__circle" :stroke="getPointColor(0)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
+                        <circle class="point-ring__circle" :stroke="getPointColor(0)" stroke-width="8" :fill="getPointFill(0)" r="29" cx="45" cy="45" />
                     </svg>
                 </div>
             </div>
@@ -92,9 +94,9 @@ export default {
         },
 
         getPointFill (i) {
-            if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff22`
-            if (this.round[`cap${i}`].cappedTeam == 3) return `#1180d622`
-            if (this.round[`cap${i}`].cappedTeam == 2) return `#e12c2322`
+            if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff44`
+            if (this.round[`cap${i}`].cappedTeam == 3) return `#1180d644`
+            if (this.round[`cap${i}`].cappedTeam == 2) return `#d9190044`
         },
 
         setPointProgress (i, percent) {
@@ -198,16 +200,14 @@ export default {
         getPointStatus(i) {
             const point = this.round[`cap${i}`]
 
-            if (this.round.gameType == '5CP') {
-                if (this.isPointLocked(i) == 1) {
-                    return this.$parent.controlPointIcons.locked
-                } else if (point.playersOnCap == 1) {
-                    return this.$parent.controlPointIcons.oneOnPoint
-                } else if (point.playersOnCap == 2) {
-                    return this.$parent.controlPointIcons.twoOnPoint
-                } else if (point.playersOnCap >= 3) {
-                    return this.$parent.controlPointIcons.threeOnPoint
-                }
+            if (this.isPointLocked(i) == 1) {
+                return this.$parent.controlPointIcons.locked
+            } else if (point.playersOnCap == 1) {
+                return this.$parent.controlPointIcons.oneOnPoint
+            } else if (point.playersOnCap == 2) {
+                return this.$parent.controlPointIcons.twoOnPoint
+            } else if (point.playersOnCap >= 3) {
+                return this.$parent.controlPointIcons.threeOnPoint
             }
         },
 
@@ -229,7 +229,17 @@ export default {
                     this.$refs[`pointProgress${i}`][0].updateProgress(perc);
                 }
             }
-        }   
+        } else if (this.round.gameType == 'KOTH') {
+            const i = 0
+            const perc = this.getCaputreProgress(i)
+
+            if (perc == 0) {
+                this.showPointRing[i] = false;
+            } else {                
+                this.showPointRing[i] = true;getPointFill(i - 1)
+                this.$refs.pointProgress0.updateProgress(perc)
+            }
+        }
     }
 }
 </script>
