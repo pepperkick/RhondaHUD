@@ -10,9 +10,9 @@
                         <vue-circle
                             class='point-progress-ring__circle'
                             :progress="getCaputreProgress(i - 1)"
-                            :size="66"
+                            :size="66.15"
                             :ref="`pointProgress${i - 1}`"
-                            :reverse="false"
+                            :reverse="isProgressReverse(i - 1)"
                             line-cap="round"
                             :fill="getPointProgressColor(i - 1)"
                             empty-fill="rgba(0, 0, 0, 0)"
@@ -25,7 +25,7 @@
                         </vue-circle>
                     </div>
                     <svg class="point-ring" height="90" width="90" >
-                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
+                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" :fill="getPointFill(i - 1)" r="29" cx="45" cy="45" />
                     </svg>
                 </div>
             </div>
@@ -80,15 +80,21 @@ export default {
     methods: {
         getPointColor (i) {
             if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff`
-            if (this.round[`cap${i}`].cappedTeam == 3) return `#00a9e4`
-            if (this.round[`cap${i}`].cappedTeam == 2) return `#ff4136`
+            if (this.round[`cap${i}`].cappedTeam == 3) return `#1180d6`
+            if (this.round[`cap${i}`].cappedTeam == 2) return `#e12c23`
         },
 
         getPointProgressColor (i) {
-            if (this.round[`cap${i}`].cappingTeam == 3) return { color: "#00a9e4" }
-            if (this.round[`cap${i}`].cappingTeam == 2) return { color: "#ff4136" }
+            if (this.round[`cap${i}`].cappingTeam == 3) return { color: "#1180d6" }
+            if (this.round[`cap${i}`].cappingTeam == 2) return { color: "#e12c23" }
 
             return { color: 'rgba(0, 0, 0, 0)' }
+        },
+
+        getPointFill (i) {
+            if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff22`
+            if (this.round[`cap${i}`].cappedTeam == 3) return `#1180d622`
+            if (this.round[`cap${i}`].cappedTeam == 2) return `#e12c2322`
         },
 
         setPointProgress (i, percent) {
@@ -203,6 +209,11 @@ export default {
                     return this.$parent.controlPointIcons.threeOnPoint
                 }
             }
+        },
+
+        isProgressReverse(i) {
+            if (this.round[`cap${i}`].cappingTeam == 3) return true
+            else return false
         }
     },
 

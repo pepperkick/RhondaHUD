@@ -150,7 +150,7 @@ export default {
     height: 100px;
     width: 400px;
     left: 0; right: 0;
-    bottom: 96px;
+    bottom: 78px;
     margin: auto;
     margin-bottom: 16px;
 

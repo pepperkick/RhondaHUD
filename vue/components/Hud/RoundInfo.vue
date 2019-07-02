@@ -9,7 +9,7 @@
                     <span id='timeleft'>{{ getFormattedTime(round.matchTimeLeft) }}</span>
                 </div>
                 <div id='round-timeleft-container'>
-                    <span id='timeleft'>{{ getFormattedTime(round.roundTimeLeft) }}</span>
+                    <span id='timeleft'>{{ getFormattedTime(round.roundTimeLeft) }}</span> 
                 </div>
             </div>
             <div class='team-info-container' id='team-red-info-container'>
