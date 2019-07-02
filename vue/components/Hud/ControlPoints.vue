@@ -29,10 +29,36 @@
                     </svg>
                 </div>
             </div>
-            <!-- <div class='point-info' v-for='i in 5' :class='getPointClasses(i - 1)' :key='i'>
-                <span class='num-capping' v-if='isCapping(i - 1)'>x{{ getNumCapping(i - 1) }}</span>
-                <div class='cap-progress' :class='getCaputreProgressClass(i - 1)' :style='getCaputreProgressStyle(i - 1)' v-if='getCappingTeam(i - 1) > 1'></div>
-            </div> -->
+        </div>
+        <div id='points-container' v-else-if="round.gameType === 'KOTH'">
+            <div class='point-info'>
+                <div class='point-ring-container'>
+                    <div class="point-status-icon">
+                        <img :src="getPointStatus(0)"/>
+                    </div>
+                    <div class='progress-point-ring' v-if='showPointRing[0]'>
+                        <vue-circle
+                            class='point-progress-ring__circle'
+                            :progress="getCaputreProgress(0)"
+                            :size="66"
+                            :ref="`pointProgress${0}`"
+                            :reverse="false"
+                            line-cap="round"
+                            :fill="getPointProgressColor(0)"
+                            empty-fill="rgba(0, 0, 0, 0)"
+                            :animation="false"
+                            :animation-start-value="0.0"
+                            :start-angle="-1.57"
+                            insert-mode="append"
+                            :thickness="8"
+                            :show-percent="false">
+                        </vue-circle>
+                    </div>
+                    <svg class="point-ring" height="90" width="90" >
+                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
+                    </svg>
+                </div>
+            </div>
         </div>
     </div>
 </template>

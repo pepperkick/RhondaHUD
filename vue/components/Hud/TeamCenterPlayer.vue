@@ -20,10 +20,18 @@
                     </div>     
                 </div>
                 <div class='info-row-2'>
-                    <div class='player-center-stats'>
-                        <span>{{ player.kills }} K</span>
-                        <span>{{ player.assists }} A</span>
-                        <span>{{ player.deaths }} D</span>
+                    <div class='player-center-stats' v-if="player.class == 5">
+                        <span>D {{ player.deaths }}</span>
+                        <span>H {{ player.healing }}</span>
+                        <div class='player-center-ammo' v-if='player.alive'>
+                            <img class='player-center-ammo-icon' :src='$parent.ammoIcon' />
+                            <span class='player-center-ammo-value'>{{ getAmmo() }}</span>
+                        </div>
+                    </div>
+                    <div class='player-center-stats' v-else>
+                        <span>K {{ player.kills }}</span>
+                        <span>D {{ player.deaths }}</span>
+                        <span>DPM {{ player.dpm }}</span>
                         <div class='player-center-ammo' v-if='player.alive'>
                             <img class='player-center-ammo-icon' :src='$parent.ammoIcon' />
                             <span class='player-center-ammo-value'>{{ getAmmo() }}</span>
@@ -139,7 +147,7 @@ export default {
 
 .player-center-info {
     position: fixed;
-    height: 108px;
+    height: 100px;
     width: 480px;
     left: 0; right: 0;
     bottom: 96px;
@@ -274,7 +282,7 @@ export default {
     }
 
     .player-center-main-info {
-        height: 84px;
+        height: 80px;
         width: 100%;
         display: flex;
         color: white;

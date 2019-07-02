@@ -15,10 +15,14 @@
                         <div class='info-row-1 player-name'>
                             <span>{{ player.name }}</span>
                         </div>
-                        <div class='info-row-2 player-stats'>
-                            <span>{{ player.kills }} K</span>
-                            <span>{{ player.assists }} A</span>
-                            <span>{{ player.deaths }} D</span>
+                        <div class='info-row-2 player-stats' v-if="player.class == 5">
+                            <span>D {{ player.deaths }}</span>
+                            <span>H {{ player.healing }}</span>
+                        </div>
+                        <div class='info-row-2 player-stats' v-else>
+                            <span>K {{ player.kills }}</span>
+                            <span>D {{ player.deaths }}</span>
+                            <span>DPM {{ player.dpm }}</span>
                         </div>
                     </div>
                     <div class="player-health">
@@ -58,10 +62,14 @@
                         <div class='info-row-1 player-name'>
                             <span>{{ player.name }}</span>
                         </div>
-                        <div class='info-row-2 player-stats'>
-                            <span>{{ player.kills }} K</span>
-                            <span>{{ player.assists }} A</span>
-                            <span>{{ player.deaths }} D</span>
+                        <div class='info-row-2 player-stats' v-if="player.class == 5">
+                            <span>D {{ player.deaths }}</span>
+                            <span>H {{ player.healing }}</span>
+                        </div>
+                        <div class='info-row-2 player-stats' v-else>
+                            <span>K {{ player.kills }}</span>
+                            <span>D {{ player.deaths }}</span>
+                            <span>DPM {{ player.dpm }}</span>
                         </div>
                     </div>
                     <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />                
@@ -201,7 +209,6 @@ export default {
         }
 
         .player-weapon-icon {
-            height: 32px;
             filter: brightness(0) invert(1);
         }
     }
@@ -326,6 +333,7 @@ export default {
                     span {
                         margin-left: 8px;
                         margin-right: 8px;
+                        opacity: 0.67;
                     }
                 }
             }
