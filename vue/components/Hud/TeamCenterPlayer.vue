@@ -141,14 +141,14 @@ export default {
 }
 
 .player-center-bottom-bar {
-    height: 8px;
+    height: 4px;
     width: 100%;
 }
 
 .player-center-info {
     position: fixed;
     height: 100px;
-    width: 480px;
+    width: 400px;
     left: 0; right: 0;
     bottom: 96px;
     margin: auto;
@@ -161,7 +161,7 @@ export default {
     }
 
     .player-center-health-info {
-        height: 24px;
+        height: 12px;
         width: 100%;
         display: flex;
         color: white;

@@ -189,16 +189,17 @@ export default {
 .player-stats-container {
     display: flex;
     flex-direction: row;
-    height: 64px;
-    width: 420px;
+    height: 60px;
+    width: 360px;
     margin: auto;
+    margin-right: 0;
     margin-bottom: 12px;
     position: relative;
 
     .player-extra-stats {
         display: flex;
         flex-direction: column;
-        width: 90px;
+        width: 72px;
 
         .player-status-icons {
             height: 24px;
@@ -229,7 +230,7 @@ export default {
         }
 
         .player-health-info {
-            height: 24px;
+            height: 12px;
             width: 100%;
             display: flex;
             color: white;
@@ -255,7 +256,7 @@ export default {
             }
 
             .player-healthover-bar {
-                height: 4px;
+                height: 2px;
                 background: @overheal-color;
                 transition: 0.3s;
                 z-index: 3;
@@ -328,7 +329,7 @@ export default {
                 .player-stats {
                     margin-top: auto;
                     margin-bottom: auto;    
-                    font-size: 12px;
+                    font-size: 14px;
 
                     span {
                         margin-left: 8px;
@@ -345,7 +346,7 @@ export default {
     .player-info {
         margin-right: auto;
         margin-left: 0;
-        border-left: 8px solid @blue-team-color-dark;
+        border-left: 4px solid @blue-team-color-dark;
     }
 
     .player-health-bar {
@@ -376,13 +377,22 @@ export default {
         margin-left: 0;
         margin-right: auto;
     }
+    
+    .player-extra-stats {
+        margin-left: 8px;
+        margin-right: auto;
+    }
+}
+
+.player-stats-container .align-side-red  {
+    margin-right: 0 !important;
 }
 
 .align-side-red {
     .player-info {
         margin-left: auto;
         margin-right: 0;
-        border-right: 8px solid @red-team-color-dark;
+        border-right: 4px solid @red-team-color-dark;
     }
 
     .player-health-bar {
@@ -416,6 +426,11 @@ export default {
     .player-weapon-icon {
         transform: scaleX(-1);
         margin-right: 0;
+        margin-left: auto;
+    }
+
+    .player-extra-stats {
+        margin-right: 8px;
         margin-left: auto;
     }
 }

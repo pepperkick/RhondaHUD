@@ -92,14 +92,14 @@ export default {
 .uber-info-container {
     display: flex;
     flex-direction: column;
-    height: 56px;
-    width: 320px;
-    margin-bottom: 16px;
+    height: 48px;
+    width: 294px;
+    margin-bottom: 8px;
     position: relative;
     background: rgba(0, 0, 0, 0.5);
 
     .uber-health-info {
-        height: 24px;
+        height: 6px;
         width: 100%;
         display: flex;
         color: white;
@@ -121,7 +121,7 @@ export default {
     }
 
     .uber-main-info {
-        height: 72px;
+        height: 48px;
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -129,17 +129,17 @@ export default {
 
         .uber-health {
             margin-top: auto;
-            margin-bottom: 0px;
-            font-size: 32px;
+            margin-bottom: auto;
+            font-size: 24px;
             font-weight: 900;
         }
 
         .uber-icon {
             margin-top: auto;
             margin-bottom: auto;
-            margin-left: 12px;
-            margin-right: 12px;
-            height: 32px;
+            margin-left: 16px;
+            margin-right: 16px;
+            height: 24px;
         }
 
         .uber-type {
@@ -155,7 +155,7 @@ export default {
     .uber-info-container {
         margin-right: auto;
         margin-left: 0;
-        border-left: 8px solid @blue-team-color-dark;
+        border-left: 4px solid @blue-team-color-dark;
     }
 
     .uber-health-bar {

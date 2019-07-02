@@ -81,12 +81,12 @@ export default {
         getPointColor (i) {
             if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff`
             if (this.round[`cap${i}`].cappedTeam == 3) return `#00a9e4`
-            if (this.round[`cap${i}`].cappedTeam == 2) return `#cd4037`
+            if (this.round[`cap${i}`].cappedTeam == 2) return `#ff4136`
         },
 
         getPointProgressColor (i) {
             if (this.round[`cap${i}`].cappingTeam == 3) return { color: "#00a9e4" }
-            if (this.round[`cap${i}`].cappingTeam == 2) return { color: "#cd4037" }
+            if (this.round[`cap${i}`].cappingTeam == 2) return { color: "#ff4136" }
 
             return { color: 'rgba(0, 0, 0, 0)' }
         },
