@@ -81,7 +81,7 @@ export default {
             selectedType: -1,
             index: -1,
             message: '',
-            delay: 30
+            delay: ''
         }
     },
 
@@ -177,7 +177,7 @@ export default {
         },
 
         async deleteMessage (i) {
-            this.annoucements = this.annoucements.splice(i, 1)
+            this.annoucements.splice(i, 1)
 
             await this.saveData()
         },

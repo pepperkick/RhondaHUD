@@ -24,16 +24,34 @@
                 <div class="team-name team2-name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
             </div>
             <div class="match-info-row-2">
-                <div class="series-score series-team1-score"></div>
-                <div class="series-score series-team2-score"></div>
+                <div class="annoucement" v-if="annoucements[annoucementsIndex].type == 'SeriesScore'">
+                    <div class="series-score series-team1-score"></div>
+                    <div class="series-score series-team2-score"></div>
+                </div>
+                <div class="annoucement" v-if="annoucements[annoucementsIndex].type == 'Text'">
+                    <span>{{ annoucements[annoucementsIndex].message }}</span>
+                </div>
+                <div class="annoucement" v-if="annoucements[annoucementsIndex].type == 'Html'">
+                    <div v-html='annoucements[annoucementsIndex].message'></div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { setTimeout, clearInterval } from 'timers';
 export default {
     props: [ 'round', 'teams' ],
+    data () {
+        return {
+            annoucements: [],
+            annoucementsIndex: 0,
+            annoucementsDelay: 60,
+            annoucementsInterval: ''
+        }
+    },
+
     methods: {
         getFormattedTime(time) {
             let mins = String(Math.floor(time / 60))
@@ -46,7 +64,32 @@ export default {
             while (secs.length < 2) { secs = `0${secs}` }
 
             return `${mins}:${secs}`
-        } 
+        },
+
+        update () {
+            this.annoucements = this.$parent.config.annoucements
+            this.annoucementsDelay = this.$parent.config.annoucementsDelay
+
+            if (this.annoucementsInterval) clearInterval(this.annoucementsInterval)
+
+            this.annoucementsInterval = setInterval(() => {
+                if (this.annoucementsIndex >= this.annoucements.length - 1) {
+                    this.annoucementsIndex = 0
+                } else {
+                    this.annoucementsIndex++
+                }
+            }, this.annoucementsDelay * 1000)
+        }
+    },
+
+    sockets: {
+        config (data) {
+            this.update()
+        }
+    },
+
+    created () {
+        this.update()
     }
 }
 </script>
@@ -57,7 +100,7 @@ export default {
     height: 144px;
     width: 1280px;
     left: 0; right: 0;
-    top: 32px;
+    top: 2px;
     margin: auto;
     margin-top: 16px;
     display: flex;
@@ -174,6 +217,14 @@ export default {
         background: rgba(0, 0, 0, 0.5);
         margin-left: auto; 
         margin-right: auto;
+        display: flex;
+
+        .annoucement {
+            color: white;
+            font-size: 16px;
+            text-transform: uppercase;
+            margin: auto;
+        }
     }
 }
 </style>

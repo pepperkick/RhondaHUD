@@ -90,7 +90,7 @@ module.exports = (io) => {
         const value = req.body.value
         const config = await Store.Config.Update(key, value)
 
-        io.sockets.emit('s', config)
+        io.sockets.emit('config', config)
     
         res.sendStatus(200)
     })
