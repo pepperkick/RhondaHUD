@@ -4,8 +4,9 @@
         <Sidebar />
         <div id='content'>
             <TeamPage v-if='currentTab == 0' />
-            <PlayerPage v-if='currentTab == 1' />
-            <TickerPage v-if='currentTab == 3' />
+            <PlayerPage v-else-if='currentTab == 1' />
+            <SeriesPage v-else-if='currentTab == 2' />
+            <TickerPage v-else-if='currentTab == 3' />
         </div>
     </div>
 </template>
@@ -16,12 +17,13 @@ import Topbar from '@/components/Admin/Topbar'
 
 import TeamPage from '@/components/Admin/Pages/Team'
 import PlayerPage from '@/components/Admin/Pages/Player'
+import SeriesPage from '@/components/Admin/Pages/Series'
 import TickerPage from '@/components/Admin/Pages/Ticker'
 
 import io from 'socket.io-client'
 
 export default {
-    components: { Sidebar, Topbar, TeamPage, PlayerPage, TickerPage },
+    components: { Sidebar, Topbar, TeamPage, PlayerPage, SeriesPage, TickerPage },
     data () {
         return {
             socket: '',

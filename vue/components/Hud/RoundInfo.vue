@@ -24,9 +24,20 @@
                 <div class="team-name team2-name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
             </div>
             <div class="match-info-row-2">
-                <div class="annoucement" v-if="annoucements[annoucementsIndex].type == 'SeriesScore'">
-                    <div class="series-score series-team1-score"></div>
-                    <div class="series-score series-team2-score"></div>
+                <div class="annoucement annoucement-seriesscore" v-if="annoucements[annoucementsIndex].type == 'SeriesScore'">
+                    <div class='series-team1-container'>
+                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 1 }"></div>
+                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 2 }" v-if='seriesBestOf >= 3'></div>
+                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 3 }" v-if='seriesBestOf >= 5'></div>
+                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 4 }" v-if='seriesBestOf >= 7'></div>
+                    </div>
+                    <span>Best of {{ seriesBestOf }}</span>
+                    <div class='series-team2-container'>
+                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 4 }" v-if='seriesBestOf >= 7'></div>
+                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 3 }" v-if='seriesBestOf >= 5'></div>
+                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 2 }" v-if='seriesBestOf >= 3'></div>
+                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 1 }"></div>
+                    </div>
                 </div>
                 <div class="annoucement" v-if="annoucements[annoucementsIndex].type == 'Text'">
                     <span>{{ annoucements[annoucementsIndex].message }}</span>
@@ -48,7 +59,10 @@ export default {
             annoucements: [],
             annoucementsIndex: 0,
             annoucementsDelay: 60,
-            annoucementsInterval: ''
+            annoucementsInterval: '',
+            seriesBestOf: 3,
+            seriesTeamBluWins: 0,
+            seriesTeamRedWins: 0
         }
     },
 
@@ -69,6 +83,9 @@ export default {
         update () {
             this.annoucements = this.$parent.config.annoucements
             this.annoucementsDelay = this.$parent.config.annoucementsDelay
+            this.seriesBestOf = this.$parent.config.seriesBestOf
+            this.seriesTeamBluWins = this.$parent.config.seriesWinsTeamBlu
+            this.seriesTeamRedWins = this.$parent.config.seriesWinsTeamRed
 
             if (this.annoucementsInterval) clearInterval(this.annoucementsInterval)
 
@@ -224,6 +241,51 @@ export default {
             font-size: 16px;
             text-transform: uppercase;
             margin: auto;
+            transition: 0.3s;
+        }
+
+        .annoucement-seriesscore {
+            display: flex;
+            flex-direction: row;
+            font-weight: 700;   
+            width: 100%;
+
+            .series-score {
+                height: 16px;
+                width: 16px;
+                margin: 2px;
+                border-radius: 50%;
+            }
+
+            .series-team1-container {
+                margin: auto;
+                margin-left: 16px;
+                display: flex;
+                flex-direction: row;
+            }
+
+            .series-team2-container {
+                margin: auto;
+                margin-right: 16px;
+                display: flex;
+                flex-direction: row;
+            }
+
+            .series-team1-score {
+                border: 3px solid @blue-team-color;
+            }
+
+            .series-team1-score-filled {
+                background: @blue-team-color;
+            }
+
+            .series-team2-score {
+                border: 3px solid @red-team-color;
+            }
+
+            .series-team2-score-filled {
+                background: @red-team-color;
+            }
         }
     }
 }
