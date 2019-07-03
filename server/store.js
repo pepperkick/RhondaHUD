@@ -6,7 +6,7 @@ const Config = new Datastore({ filename: `${__dirname}/collections/config.json`,
 
 const configId = 'default'
 
-module.exports = async () => {     
+module.exports = () => {     
     async function AddTeam (team) {
         if (!team) throw new Error('Team is undefined')
         if (!team.name) throw new Error('Team requires a name')
@@ -25,10 +25,14 @@ module.exports = async () => {
 
     async function UpdateConfig (key, value) {
         const config = await Config.asyncFindOne({ _id: configId })
-
-        config[key] = value
+        
+        if (value !== '')
+            config[key] = value
+        else delete config[key]
 
         await Config.asyncUpdate({ _id: configId }, config)
+
+        return config
     }
 
     return {

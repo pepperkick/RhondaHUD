@@ -4,7 +4,8 @@ const JSON5 = require('json5')
 const config = require('config')
 const io = require('socket.io')(config.get('server.socket_port'))
 
-const Api = require('./api.js')()
+const Store = require('./store.js')()
+const Api = require('./api.js')(io)
 
 const GSI_PIPE_PATH = '\\\\.\\pipe\\tf2-gsi'
 const log = debug('app:main')
@@ -24,6 +25,10 @@ const server = net.createServer((stream) => {
 });
 
 io.on('connect', async client => {
+    const config = await Store.Config.Get()
+
+    client.emit('config', config)
+
     log('Client connected')
 });
 

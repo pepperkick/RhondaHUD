@@ -16,6 +16,10 @@
             <span class='label'>Series</span>
         </div>
         <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab == 3 }" @click="changeTab(3)">
+            <i class='fas fa-bullhorn'></i>
+            <span class='label'>Messages</span>
+        </div>
+        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab == 3 }" @click="changeTab(4)">
             <i class='fas fa-desktop'></i>
             <span class='label'>HUD</span>
         </div>

@@ -2,7 +2,7 @@
     <div class='round-info'>
         <div class='match-info'>
             <div class="match-info-row-1">
-                <div class="team-name team1-name">Team Blu</div>
+                <div class="team-name team1-name">{{ $parent.config.teamblu_name || 'Team BLU' }}</div>
                 <div class="team-score team1-score">
                     <span class="team-score-text">{{ teams.team_blue.score }}</span>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="team-score team2-score">
                     <span class="team-score-text">{{ teams.team_red.score }}</span>
                     </div>
-                <div class="team-name team2-name">Team Red</div>
+                <div class="team-name team2-name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
             </div>
             <div class="match-info-row-2">
                 <div class="series-score series-team1-score"></div>

@@ -33,6 +33,7 @@ export default {
     data () {
         return {
             info: '',
+            config: '',
             swap: false,
             functions: {
                 hexToRgbA
@@ -441,8 +442,13 @@ export default {
 
     },
     sockets: {
-        data: function (data) {
+        data (data) {
             this.info = data
+        },
+
+        config (data) {
+            console.log(data)
+            this.config = data
         }
     }
 }

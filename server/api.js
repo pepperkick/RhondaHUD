@@ -1,13 +1,15 @@
 const express = require('express')
 const config = require('config')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
-module.exports = async () => {
-    const Store = await require('./store.js')()
+module.exports = (io) => {
+    const Store = require('./store.js')()
 
     const app = new express()
 
     app.use(cors())
+    app.use(bodyParser.json())
     
     app.get('/team/:id', async (req, res) => {
         const id = req.params.id
@@ -81,6 +83,16 @@ module.exports = async () => {
         const config = await Store.Config.Get()
     
         res.send(config[key])
+    })
+    
+    app.post('/config', async (req, res) => {
+        const key = req.body.key
+        const value = req.body.value
+        const config = await Store.Config.Update(key, value)
+
+        io.sockets.emit('s', config)
+    
+        res.status(200).send(config[key])
     })
     
     app.listen(config.get('server.api_port'))
