@@ -5,6 +5,7 @@
         <div id='content'>
             <TeamPage v-if='currentTab == 0' />
             <PlayerPage v-if='currentTab == 1' />
+            <TickerPage v-if='currentTab == 3' />
         </div>
     </div>
 </template>
@@ -15,11 +16,12 @@ import Topbar from '@/components/Admin/Topbar'
 
 import TeamPage from '@/components/Admin/Pages/Team'
 import PlayerPage from '@/components/Admin/Pages/Player'
+import TickerPage from '@/components/Admin/Pages/Ticker'
 
 import io from 'socket.io-client'
 
 export default {
-    components: { Sidebar, Topbar, TeamPage, PlayerPage },
+    components: { Sidebar, Topbar, TeamPage, PlayerPage, TickerPage },
     data () {
         return {
             socket: '',
@@ -28,7 +30,6 @@ export default {
         }
     },
     created () {
-        console.log(window.type)
         this.socket = io(`http://${process.env.VUE_APP_ELECTRON_HOST}:${process.env.VUE_APP_ELECTRON_SOCKET_PORT}`)
         this.isElectron = this.$route.query.electron
     }
@@ -56,6 +57,7 @@ export default {
 .field {
     display: flex;
     flex-direction: column;
+    margin-right: 64px;
 
     label {
         color: lighten(@primary-color, 75);
@@ -82,5 +84,86 @@ export default {
     border: none;
     border-bottom: 2px solid lighten(@primary-color, 75);
     color: white;
+}
+
+.title {
+    color: @text-color;
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-left: 32px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: row;
+
+    .actionbar {
+        width: 108px;
+        margin: auto;
+        margin-right: 32px;
+        display: flex;
+        flex-direction: row;
+
+        span {
+            margin-left: auto;
+            cursor: pointer;
+        }
+    }
+}
+
+.subtitle {
+    color: @text-color;
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-left: 32px;
+    display: flex;
+    flex-direction: row;
+
+    .actionbar {
+        width: 108px;
+        margin: auto;
+        margin-right: 36px;
+        display: flex;
+        flex-direction: row;
+
+        span {
+            margin-left: auto;
+            cursor: pointer;
+        }
+    }
+}
+
+.submit-fab {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    color: #fff;
+    position: fixed;
+    bottom: 32px; right: 32px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+
+    i {
+        margin: auto;
+    }
+}
+
+.submit-dialog-fab {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    color: #fff;
+    position: absolute;
+    bottom: 96px; right: 32px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+
+    i {
+        margin: auto;
+    }
 }
 </style>

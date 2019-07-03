@@ -131,44 +131,4 @@ export default {
 </script>
 
 <style lang="less">
-.submit-fab {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 4px solid #fff;
-    color: #fff;
-    position: fixed;
-    bottom: 32px; right: 32px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-
-    i {
-        margin: auto;
-    }
-}
-
-.title {
-    color: @text-color;
-    font-size: 24px;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-left: 32px;
-    margin-bottom: 32px;
-    display: flex;
-    flex-direction: row;
-
-    .actionbar {
-        width: 108px;
-        margin: auto;
-        margin-right: 32px;
-        display: flex;
-        flex-direction: row;
-
-        span {
-            margin-left: auto;
-            cursor: pointer;
-        }
-    }
-}
 </style>

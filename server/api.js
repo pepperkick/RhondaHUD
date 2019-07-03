@@ -82,7 +82,7 @@ module.exports = (io) => {
         const key = req.params.key
         const config = await Store.Config.Get()
     
-        res.send(config[key])
+        res.json(config[key])
     })
     
     app.post('/config', async (req, res) => {
@@ -92,7 +92,7 @@ module.exports = (io) => {
 
         io.sockets.emit('s', config)
     
-        res.status(200).send(config[key])
+        res.sendStatus(200)
     })
     
     app.listen(config.get('server.api_port'))
