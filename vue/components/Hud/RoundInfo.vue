@@ -24,27 +24,29 @@
                 <div class="team-name team2-name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
             </div>
             <div class="match-info-row-2">
-                <div class="annoucement annoucement-seriesscore" v-if="announcements[announcementsIndex].type == 'SeriesScore'">
-                    <div class='series-team1-container'>
-                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 1 }"></div>
-                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 2 }" v-if='seriesBestOf >= 3'></div>
-                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 3 }" v-if='seriesBestOf >= 5'></div>
-                        <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 4 }" v-if='seriesBestOf >= 7'></div>
+                <transition name="fade" mode="out-in" tag="div">
+                    <div class="annoucement annoucement-seriesscore" :key='announcementsIndex' v-if="announcements[announcementsIndex].type == 'SeriesScore'">
+                        <div class='series-team1-container'>
+                            <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 1 }"></div>
+                            <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 2 }" v-if='seriesBestOf >= 3'></div>
+                            <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 3 }" v-if='seriesBestOf >= 5'></div>
+                            <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 4 }" v-if='seriesBestOf >= 7'></div>
+                        </div>
+                        <span>Best of {{ seriesBestOf }}</span>
+                        <div class='series-team2-container'>
+                            <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 4 }" v-if='seriesBestOf >= 7'></div>
+                            <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 3 }" v-if='seriesBestOf >= 5'></div>
+                            <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 2 }" v-if='seriesBestOf >= 3'></div>
+                            <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 1 }"></div>
+                        </div>
                     </div>
-                    <span>Best of {{ seriesBestOf }}</span>
-                    <div class='series-team2-container'>
-                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 4 }" v-if='seriesBestOf >= 7'></div>
-                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 3 }" v-if='seriesBestOf >= 5'></div>
-                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 2 }" v-if='seriesBestOf >= 3'></div>
-                        <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 1 }"></div>
+                    <div class="annoucement" :key='announcementsIndex' v-if="announcements[announcementsIndex].type == 'Text'">
+                        <span>{{ announcements[announcementsIndex].message }}</span>
                     </div>
-                </div>
-                <div class="annoucement" v-if="announcements[announcementsIndex].type == 'Text'">
-                    <span>{{ announcements[announcementsIndex].message }}</span>
-                </div>
-                <div class="annoucement" v-if="announcements[announcementsIndex].type == 'Html'">
-                    <div v-html='announcements[announcementsIndex].message'></div>
-                </div>
+                    <div class="annoucement" :key='announcementsIndex' v-if="announcements[announcementsIndex].type == 'Html'">
+                        <div v-html='announcements[announcementsIndex].message'></div>
+                    </div>
+                </transition>
             </div>
         </div>
     </div>
@@ -288,5 +290,13 @@ export default {
             }
         }
     }
+}
+
+.fade-enter-active .fade-leave-active {
+    transition: all 1s ease;
+}
+.fade-enter, .fade-leave-to
+/* .slide-fade-leave-active for <2.1.8 */ {
+    opacity: 0;
 }
 </style>
