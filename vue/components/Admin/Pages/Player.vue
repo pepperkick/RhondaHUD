@@ -5,7 +5,8 @@
                 <span>Player Information</span>
             </div>
         </div>
-        <div class='team w-1/2 h-12' id='player-extra'>
+        <div class='team w-full h-12' id='player-extra'>
+
         </div>
     </div>    
 </template>
@@ -14,7 +15,7 @@
 export default {
     data () {
         return {
-            
+            players: []
         }
     },
 

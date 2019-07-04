@@ -8,7 +8,7 @@
         </div>
         <div class='flex mb-4' >
             <div class='ticker w-full h-full' id='ticker-edit-form'>
-                <div class='ticker-message' v-for='(val, i) in annoucements' :key='i'>
+                <div class='ticker-message' v-for='(val, i) in announcements' :key='i'>
                     <div class='subtitle'>
                         <span>{{ val.type }}</span>
                         <div class='actionbar'>
@@ -76,7 +76,7 @@ export default {
     data () {
         return {
             editDialog: false,
-            annoucements: [],
+            announcements: [],
             types: [ 'SeriesScore', 'Text', 'Html' ],
             selectedType: -1,
             index: -1,
@@ -88,13 +88,13 @@ export default {
     methods: { 
         async update () {
             try {
-                const annoucements = await this.$axios.get('/config/annoucements')
-                const annoucementsDelay = await this.$axios.get('/config/annoucementsDelay')
+                const announcements = await this.$axios.get('/config/announcements')
+                const announcementsDelay = await this.$axios.get('/config/announcementsDelay')
 
-                if (annoucements.data.length > 0)
-                    this.annoucements = annoucements.data
+                if (announcements.data.length > 0)
+                    this.announcements = announcements.data
 
-                this.delay = annoucementsDelay.data || 30
+                this.delay = announcementsDelay.data || 30
             } catch (error) {
                 console.log(error)
             }
@@ -107,12 +107,12 @@ export default {
 
             if (index != -1) {
                 for (let i in this.types) {
-                    if (this.types[i] == this.annoucements[index].type) {
+                    if (this.types[i] == this.announcements[index].type) {
                         this.selectedType = i
                     }
                 }
 
-                this.message = this.annoucements[index].message
+                this.message = this.announcements[index].message
             }
 
             this.editDialog = true
@@ -131,14 +131,14 @@ export default {
 
             if (this.index == -1) {
                 if ([ 1, 2 ].includes(this.selectedType))
-                    this.annoucements.push({ type, message: this.message })
+                    this.announcements.push({ type, message: this.message })
                 else
-                    this.annoucements.push({ type })  
+                    this.announcements.push({ type })  
             } else {
                 if ([ 1, 2 ].includes(this.selectedType))
-                    this.annoucements[this.index] = { type, message: this.message }
+                    this.announcements[this.index] = { type, message: this.message }
                 else
-                    this.annoucements[this.index] = { type}
+                    this.announcements[this.index] = { type}
             }
 
             await this.saveData()
@@ -148,8 +148,8 @@ export default {
 
         async saveData () {
             await this.$axios.post('/config', {
-                key: 'annoucements',
-                value: this.annoucements
+                key: 'announcements',
+                value: this.announcements
             })
 
             await this.update()
@@ -177,21 +177,21 @@ export default {
         },
 
         async deleteMessage (i) {
-            this.annoucements.splice(i, 1)
+            this.announcements.splice(i, 1)
 
             await this.saveData()
         },
 
         async moveUp (i) {
             if (i == 0) return
-            this.annoucements = array_move(this.annoucements, i, i - 1)
+            this.announcements = array_move(this.announcements, i, i - 1)
 
             await this.saveData()
         },
 
         async moveDown (i) {
-            if (i >= this.annoucements.length - 1) return
-            this.annoucements = array_move(this.annoucements, i, i + 1)
+            if (i >= this.announcements.length - 1) return
+            this.announcements = array_move(this.announcements, i, i + 1)
 
             await this.saveData()
         }
@@ -206,7 +206,7 @@ export default {
             deep: true,
             async handler () {
                 await this.$axios.post('/config', {
-                    key: 'annoucementsDelay',
+                    key: 'announcementsDelay',
                     value: this.delay
                 })
 

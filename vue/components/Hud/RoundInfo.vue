@@ -24,7 +24,7 @@
                 <div class="team-name team2-name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
             </div>
             <div class="match-info-row-2">
-                <div class="annoucement annoucement-seriesscore" v-if="annoucements[annoucementsIndex].type == 'SeriesScore'">
+                <div class="annoucement annoucement-seriesscore" v-if="announcements[announcementsIndex].type == 'SeriesScore'">
                     <div class='series-team1-container'>
                         <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 1 }"></div>
                         <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 2 }" v-if='seriesBestOf >= 3'></div>
@@ -39,11 +39,11 @@
                         <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 1 }"></div>
                     </div>
                 </div>
-                <div class="annoucement" v-if="annoucements[annoucementsIndex].type == 'Text'">
-                    <span>{{ annoucements[annoucementsIndex].message }}</span>
+                <div class="annoucement" v-if="announcements[announcementsIndex].type == 'Text'">
+                    <span>{{ announcements[announcementsIndex].message }}</span>
                 </div>
-                <div class="annoucement" v-if="annoucements[annoucementsIndex].type == 'Html'">
-                    <div v-html='annoucements[annoucementsIndex].message'></div>
+                <div class="annoucement" v-if="announcements[announcementsIndex].type == 'Html'">
+                    <div v-html='announcements[announcementsIndex].message'></div>
                 </div>
             </div>
         </div>
@@ -56,10 +56,10 @@ export default {
     props: [ 'round', 'teams' ],
     data () {
         return {
-            annoucements: [],
-            annoucementsIndex: 0,
-            annoucementsDelay: 60,
-            annoucementsInterval: '',
+            announcements: [],
+            announcementsIndex: 0,
+            announcementsDelay: 60,
+            announcementsInterval: '',
             seriesBestOf: 3,
             seriesTeamBluWins: 0,
             seriesTeamRedWins: 0
@@ -81,21 +81,21 @@ export default {
         },
 
         update () {
-            this.annoucements = this.$parent.config.annoucements
-            this.annoucementsDelay = this.$parent.config.annoucementsDelay
+            this.announcements = this.$parent.config.announcements
+            this.announcementsDelay = this.$parent.config.announcementsDelay
             this.seriesBestOf = this.$parent.config.seriesBestOf
             this.seriesTeamBluWins = this.$parent.config.seriesWinsTeamBlu
             this.seriesTeamRedWins = this.$parent.config.seriesWinsTeamRed
 
-            if (this.annoucementsInterval) clearInterval(this.annoucementsInterval)
+            if (this.announcementsInterval) clearInterval(this.announcementsInterval)
 
-            this.annoucementsInterval = setInterval(() => {
-                if (this.annoucementsIndex >= this.annoucements.length - 1) {
-                    this.annoucementsIndex = 0
+            this.announcementsInterval = setInterval(() => {
+                if (this.announcementsIndex >= this.announcements.length - 1) {
+                    this.announcementsIndex = 0
                 } else {
-                    this.annoucementsIndex++
+                    this.announcementsIndex++
                 }
-            }, this.annoucementsDelay * 1000)
+            }, this.announcementsDelay * 1000)
         }
     },
 
