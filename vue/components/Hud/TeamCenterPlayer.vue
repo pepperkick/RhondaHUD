@@ -131,11 +131,15 @@ export default {
             if (this.player.alive == 0) return `- / -`
 
             const pclass = this.player.class
+            const clip = this.player.weapon.clip1 == -1 ? '-' : this.player.weapon.clip1
+            const reserve = this.player.weapon.reserve == -1 ? '-' : this.player.weapon.reserve
 
             if (pclass == 5) {
                 return `${parseInt(this.player.medigun.charge * 100)}%`
+            } else if (pclass == 2 && this.player.weapon.class == 'CTFSniperRifle') {
+                return `${reserve}`
             } else {
-                return `${this.player.weapon.clip1} / ${this.player.weapon.reserve}`
+                return `${clip} / ${reserve}`
             }
         },
     }
