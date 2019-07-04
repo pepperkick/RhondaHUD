@@ -201,7 +201,7 @@ export default {
     display: flex;
     flex-direction: row;
     height: 60px;
-    width: 360px;
+    width: 400px;
     margin: auto;
     margin-right: 0;
     margin-bottom: 12px;

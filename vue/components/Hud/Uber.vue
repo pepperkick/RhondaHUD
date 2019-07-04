@@ -93,7 +93,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: 48px;
-    width: 287px;
+    width: 320px;
     margin-bottom: 8px;
     position: relative;
     background: rgba(0, 0, 0, 0.5);
