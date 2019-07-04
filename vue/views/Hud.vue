@@ -34,6 +34,7 @@ export default {
         return {
             info: '',
             config: '',
+            playerCache: {},
             swap: false,
             functions: {
                 hexToRgbA
@@ -435,19 +436,36 @@ export default {
                 twoOnPoint: require('@/assets/icons/control_points/2s.png'),
                 threeOnPoint: require('@/assets/icons/control_points/3s.png'),
                 locked: require('@/assets/icons/control_points/rounded-lock.png'),
-            }
+            },
+            checkCache: true
         }
     },
     watch: {
 
     },
     sockets: {
-        data (data) {
+        async data (data) {
             this.info = data
+            
+            if (this.checkCache) {
+                for (let i in this.info.allplayers) {
+                    try {
+                        const steamid = i
+                        const data = await this.$axios.get(`/player/${steamid}`)
+                        this.playerCache[i] = data.data
+                        this.info.allplayers[i].name = this.playerCache[i].name
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+
+                this.checkCache = false
+
+                setTimeout(() => this.checkCache = true, 30000)
+            }
         },
 
         config (data) {
-            console.log(data)
             this.config = data
         }
     }

@@ -55,6 +55,13 @@ module.exports = (io) => {
         res.json(doc)
     })
 
+    app.delete('/player/:steamid', async (req, res) => {
+        const steamid = req.params.steamid
+        await Store.Player.Delete(steamid)
+    
+        res.status(200)
+    })
+
     app.get('/player', async (req, res) => {
         const docs = await Store.Player.FindAll()
 
@@ -64,9 +71,8 @@ module.exports = (io) => {
     app.post('/player', async (req, res) => {
         try {
             const Player = {
+                _id: req.body.steamid,
                 name: req.body.name,
-                profile_pic: req.body.profile_pic,
-                team: req.body.team,
                 steamid: req.body.steamid
             }
     

@@ -46,6 +46,8 @@ export default {
                 
                 for (let o of order) {
                     for (let p in this.players) {
+                        this.players.steamid = p
+
                         if (this.players[p].class == o) players.push(this.players[p])
 
                         if (this.players[p].class == 5) { 

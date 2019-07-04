@@ -12,7 +12,7 @@
                 <div class='flex flex-colum info-row-1'>
                     <img class='player-center-class' :src='$parent.classIcons[player.class]' />          
                     <div class='player-center-name'>
-                        <span>{{ player.name }}</span>
+                        <span>{{ getName() }}</span>
                     </div>
                     <div class="player-center-health">
                         <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>    
@@ -48,6 +48,17 @@
 export default {
     props: ["player"],
     methods: {
+        getName () {
+            const player = this.player
+            const cache = this.$parent.playerCache
+
+            if (cache[player.steamid]) {
+                return cache[player.steamid].name
+            } else {
+                return player.name
+            }
+        },
+
         getClass () {
             const player = this.player;
 

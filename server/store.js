@@ -45,7 +45,8 @@ module.exports = () => {
         Player: {
             Insert: AddPlayer,
             FindOneBySteamId: async (steamid) => await Player.asyncFindOne({ steamid }),
-            FindAll: async () => await Player.asyncFind({}, [ [ 'sort', { name: 1 } ] ])
+            FindAll: async () => await Player.asyncFind({}, [ [ 'sort', { name: 1 } ] ]),
+            Delete: async (id) => await Player.asyncRemove({ steamid: id })
         },
         Config: {
             Update: UpdateConfig,

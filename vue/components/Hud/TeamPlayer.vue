@@ -13,7 +13,7 @@
                     <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />     
                     <div class='player-basic-info'>
                         <div class='info-row-1 player-name'>
-                            <span>{{ player.name }}</span>
+                            <span>{{ getName() }}</span>
                         </div>
                         <div class='info-row-2 player-stats' v-if="player.class == 5">
                             <span>D {{ player.deaths }}</span>
@@ -60,7 +60,7 @@
                     </div>     
                     <div class='player-basic-info'>
                         <div class='info-row-1 player-name'>
-                            <span>{{ player.name }}</span>
+                            <span>{{ getName() }}</span>
                         </div>
                         <div class='info-row-2 player-stats' v-if="player.class == 5">
                             <span>D {{ player.deaths }}</span>
@@ -89,6 +89,17 @@ export default {
         }    
     },
     methods: {
+        getName () {
+            const player = this.player
+            const cache = this.$parent.$parent.playerCache
+
+            if (cache[player.steamid]) {
+                return cache[player.steamid].name
+            } else {
+                return player.name
+            }
+        },
+
         getClass () {
             const player = this.player;
 
