@@ -213,7 +213,7 @@ export default {
     },
 
     updated () {
-        this.GetStatusEffects()
+        // this.GetStatusEffects()
     }
 }
 </script>
