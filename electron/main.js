@@ -5,7 +5,7 @@ const io = require('socket.io')(config.get('electron.socket_port'))
 
 const log = debug('app:main')
 const hudUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}`
-const adminUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}/admin?electron=true`
+const adminUrl = `${hudUrl}/admin?electron=true`
 
 const hudOptions = {
     width: config.get("electron.hud.width"),
@@ -59,15 +59,15 @@ app.on('ready', () => {
         globalShortcut.register('Alt+W', () => {
             admin.toggleDevTools()
         });
-
-        globalShortcut.register('Alt+R', () => {
-            admin.reload()
-        })
-
-        globalShortcut.register('Alt+D', () => {
-            overlay.reload()
-        })
     }
+
+    globalShortcut.register('Alt+R', () => {
+        admin.reload()
+    })
+
+    globalShortcut.register('Alt+D', () => {
+        overlay.reload()
+    })
 
     globalShortcut.register('Alt+S', () => {
         overlay.minimize()

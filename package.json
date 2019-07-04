@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "electron": "electron electron/main.js",
-    "server": "node server/main.js",
+    "electron": "cross-env NODE_ENV=production electron electron/main.js",
+    "server": "cross-env NODE_ENV=production node server/main.js",
     "build-vue": "vue-cli-service build",
+    "build-electron": "electron-packager . RhondaHUD --platform=win32 --arch=ia32",
     "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch electron --watch config --exec yarn electron",
     "dev-server": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch server --watch config --ignore  server/collections --exec yarn server",
     "dev-vue": "cross-env NODE_ENV=development DEBUG=app:* yarn serve"
@@ -21,6 +22,7 @@
     "express": "^4.17.1",
     "image-webpack-loader": "^5.0.0",
     "json5": "^2.1.0",
+    "live-server": "^1.2.1",
     "nedb": "^1.8.0",
     "nedb-async": "^0.0.9",
     "socket.io": "^2.2.0",

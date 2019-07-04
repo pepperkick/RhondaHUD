@@ -1,13 +1,15 @@
 const path = require('path')
 const config = require('config')
 
-process.env.VUE_APP_SERVER_HOST = 'localhost'
+process.env.VUE_APP_SERVER_HOST = config.get('server.host')
 process.env.VUE_APP_SERVER_SOCKET_PORT = config.get('server.socket_port')
 process.env.VUE_APP_SERVER_API_PORT = config.get('server.api_port')
-process.env.VUE_APP_ELECTRON_HOST = 'localhost'
+process.env.VUE_APP_ELECTRON_HOST = config.get('electron.host')
 process.env.VUE_APP_ELECTRON_SOCKET_PORT = config.get('electron.socket_port')
 
 module.exports = {
+    outputDir: './dist/webhud/',
+    assetsDir: './assets/',
     devServer: {
         host: config.get('vue.host'),
         port: config.get('vue.port')

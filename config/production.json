@@ -17,7 +17,7 @@
         "api_port": 5515
     },
     "vue": {
-        "host": "localhost",
-        "port": 5520
+        "host": "127.0.0.1",
+        "port": 8080
     }
 }
