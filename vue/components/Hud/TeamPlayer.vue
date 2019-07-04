@@ -80,6 +80,20 @@
 </template>
 
 <script>
+import { isArray } from 'util';
+
+function isArrayEqual(arr1, arr2) {
+    if (!isArray(arr1) || !isArray(arr2)) return false
+
+    if (arr1.length !== arr2.length) return false
+
+    for (let i in arr1) {
+        if (arr1[i] !== arr2[i]) return false
+    }
+
+    return true
+}
+
 export default {
     props: ["player"],
     data () {
@@ -152,6 +166,10 @@ export default {
                     else if (this.player.team == 2) 
                         return this.$parent.redUberedIcon
                 }
+                    
+                if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
+                    return this.$parent.$parent.makredForDeathIcon
+                }
 
                 if (parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
                     return this.$parent.$parent.overhealIcon
@@ -181,11 +199,15 @@ export default {
 
         GetStatusEffects() {
             if (this.player.isAlive == 0) return
-            
-            this.statusEffects = []
+
+            const effects = []
 
             if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
-                this.statusEffects.push(this.$parent.$parent.makredForDeathIcon)
+                effects.push(this.$parent.$parent.makredForDeathIcon)
+            }
+
+            if (!isArrayEqual(effects, this.statusEffects)) {
+                this.statusEffects = effects
             }
         }
     },
@@ -200,11 +222,11 @@ export default {
 .player-stats-container {
     display: flex;
     flex-direction: row;
-    height: 60px;
+    height: 64px;
     width: 400px;
     margin: auto;
     margin-right: 0;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     position: relative;
 
     .player-extra-stats {
@@ -214,9 +236,10 @@ export default {
 
         .player-status-icons {
             height: 24px;
+            filter: brightness(0) invert(1);
 
             img {
-                height: 20px;
+                height: 18px;
             }
         }
 
@@ -388,6 +411,11 @@ export default {
         margin-left: 0;
         margin-right: auto;
     }
+
+    .player-status-icons {
+        margin-left: 0;
+        margin-right: auto;
+    }
     
     .player-extra-stats {
         margin-left: 8px;
@@ -435,6 +463,12 @@ export default {
     }
 
     .player-weapon-icon {
+        transform: scaleX(-1);
+        margin-right: 0;
+        margin-left: auto;
+    }
+
+    .player-status-icons {
         transform: scaleX(-1);
         margin-right: 0;
         margin-left: auto;

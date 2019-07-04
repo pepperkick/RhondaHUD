@@ -14,9 +14,9 @@
                     <div class='player-center-name'>
                         <span>{{ getName() }}</span>
                     </div>
-                    <div class="player-center-health">
-                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>    
+                    <div class="player-center-health">   
                         <img class='center-health-effect-icon' :src='getHealthEffectIcon()' />
+                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span> 
                     </div>     
                 </div>
                 <div class='info-row-2'>
@@ -111,6 +111,10 @@ export default {
                         return this.$parent.bluUberedIcon
                     else if (this.player.team == 2) 
                         return this.$parent.redUberedIcon
+                }
+                    
+                if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
+                    return this.$parent.makredForDeathIcon
                 }
 
                 if (parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
