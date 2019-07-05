@@ -155,7 +155,7 @@ export default {
     .uber-info-container {
         margin-right: auto;
         margin-left: 0;
-        border-left: 4px solid @blue-team-color-dark;
+        border-left: 2px solid @blue-team-color-dark;
     }
 
     .uber-health-bar {
@@ -177,7 +177,7 @@ export default {
     .uber-info-container {
         margin-left: 100px !important;
         margin-right: 0;
-        border-right: 8px solid @red-team-color-dark;
+        border-right: 2px solid @red-team-color-dark;
     }
 
     .uber-health-bar {

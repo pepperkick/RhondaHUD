@@ -1,6 +1,6 @@
 <template>
     <div class='container'>
-        <TeamContainer :players='info.allplayers' />
+        <TeamContainer :players='info.allplayers' :activePlayer='info.player' />
         <TeamCenterPlayer v-if='info.player' :player='info.allplayers[info.player.steamid]' />
         <RoundInfo v-if='info.round' :round='info.round' :teams='info.teams' />
         <ControlPoints v-if='info.round' :round='info.round' />
@@ -453,7 +453,9 @@ export default {
                         const steamid = i
                         const data = await this.$axios.get(`/player/${steamid}`)
                         this.playerCache[i] = data.data
-                        this.info.allplayers[i].name = this.playerCache[i].name
+
+                        if (this.playerCache[i])
+                            this.info.allplayers[i].name = this.playerCache[i].name
                     } catch (error) {
                         console.log(error)
                     }

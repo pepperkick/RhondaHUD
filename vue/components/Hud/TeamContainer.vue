@@ -3,13 +3,13 @@
         <div class="team-blue">
             <Uber v-if="bluMedic" :player='bluMedic' />
             <div v-for="(player, key) of sortedPlayers" :key="`team3_${key}`">
-                <TeamPlayer v-if="player.team == 3" :player="player" />
+                <TeamPlayer v-if="player.team == 3" :player="player" :active="activePlayer && player.steamid == activePlayer.steamid" />
             </div>
         </div>
         <div class="team-red">
             <Uber v-if="redMedic" :player='redMedic' />
             <div v-for="(player, key) of sortedPlayers" :key="`team2_${key}`">
-                <TeamPlayer v-if="player.team == 2" :player="player" />
+                <TeamPlayer v-if="player.team == 2" :player="player" :active="activePlayer && player.steamid == activePlayer.steamid" />
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@ import Uber from "@/components/Hud/Uber"
 
 export default {
     components: { TeamPlayer, Uber },
-    props: [ 'players' ],
+    props: [ 'players', 'activePlayer' ],
     data () {
         return {
             sortedPlayers: null,

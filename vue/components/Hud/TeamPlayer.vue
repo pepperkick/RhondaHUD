@@ -1,7 +1,7 @@
 <template>
     <div class="player-info-container">
         <div class='player-stats-container align-side-blu' v-if='player.team == 3'>
-            <div class="player-info">
+            <div class="player-info" :class="{ 'player-main-info-glow': active }" >
                 <div class="player-health-info">
                     <div class='player-health-bar-container'>
                         <div class='player-health-bar player-main-info-blu' :style='{ width: getBarWidth() }'></div>
@@ -45,7 +45,7 @@
                 </div>
                 <img class='player-weapon-icon' :src='GetWeaponIcon()' />
             </div>
-            <div class="player-info">
+            <div class="player-info" :class="{ 'player-main-info-glow': active }" >
                 <div class="player-health-info">
                     <div class='player-health-bar-container'>
                         <div class='player-health-bar player-main-info-red' :style='{ width: getBarWidth() }'></div>
@@ -95,7 +95,7 @@ function isArrayEqual(arr1, arr2) {
 }
 
 export default {
-    props: ["player"],
+    props: [ 'player', 'active' ],
     data () {
         return {
             oldHealthBarWidth: '0',
@@ -374,13 +374,17 @@ export default {
             }
         }
     }
+
+    .player-main-info-glow {
+        transition: 0.3s;
+    }
 }
 
 .align-side-blu {
     .player-info {
         margin-right: auto;
         margin-left: 0;
-        border-left: 4px solid @blue-team-color-dark;
+        border-left: 2px solid @blue-team-color-dark;
     }
 
     .player-health-bar {
@@ -421,6 +425,10 @@ export default {
         margin-left: 8px;
         margin-right: auto;
     }
+
+    .player-main-info-glow {
+        box-shadow: 0 0 8px 0 @blue-team-color-dark;
+    }
 }
 
 .player-stats-container .align-side-red  {
@@ -431,7 +439,7 @@ export default {
     .player-info {
         margin-left: auto;
         margin-right: 0;
-        border-right: 4px solid @red-team-color-dark;
+        border-right: 2px solid @red-team-color-dark;
     }
 
     .player-health-bar {
@@ -477,6 +485,10 @@ export default {
     .player-extra-stats {
         margin-right: 8px;
         margin-left: auto;
+    }
+
+    .player-main-info-glow {
+        box-shadow: 0 0 8px 0 @red-team-color-dark;
     }
 }
 </style>
