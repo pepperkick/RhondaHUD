@@ -156,43 +156,48 @@ export default {
         },
 
         isPointLocked(i) {
-            const point0 = this.round.cap0
-            const point1 = this.round.cap1
-            const point2 = this.round.cap2
-            const point3 = this.round.cap3
-            const point4 = this.round.cap4
+            if (this.round.gameType == '5CP') {
+                const point0 = this.round.cap0
+                const point1 = this.round.cap1
+                const point2 = this.round.cap2
+                const point3 = this.round.cap3
+                const point4 = this.round.cap4
 
-            if (i == 0) {
-                if (point0.cappedTeam == 3 && point1.cappedTeam == 3) {
+                if (i == 0) {
+                    if (point0.cappedTeam == 3 && point1.cappedTeam == 3) {
+                        return true
+                    }
+                } else if (i == 1) {
+                    if (point1.cappedTeam == 3 && point2.cappedTeam == 3) {
+                        return true
+                    } else if (point2.cappedTeam == 0) {
+                        return true
+                    } else if (point0.cappedTeam == 2) {
+                        return true
+                    }
+                } else if (i == 2) {
+                    if (point2.cappedTeam == 3 && point3.cappedTeam == 3) {
+                        return true
+                    } else if (point2.cappedTeam == 2 && point1.cappedTeam == 2) {
+                        return true
+                    }
+                } else if (i == 3) {
+                    if (point3.cappedTeam == 2 && point2.cappedTeam == 2) {
+                        return true
+                    } else if (point2.cappedTeam == 0) {
+                        return true
+                    } else if (point4.cappedTeam == 3) {
+                        return true
+                    }
+                } else if (i == 4) {
+                    if (point4.cappedTeam == 2 && point3.cappedTeam == 2) {
+                        return true
+                    }
+                } 
+            } else if (this.round.gameType == 'KOTH') {
+                if (this.round.cap0.unlockTime > 0)
                     return true
-                }
-            } else if (i == 1) {
-                if (point1.cappedTeam == 3 && point2.cappedTeam == 3) {
-                    return true
-                } else if (point2.cappedTeam == 0) {
-                    return true
-                } else if (point0.cappedTeam == 2) {
-                    return true
-                }
-            } else if (i == 2) {
-                if (point2.cappedTeam == 3 && point3.cappedTeam == 3) {
-                    return true
-                } else if (point2.cappedTeam == 2 && point1.cappedTeam == 2) {
-                    return true
-                }
-            } else if (i == 3) {
-                if (point3.cappedTeam == 2 && point2.cappedTeam == 2) {
-                    return true
-                } else if (point2.cappedTeam == 0) {
-                    return true
-                } else if (point4.cappedTeam == 3) {
-                    return true
-                }
-            } else if (i == 4) {
-                if (point4.cappedTeam == 2 && point3.cappedTeam == 2) {
-                    return true
-                }
-            } 
+            }
 
             return false
         },
