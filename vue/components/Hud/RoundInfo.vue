@@ -91,13 +91,15 @@ export default {
 
             if (this.announcementsInterval) clearInterval(this.announcementsInterval)
 
+            const delay = this.announcementsDelay > 0 ? this.announcementsDelay : 30
+
             this.announcementsInterval = setInterval(() => {
                 if (this.announcementsIndex >= this.announcements.length - 1) {
                     this.announcementsIndex = 0
                 } else {
                     this.announcementsIndex++
                 }
-            }, this.announcementsDelay * 1000)
+            }, delay * 1000)
         }
     },
 
