@@ -236,7 +236,7 @@ export default {
             if (perc == 0) {
                 this.showPointRing[i] = false;
             } else {                
-                this.showPointRing[i] = true;getPointFill(i - 1)
+                this.showPointRing[i] = true;
                 this.$refs.pointProgress0.updateProgress(perc)
             }
         }
