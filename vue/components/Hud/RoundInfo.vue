@@ -11,10 +11,10 @@
                     <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>                    
                 </div>
                 <div class="timer-container timer-container-koth" v-if="round.gameType == 'KOTH'">
-                    <div class="team-timer team1-timer">
+                    <div class="team-timer team1-timer" :class="{ 'koth-timer-active': round.cap0.cappedTeam == 3 }">
                         <span>{{ getFormattedTime(round.blueTimeLeft) }}</span>
                     </div>      
-                    <div class="team-timer team2-timer">
+                    <div class="team-timer team2-timer" :class="{ 'koth-timer-active': round.cap0.cappedTeam == 2 }">
                         <span>{{ getFormattedTime(round.redTimeLeft) }}</span>
                     </div>                    
                 </div>
@@ -191,6 +191,7 @@ export default {
         .timer-container-koth {
             display: flex;
             flex-direction: row;
+            background: rgba(0, 0, 0, 0.5);
             
             .team-timer {
                 width: 50%;
@@ -200,10 +201,16 @@ export default {
                 text-transform: uppercase;
                 text-shadow: 0 3px 5px #00000099;
                 display: flex;
+                transition: 0.3s;
+                opacity: 0.75;
 
                 span {
                     margin: auto;
                 }
+            }
+
+            .koth-timer-active {
+                opacity: 1;
             }
 
             .team1-timer {
