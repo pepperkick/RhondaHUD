@@ -10,7 +10,8 @@
         <div class='player-center-main-info'>
             <div class='player-center-basic-info'>
                 <div class='flex flex-colum info-row-1'>
-                    <img class='player-center-class' :src='$parent.classIcons[player.class]' />          
+                    <img class='player-center-class' :src='$parent.classIcons[player.class]' />        
+                    <img :class='{ "player-center-disguise-class": getDisguiseClassIcon() }' :src='getDisguiseClassIcon()' />          
                     <div class='player-center-name'>
                         <span>{{ getName() }}</span>
                     </div>
@@ -72,6 +73,14 @@ export default {
             else if (player.class == 8) return "Spy";
             else if (player.class == 9) return "Engineer";
             else return "Unknown"
+        },
+
+        getDisguiseClassIcon() {
+            if (this.player.class == 8 && this.player.disguise.class > 0) {
+                return this.$parent.classIcons[this.player.disguise.class]
+            }
+
+            return false
         },
         
         getBarWidth() {
@@ -321,6 +330,14 @@ export default {
                     margin-bottom: auto;
                     margin-left: 16px;
                     height: 40px;
+                }
+
+                .player-center-disguise-class {
+                    margin-top: 24px;
+                    margin-bottom: -2px;
+                    margin-left: -20px;
+                    margin-right: -8px;
+                    height: 24px;
                 }
 
                 .player-center-health {
