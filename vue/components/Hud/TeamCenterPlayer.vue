@@ -32,7 +32,7 @@
                     <div class='player-center-stats' v-else>
                         <span>K {{ player.kills }}</span>
                         <span>D {{ player.deaths }}</span>
-                        <span>DPM {{ getDPM() }}</span>
+                        <span>D {{ player.damage }}</span>
                         <div class='player-center-ammo' v-if='player.alive'>
                             <img class='player-center-ammo-icon' :src='$parent.ammoIcon' />
                             <span class='player-center-ammo-value'>{{ getAmmo() }}</span>
@@ -164,8 +164,10 @@ export default {
             const dmg = this.player.damage
             const matchtime = this.$parent.info.round.matchTimeLeft
             const offset = this.$parent.config.matchTimeLeftOffset
-            const time = matchtime - offset
+            const time = (30 * 60) - matchtime - offset
             const mins = time / 60
+
+            console.log(time, mins, dmg)
 
             if (mins > 0) return parseInt(dmg / mins)
             else return 0

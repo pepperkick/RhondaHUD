@@ -22,7 +22,7 @@
                         <div class='info-row-2 player-stats' v-else>
                             <span>K {{ player.kills }}</span>
                             <span>D {{ player.deaths }}</span>
-                            <span>DPM {{ player.dpm }}</span>
+                            <span>D {{ player.damage }}</span>
                         </div>
                     </div>
                     <div class="player-health">
@@ -69,7 +69,7 @@
                         <div class='info-row-2 player-stats' v-else>
                             <span>K {{ player.kills }}</span>
                             <span>D {{ player.deaths }}</span>
-                            <span>DPM {{ getDPM() }}</span>
+                            <span>D {{ player.damage }}</span>
                         </div>
                     </div>
                     <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />                
@@ -219,7 +219,7 @@ export default {
             const dmg = this.player.damage
             const matchtime = this.$parent.$parent.info.round.matchTimeLeft
             const offset = this.$parent.$parent.config.matchTimeLeftOffset
-            const time = matchtime - offset
+            const time = (30 * 60) - matchtime - offset
             const mins = time / 60
 
             if (mins > 0) return parseInt(dmg / mins)
