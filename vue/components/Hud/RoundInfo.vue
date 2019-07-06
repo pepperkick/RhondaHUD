@@ -7,7 +7,7 @@
                     <span class="team-score-text">{{ teams.team_blue.score }}</span>
                 </div>
                 <div class="timer-container timer-container-5cp" v-if="round.gameType == '5CP'">
-                    <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft) }}</span>      
+                    <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft - parseInt(matchTimeLeftOffset)) }}</span>      
                     <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>                    
                 </div>
                 <div class="timer-container timer-container-koth" v-if="round.gameType == 'KOTH'">
@@ -64,7 +64,8 @@ export default {
             announcementsInterval: '',
             seriesBestOf: 3,
             seriesTeamBluWins: 0,
-            seriesTeamRedWins: 0
+            seriesTeamRedWins: 0,
+            matchTimeLeftOffset: 0
         }
     },
 
@@ -88,6 +89,7 @@ export default {
             this.seriesBestOf = this.$parent.config.seriesBestOf
             this.seriesTeamBluWins = this.$parent.config.seriesWinsTeamBlu
             this.seriesTeamRedWins = this.$parent.config.seriesWinsTeamRed
+            this.matchTimeLeftOffset = parseInt(this.$parent.config.matchTimeLeftOffset || 0)
 
             if (this.announcementsInterval) clearInterval(this.announcementsInterval)
 
