@@ -32,7 +32,7 @@
                     <div class='player-center-stats' v-else>
                         <span>K {{ player.kills }}</span>
                         <span>D {{ player.deaths }}</span>
-                        <span>DPM {{ player.dpm }}</span>
+                        <span>DPM {{ getDPM() }}</span>
                         <div class='player-center-ammo' v-if='player.alive'>
                             <img class='player-center-ammo-icon' :src='$parent.ammoIcon' />
                             <span class='player-center-ammo-value'>{{ getAmmo() }}</span>
@@ -151,7 +151,7 @@ export default {
             const clip = this.player.weapon.clip1 == -1 ? '-' : this.player.weapon.clip1
             const reserve = this.player.weapon.reserve == -1 ? '-' : this.player.weapon.reserve
 
-            if (pclass == 5) {
+            if (pclass == 5 && this.player.weapon.class == 'CWeaponMedigun') {
                 return `${parseInt(this.player.medigun.charge * 100)}%`
             } else if (pclass == 2 && this.player.weapon.class == 'CTFSniperRifle') {
                 return `${reserve}`
@@ -159,6 +159,17 @@ export default {
                 return `${clip} / ${reserve}`
             }
         },
+
+        getDPM() {
+            const dmg = this.player.damage
+            const matchtime = this.$parent.info.round.matchTimeLeft
+            const offset = this.$parent.config.matchTimeLeftOffset
+            const time = matchtime - offset
+            const mins = time / 60
+
+            if (mins > 0) return parseInt(dmg / mins)
+            else return 0
+        }
     }
 }
 </script>
