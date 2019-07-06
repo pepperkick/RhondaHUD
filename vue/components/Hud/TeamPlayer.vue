@@ -171,6 +171,10 @@ export default {
                     return this.$parent.$parent.makredForDeathIcon
                 }
 
+                if (this.player.isBleeding) {
+                    return this.$parent.$parent.bleedingIcon
+                }
+
                 if (parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
                     return this.$parent.$parent.overhealIcon
                 }
