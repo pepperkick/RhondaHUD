@@ -23,10 +23,11 @@
                 <div class='info-row-2'>
                     <div class='player-center-stats' v-if="player.class == 5">
                         <span>D {{ player.deaths }}</span>
+                        <span v-if="player.assists">A {{ player.assists }}</span>
                         <span>H {{ player.healing }}</span>
                         <div class='player-center-ammo' v-if='player.alive'>
                             <img class='player-center-ammo-icon' :src='$parent.ammoIcon' />
-                            <span class='player-center-ammo-value'>{{ getAmmo() }}</span>
+                            <!-- <span class='player-center-ammo-value'>{{ getAmmo() }}</span> -->
                         </div>
                     </div>
                     <div class='player-center-stats' v-else>
@@ -35,7 +36,7 @@
                         <span>D {{ player.damage }}</span>
                         <div class='player-center-ammo' v-if='player.alive'>
                             <img class='player-center-ammo-icon' :src='$parent.ammoIcon' />
-                            <span class='player-center-ammo-value'>{{ getAmmo() }}</span>
+                            <!-- <span class='player-center-ammo-value'>{{ getAmmo() }}</span> -->
                         </div>
                     </div>
                 </div>

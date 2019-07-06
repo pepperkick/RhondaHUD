@@ -17,6 +17,7 @@
                         </div>
                         <div class='info-row-2 player-stats' v-if="player.class == 5">
                             <span>D {{ player.deaths }}</span>
+                            <span v-if="player.assists">A {{ player.assists }}</span>
                             <span>H {{ player.healing }}</span>
                         </div>
                         <div class='info-row-2 player-stats' v-else>
@@ -64,6 +65,7 @@
                         </div>
                         <div class='info-row-2 player-stats' v-if="player.class == 5">
                             <span>D {{ player.deaths }}</span>
+                            <span v-if="player.assists">A {{ player.assists }}</span>
                             <span>H {{ player.healing }}</span>
                         </div>
                         <div class='info-row-2 player-stats' v-else>
