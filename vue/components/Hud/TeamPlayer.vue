@@ -23,7 +23,7 @@
                         <div class='info-row-2 player-stats' v-else>
                             <span>K {{ player.kills }}</span>
                             <span>D {{ player.deaths }}</span>
-                            <span>D {{ player.damage }}</span>
+                            <span>{{ getDamage() }}</span>
                         </div>
                     </div>
                     <div class="player-health">
@@ -69,7 +69,7 @@
                             <span>D {{ player.deaths }}</span>
                         </div>
                         <div class='info-row-2 player-stats' v-else>
-                            <span>D {{ player.damage }}</span>
+                            <span>{{ getDamage() }}</span>
                             <span>D {{ player.deaths }}</span>
                             <span>K {{ player.kills }}</span>
                         </div>
@@ -217,15 +217,15 @@ export default {
             }
         },
 
-        getDPM() {
-            const dmg = this.player.damage
+        getDamage () {
+            const tDmg = this.player.totalDamage || this.player.damage
             const matchtime = this.$parent.$parent.info.round.matchTimeLeft
             const offset = this.$parent.$parent.config.matchTimeLeftOffset
             const time = (30 * 60) - matchtime - offset
             const mins = time / 60
 
-            if (mins > 0) return parseInt(dmg / mins)
-            else return 0
+            if (mins > 0) return `DPM ${parseInt(tDmg / mins)}`
+            else return `DPM 0`
         }
     },
 
