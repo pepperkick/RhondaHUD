@@ -64,14 +64,14 @@
                             <span>{{ getName() }}</span>
                         </div>
                         <div class='info-row-2 player-stats' v-if="player.class == 5">
-                            <span>D {{ player.deaths }}</span>
-                            <span v-if="player.assists">A {{ player.assists }}</span>
                             <span>H {{ player.healing }}</span>
+                            <span v-if="player.assists">A {{ player.assists }}</span>
+                            <span>D {{ player.deaths }}</span>
                         </div>
                         <div class='info-row-2 player-stats' v-else>
-                            <span>K {{ player.kills }}</span>
-                            <span>D {{ player.deaths }}</span>
                             <span>D {{ player.damage }}</span>
+                            <span>D {{ player.deaths }}</span>
+                            <span>K {{ player.kills }}</span>
                         </div>
                     </div>
                     <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />                
