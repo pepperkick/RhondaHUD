@@ -1,4 +1,4 @@
-# RohndaHUD
+# RhondaHUD
 
 A GSI based webhud for TF2
 Depends on GSI client plugin for TF2
