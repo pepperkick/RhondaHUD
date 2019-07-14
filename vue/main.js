@@ -6,6 +6,7 @@ import router from './router'
 
 import axios from 'axios'
 import socket from 'vue-socket.io';
+import VueNativeSock from 'vue-native-websocket'
 
 import '@/assets/tailwind.css'
 
@@ -25,6 +26,8 @@ Vue.use(new socket({
     mutationPrefix: 'SOCKET_'
   }
 }))
+
+Vue.use(VueNativeSock, 'ws://localhost:5540', { protocol: 'game-data', format: 'json' })
 
 new Vue({
   router,
