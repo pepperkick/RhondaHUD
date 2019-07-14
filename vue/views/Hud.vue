@@ -445,8 +445,13 @@ export default {
 
     },
     sockets: {
-        async data (data) {
-            this.info = data
+        config (data) {
+            this.config = data
+        }
+    },
+    beforeMount() {
+        this.$options.sockets.onmessage = async (data) => {
+            this.info = JSON.parse(data.data)
             
             if (this.checkCache) {
                 for (let i in this.info.allplayers) {
@@ -466,10 +471,6 @@ export default {
 
                 setTimeout(() => this.checkCache = true, 30000)
             }
-        },
-
-        config (data) {
-            this.config = data
         }
     }
 }
