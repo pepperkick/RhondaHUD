@@ -23,7 +23,7 @@
                     </div>
                 <div class="team-name team2-name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
             </div>
-            <div class="match-info-row-2">
+            <div class="match-info-row-2" v-if="announcements.length > 0">
                 <transition name="fade" mode="out-in" tag="div">
                     <div class="annoucement annoucement-seriesscore" :key='announcementsIndex' v-if="announcements[announcementsIndex].type == 'SeriesScore'">
                         <div class='series-team1-container'>
@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { setTimeout, clearInterval } from 'timers';
 export default {
     props: [ 'round', 'teams' ],
     data () {
@@ -84,7 +83,7 @@ export default {
         },
 
         update () {
-            this.announcements = this.$parent.config.announcements
+            this.announcements = this.$parent.config.announcements || []
             this.announcementsDelay = this.$parent.config.announcementsDelay
             this.seriesBestOf = this.$parent.config.seriesBestOf
             this.seriesTeamBluWins = this.$parent.config.seriesWinsTeamBlu

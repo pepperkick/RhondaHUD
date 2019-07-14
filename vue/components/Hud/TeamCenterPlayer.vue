@@ -163,8 +163,8 @@ export default {
 
         getDamage () {
             const tDmg = this.player.totalDamage || this.player.damage
-            const matchtime = this.$parent.$parent.info.round.matchTimeLeft
-            const offset = this.$parent.$parent.config.matchTimeLeftOffset
+            const matchtime = this.$parent.info.round.matchTimeLeft
+            const offset = this.$parent.config.matchTimeLeftOffset
             const time = (30 * 60) - matchtime - offset
             const mins = time / 60
 
