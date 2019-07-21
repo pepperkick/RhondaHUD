@@ -27,7 +27,7 @@ This must run on the same PC as GSI and TF2
 yarn server
 
 # Or for development server
-yarn dev-serve
+yarn dev-server
 ```
 
 ### Config
