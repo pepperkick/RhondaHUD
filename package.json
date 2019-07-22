@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "electron": "electron electron/main.js",
-    "server": "cross-env NODE_ENV=production node server/main.js",
+    "server": "node server/main.js",
     "build-vue": "vue-cli-service build",
     "build-electron": "electron-packager . RhondaHUD --platform=win32 --arch=ia32",
     "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch electron --watch config --exec yarn electron",
