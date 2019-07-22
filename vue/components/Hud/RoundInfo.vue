@@ -148,7 +148,7 @@ export default {
         }
 
         .team-score {
-            width: 80px;
+            width: 88px;
             height: 100%;
             color: white;
             font-size: 44px;
