@@ -84,10 +84,10 @@ export default {
 
             // this.teams = allteams.data
 
-            const active_red = await this.$axios.get('/config/teamred_name')
-            const active_blu = await this.$axios.get('/config/teamblu_name')
+            const active_red = await this.$axios.get('/config/teamred_name');
+            const active_blu = await this.$axios.get('/config/teamblu_name');
 
-            this.team.red.name = active_red.data
+            this.team.red.name = active_red.data;
             this.team.blu.name = active_blu.data
         },
 
@@ -95,7 +95,7 @@ export default {
             await this.$axios.post('/config', {
                 key: 'teamred_name',
                 value: this.team.red.name || ''
-            })
+            });
 
             await this.$axios.post('/config', {
                 key: 'teamblu_name',

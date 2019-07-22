@@ -1,19 +1,19 @@
 <template>
     <div class='admin-container'>
-        <Topbar v-if="isElectron"/>
+        <TopBar v-if="isElectron"/>
         <Sidebar />
         <div id='content'>
-            <TeamPage v-if='currentTab == 0' />
-            <PlayerPage v-else-if='currentTab == 1' />
-            <SeriesPage v-else-if='currentTab == 2' />
-            <TickerPage v-else-if='currentTab == 3' />
+            <TeamPage v-if='currentTab === 0' />
+            <PlayerPage v-else-if='currentTab === 1' />
+            <SeriesPage v-else-if='currentTab === 2' />
+            <TickerPage v-else-if='currentTab === 3' />
         </div>
     </div>
 </template>
 
 <script>
 import Sidebar from '@/components/Admin/Sidebar'
-import Topbar from '@/components/Admin/Topbar'
+import TopBar from '@/components/Admin/TopBar'
 
 import TeamPage from '@/components/Admin/Pages/Team'
 import PlayerPage from '@/components/Admin/Pages/Player'
@@ -23,7 +23,7 @@ import TickerPage from '@/components/Admin/Pages/Ticker'
 import io from 'socket.io-client'
 
 export default {
-    components: { Sidebar, Topbar, TeamPage, PlayerPage, SeriesPage, TickerPage },
+    components: { Sidebar, TopBar, TeamPage, PlayerPage, SeriesPage, TickerPage },
     data () {
         return {
             socket: '',
@@ -32,7 +32,7 @@ export default {
         }
     },
     created () {
-        this.socket = io(`http://${process.env.VUE_APP_ELECTRON_HOST}:${process.env.VUE_APP_ELECTRON_SOCKET_PORT}`)
+        this.socket = io(`http://${process.env.VUE_APP_ELECTRON_HOST}:${process.env.VUE_APP_ELECTRON_SOCKET_PORT}`);
         this.isElectron = this.$route.query.electron
     }
 }

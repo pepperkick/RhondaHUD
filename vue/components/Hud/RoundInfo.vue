@@ -6,15 +6,15 @@
                 <div class="team-score team1-score">
                     <span class="team-score-text">{{ teams.team_blue.score }}</span>
                 </div>
-                <div class="timer-container timer-container-5cp" v-if="round.gameType == '5CP'">
+                <div class="timer-container timer-container-5cp" v-if="round.gameType === '5CP'">
                     <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft - parseInt(matchTimeLeftOffset)) }}</span>      
                     <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>                    
                 </div>
-                <div class="timer-container timer-container-koth" v-if="round.gameType == 'KOTH'">
-                    <div class="team-timer team1-timer" :class="{ 'koth-timer-active': round.cap0.cappedTeam == 3 }">
+                <div class="timer-container timer-container-koth" v-if="round.gameType === 'KOTH'">
+                    <div class="team-timer team1-timer" :class="{ 'koth-timer-active': parseInt(round.cap0.cappedTeam) === 3 }">
                         <span>{{ getFormattedTime(round.blueTimeLeft) }}</span>
                     </div>      
-                    <div class="team-timer team2-timer" :class="{ 'koth-timer-active': round.cap0.cappedTeam == 2 }">
+                    <div class="team-timer team2-timer" :class="{ 'koth-timer-active': parseInt(round.cap0.cappedTeam) === 2 }">
                         <span>{{ getFormattedTime(round.redTimeLeft) }}</span>
                     </div>                    
                 </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="match-info-row-2" v-if="announcements.length > 0">
                 <transition name="fade" mode="out-in" tag="div">
-                    <div class="annoucement annoucement-seriesscore" :key='announcementsIndex' v-if="announcements[announcementsIndex].type == 'SeriesScore'">
+                    <div class="announcement announcement-seriesscore" :key='announcementsIndex' v-if="announcements[announcementsIndex].type === 'SeriesScore'">
                         <div class='series-team1-container'>
                             <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 1 }"></div>
                             <div class="series-score series-team1-score" :class="{ 'series-team1-score-filled': seriesTeamBluWins >= 2 }" v-if='seriesBestOf >= 3'></div>
@@ -40,10 +40,10 @@
                             <div class="series-score series-team2-score" :class="{ 'series-team2-score-filled': seriesTeamRedWins >= 1 }"></div>
                         </div>
                     </div>
-                    <div class="annoucement" :key='announcementsIndex' v-if="announcements[announcementsIndex].type == 'Text'">
+                    <div class="announcement" :key='announcementsIndex' v-if="announcements[announcementsIndex].type === 'Text'">
                         <span>{{ announcements[announcementsIndex].message }}</span>
                     </div>
-                    <div class="annoucement" :key='announcementsIndex' v-if="announcements[announcementsIndex].type == 'Html'">
+                    <div class="announcement" :key='announcementsIndex' v-if="announcements[announcementsIndex].type === 'Html'">
                         <div v-html='announcements[announcementsIndex].message'></div>
                     </div>
                 </transition>
@@ -70,11 +70,11 @@ export default {
 
     methods: {
         getFormattedTime(time) {
-            let mins = String(Math.floor(time / 60))
-            let secs = String(Math.floor(time % 60))
+            let mins = String(Math.floor(time / 60));
+            let secs = String(Math.floor(time % 60));
 
-            if (mins < 0) mins = "0"
-            if (secs < 0) secs = "0"
+            if (mins < 0) mins = "0";
+            if (secs < 0) secs = "0";
 
             while (mins.length < 2) { mins = `0${mins}` }
             while (secs.length < 2) { secs = `0${secs}` }
@@ -83,16 +83,16 @@ export default {
         },
 
         update () {
-            this.announcements = this.$parent.config.announcements || []
-            this.announcementsDelay = this.$parent.config.announcementsDelay
-            this.seriesBestOf = this.$parent.config.seriesBestOf
-            this.seriesTeamBluWins = this.$parent.config.seriesWinsTeamBlu
-            this.seriesTeamRedWins = this.$parent.config.seriesWinsTeamRed
-            this.matchTimeLeftOffset = parseInt(this.$parent.config.matchTimeLeftOffset || 0)
+            this.announcements = this.$parent.config.announcements || [];
+            this.announcementsDelay = this.$parent.config.announcementsDelay;
+            this.seriesBestOf = this.$parent.config.seriesBestOf;
+            this.seriesTeamBluWins = this.$parent.config.seriesWinsTeamBlu;
+            this.seriesTeamRedWins = this.$parent.config.seriesWinsTeamRed;
+            this.matchTimeLeftOffset = parseInt(this.$parent.config.matchTimeLeftOffset || 0);
 
-            if (this.announcementsInterval) clearInterval(this.announcementsInterval)
+            if (this.announcementsInterval) clearInterval(this.announcementsInterval);
 
-            const delay = this.announcementsDelay > 0 ? this.announcementsDelay : 30
+            const delay = this.announcementsDelay > 0 ? this.announcementsDelay : 30;
 
             this.announcementsInterval = setInterval(() => {
                 if (this.announcementsIndex >= this.announcements.length - 1) {
@@ -105,7 +105,7 @@ export default {
     },
 
     sockets: {
-        config (data) {
+        config () {
             this.update()
         }
     },
@@ -248,7 +248,7 @@ export default {
         margin-right: auto;
         display: flex;
 
-        .annoucement {
+        .announcement {
             color: white;
             font-size: 16px;
             text-transform: uppercase;
@@ -256,7 +256,7 @@ export default {
             transition: 0.3s;
         }
 
-        .annoucement-seriesscore {
+        .announcement-seriesscore {
             display: flex;
             flex-direction: row;
             font-weight: 700;   

@@ -1,11 +1,11 @@
-const { app, BrowserWindow, globalShortcut} = require('electron')
-const config = require('config')
-const debug = require('debug')
-const io = require('socket.io')(config.get('electron.socket_port'))
+const { app, BrowserWindow, globalShortcut} = require('electron');
+const config = require('config');
+const debug = require('debug');
+const io = require('socket.io')(config.get('electron.socket_port'));
 
-const log = debug('app:main')
-const hudUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}`
-const adminUrl = `${hudUrl}/admin?electron=true`
+const log = debug('app:main');
+const hudUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}`;
+const adminUrl = `${hudUrl}/admin?electron=true`;
 
 const hudOptions = {
     width: config.get("electron.hud.width"),
@@ -35,16 +35,16 @@ const adminOptions = {
 let mouseIgnored = false;
 
 app.on('ready', () => {
-    const overlay = new BrowserWindow(hudOptions)
-    const admin = new BrowserWindow(adminOptions)
+    const overlay = new BrowserWindow(hudOptions);
+    const admin = new BrowserWindow(adminOptions);
     
-    overlay.loadURL(hudUrl)
-    overlay.setIgnoreMouseEvents(true)
+    overlay.loadURL(hudUrl);
+    overlay.setIgnoreMouseEvents(true);
 
-    admin.loadURL(adminUrl)
-    admin.hide()
+    admin.loadURL(adminUrl);
+    admin.hide();
 
-    mouseIgnored = true
+    mouseIgnored = true;
 
     if (process.env.NODE_ENV === 'development') {
         globalShortcut.register('Alt+A', () => {
@@ -63,15 +63,15 @@ app.on('ready', () => {
 
     globalShortcut.register('Alt+R', () => {
         admin.reload()
-    })
+    });
 
     globalShortcut.register('Alt+D', () => {
         overlay.reload()
-    })
+    });
 
     globalShortcut.register('Alt+S', () => {
         overlay.minimize()
-    })
+    });
 
     globalShortcut.register('Alt+Q', () => {
         if (overlay.isVisible()) {
@@ -79,7 +79,7 @@ app.on('ready', () => {
         } else {
             overlay.show()
         }
-    })
+    });
 
     globalShortcut.register('Alt+E', () => {
         if (admin.isVisible()) {
@@ -87,14 +87,14 @@ app.on('ready', () => {
         } else {
             admin.show()
         }
-    })
+    });
 
     io.on('connect', client => {
-        log('Client connected')
+        log('Client connected');
 
         client.on('admin-close', () => {
-            console.log('Admin Close Event')
+            console.log('Admin Close Event');
             admin.hide()
         })
     })
-})
+});

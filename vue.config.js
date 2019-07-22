@@ -1,11 +1,11 @@
-const path = require('path')
-const config = require('config')
+const path = require('path');
+const config = require('config');
 
-process.env.VUE_APP_SERVER_HOST = config.get('server.host')
-process.env.VUE_APP_SERVER_SOCKET_PORT = config.get('server.socket_port')
-process.env.VUE_APP_SERVER_API_PORT = config.get('server.api_port')
-process.env.VUE_APP_ELECTRON_HOST = config.get('electron.host')
-process.env.VUE_APP_ELECTRON_SOCKET_PORT = config.get('electron.socket_port')
+process.env.VUE_APP_SERVER_HOST = config.get('server.host');
+process.env.VUE_APP_SERVER_SOCKET_PORT = config.get('server.socket_port');
+process.env.VUE_APP_SERVER_API_PORT = config.get('server.api_port');
+process.env.VUE_APP_ELECTRON_HOST = config.get('electron.host');
+process.env.VUE_APP_ELECTRON_SOCKET_PORT = config.get('electron.socket_port');
 
 module.exports = {
     outputDir: './dist/webhud/',
@@ -16,15 +16,15 @@ module.exports = {
     },
 
     chainWebpack: config => {
-        const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
-        types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)))
+        const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
+        types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)));
         
         config.module
             .rule('images')
             .test( /\.(gif|png|jpe?g|svg)$/i)
             .use('file-loader')
                 .loader('image-webpack-loader')
-                .end()
+                .end();
 
         config
             .entry('app')

@@ -94,14 +94,14 @@ export default {
 
     methods: {
         async update () {
-            const bo = await this.$axios.get('/config/seriesBestOf')
-            const wins1 = await this.$axios.get('/config/seriesWinsTeamBlu')
-            const wins2 = await this.$axios.get('/config/seriesWinsTeamRed')
-            const timeLeftOffset = await this.$axios.get('/config/matchTimeLeftOffset')
+            const bo = await this.$axios.get('/config/seriesBestOf');
+            const wins1 = await this.$axios.get('/config/seriesWinsTeamBlu');
+            const wins2 = await this.$axios.get('/config/seriesWinsTeamRed');
+            const timeLeftOffset = await this.$axios.get('/config/matchTimeLeftOffset');
 
-            this.selected = bo.data
-            this.wins1 = wins1.data
-            this.wins2 = wins2.data
+            this.selected = bo.data;
+            this.wins1 = wins1.data;
+            this.wins2 = wins2.data;
             this.timeLeftOffset = timeLeftOffset.data || 0
         }
     },
@@ -113,7 +113,7 @@ export default {
                 await this.$axios.post('/config', {
                     key: 'seriesBestOf',
                     value: this.selected
-                })
+                });
 
                 await this.update()
             }
@@ -125,7 +125,7 @@ export default {
                 await this.$axios.post('/config', {
                     key: 'seriesWinsTeamBlu',
                     value: this.wins1
-                })
+                });
 
                 await this.update()
             }
@@ -137,7 +137,7 @@ export default {
                 await this.$axios.post('/config', {
                     key: 'seriesWinsTeamRed',
                     value: this.wins2
-                })
+                });
 
                 await this.update()
             }
@@ -149,7 +149,7 @@ export default {
                 await this.$axios.post('/config', {
                     key: 'matchTimeLeftOffset',
                     value: this.timeLeftOffset
-                })
+                });
 
                 await this.update()
             }

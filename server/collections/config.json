@@ -1,1 +1,1 @@
-{"_id":"default","teamblu_name":"Team BLU","teamred_name":"Team RED","announcements":[{"type":"SeriesScore"}],"announcementsDelay":"60","seriesBestOf":"5","seriesWinsTeamBlu":"0","seriesWinsTeamRed":"0"}
+{"_id":"default","teamblu_name":"Team BLU","teamred_name":"Team RED","announcements":[{"type":"SeriesScore"},{"type":"Text","message":"test"}],"seriesBestOf":"3","seriesWinsTeamBlu":"0","seriesWinsTeamRed":"2","announcementsDelay":"30","matchTmeLeftOffset":"120","matchTimeLeftOffset":"00"}

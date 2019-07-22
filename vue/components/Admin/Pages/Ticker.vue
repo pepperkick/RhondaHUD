@@ -70,8 +70,7 @@ function array_move(arr, old_index, new_index) {
     }
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     return arr;
-};
-
+}
 export default {
     data () {
         return {
@@ -88,11 +87,11 @@ export default {
     methods: { 
         async update () {
             try {
-                const announcements = await this.$axios.get('/config/announcements')
-                const announcementsDelay = await this.$axios.get('/config/announcementsDelay')
+                const announcements = await this.$axios.get('/config/announcements');
+                const announcementsDelay = await this.$axios.get('/config/announcementsDelay');
 
                 if (announcements.data.length > 0)
-                    this.announcements = announcements.data
+                    this.announcements = announcements.data;
 
                 this.delay = announcementsDelay.data || 30
             } catch (error) {
@@ -101,9 +100,9 @@ export default {
         },
 
         async openEditDialog (index) {
-            await this.update()
+            await this.update();
 
-            this.index = index
+            this.index = index;
 
             if (index != -1) {
                 for (let i in this.types) {
@@ -123,25 +122,25 @@ export default {
         },
 
         async submitData () {
-            const type = this.types[this.selectedType]
+            const type = this.types[this.selectedType];
             
-            if (this.selectedType == -1) return
+            if (this.selectedType == -1) return;
 
-            if (this.selectedType > 0 && this.message == '') return
+            if (this.selectedType > 0 && this.message == '') return;
 
             if (this.index == -1) {
                 if ([ 1, 2 ].includes(this.selectedType))
-                    this.announcements.push({ type, message: this.message })
+                    this.announcements.push({ type, message: this.message });
                 else
                     this.announcements.push({ type })  
             } else {
                 if ([ 1, 2 ].includes(this.selectedType))
-                    this.announcements[this.index] = { type, message: this.message }
+                    this.announcements[this.index] = { type, message: this.message };
                 else
                     this.announcements[this.index] = { type}
             }
 
-            await this.saveData()
+            await this.saveData();
 
             this.editDialog = false
         },
@@ -150,7 +149,7 @@ export default {
             await this.$axios.post('/config', {
                 key: 'announcements',
                 value: this.announcements
-            })
+            });
 
             await this.update()
         },
@@ -158,7 +157,7 @@ export default {
         validateData () {
             if (this.selectedType > -1) {
                 if (this.selectedType == 0)
-                    return true
+                    return true;
                 else if ([ 1, 2 ].includes(this.selectedType))
                     if (this.message !== '')
                         return true
@@ -177,21 +176,21 @@ export default {
         },
 
         async deleteMessage (i) {
-            this.announcements.splice(i, 1)
+            this.announcements.splice(i, 1);
 
             await this.saveData()
         },
 
         async moveUp (i) {
-            if (i == 0) return
-            this.announcements = array_move(this.announcements, i, i - 1)
+            if (i == 0) return;
+            this.announcements = array_move(this.announcements, i, i - 1);
 
             await this.saveData()
         },
 
         async moveDown (i) {
-            if (i >= this.announcements.length - 1) return
-            this.announcements = array_move(this.announcements, i, i + 1)
+            if (i >= this.announcements.length - 1) return;
+            this.announcements = array_move(this.announcements, i, i + 1);
 
             await this.saveData()
         }
@@ -208,7 +207,7 @@ export default {
                 await this.$axios.post('/config', {
                     key: 'announcementsDelay',
                     value: this.delay
-                })
+                });
 
                 await this.update()
             }

@@ -8,27 +8,12 @@
 </template>
 
 <script>
-import TeamContainer from '@/components/Hud/TeamContainer'
-import TeamCenterPlayer from '@/components/Hud/TeamCenterPlayer'
-import RoundInfo from '@/components/Hud/RoundInfo'
-import ControlPoints from '@/components/Hud/ControlPoints'
+    import TeamContainer from '@/components/Hud/TeamContainer'
+    import TeamCenterPlayer from '@/components/Hud/TeamCenterPlayer'
+    import RoundInfo from '@/components/Hud/RoundInfo'
+    import ControlPoints from '@/components/Hud/ControlPoints'
 
-function hexToRgbA(hex, alpha) {
-    let c;
-
-    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-        c = hex.substring(1).split('')
-        if (c.length== 3){
-            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
-        }
-        c = '0x'+c.join('')
-        return `rgba(${[(c>>16)&255, (c>>8)&255, c&255].join(',')}, ${alpha})`
-    }
-
-    throw new Error('Bad Hex')
-}
-
-export default {
+    export default {
     components: { TeamContainer, TeamCenterPlayer, RoundInfo, ControlPoints },
     data () {
         return {
@@ -36,9 +21,6 @@ export default {
             config: '',
             playerCache: {},
             swap: false,
-            functions: {
-                hexToRgbA
-            },
             classIcons: [ 
                 '', 
                 require('@/assets/icons/class_icons/Scout.png'),
@@ -429,7 +411,7 @@ export default {
             overhealIcon: require('@/assets/icons/status_effects/health-cross-buff.png'),
             redUberedIcon: require('@/assets/icons/status_effects/uber_red.png'),
             bluUberedIcon: require('@/assets/icons/status_effects/uber_blue.png'),
-            makredForDeathIcon: require('@/assets/icons/status_effects/marked_for_death.png'),
+            markedForDeathIcon: require('@/assets/icons/status_effects/marked_for_death.png'),
             bleedingIcon: require('@/assets/icons/status_effects/bleed_drop.png'),
             ammoIcon: require('@/assets/icons/ammo.png'),
             controlPointIcons: {
@@ -451,14 +433,16 @@ export default {
     },
     beforeMount() {
         this.$options.sockets.onmessage = async (data) => {
-            this.info = JSON.parse(data.data)
+            this.info = JSON.parse(data.data);
             
             if (this.checkCache) {
                 for (let i in this.info.allplayers) {
+                    if (!this.info.allplayers.hasOwnProperty(i))
+                        return;
+
                     try {
-                        const steamid = i
-                        const data = await this.$axios.get(`/player/${steamid}`)
-                        this.playerCache[i] = data.data
+                        const data = await this.$axios.get(`/player/${i}`);
+                        this.playerCache[i] = data.data;
 
                         if (this.playerCache[i])
                             this.info.allplayers[i].name = this.playerCache[i].name
@@ -467,7 +451,7 @@ export default {
                     }
                 }
 
-                this.checkCache = false
+                this.checkCache = false;
 
                 setTimeout(() => this.checkCache = true, 30000)
             }

@@ -1,6 +1,6 @@
 <template>
     <div class='points-info'>
-        <div id='points-container' v-if="round.gameType == '5CP'">
+        <div id='points-container' v-if="round.gameType === '5CP'">
             <div class='point-info' v-for='i in 5' :key='i'>
                 <div class='point-ring-container'>
                     <div class="point-status-icon">
@@ -9,7 +9,7 @@
                     <div class='progress-point-ring' v-if='showPointRing[i - 1]'>
                         <vue-circle
                             class='point-progress-ring__circle'
-                            :progress="getCaputreProgress(i - 1)"
+                            :progress="getCaptureProgress(i - 1)"
                             :size="66.15"
                             :ref="`pointProgress${i - 1}`"
                             :reverse="isProgressReverse(i - 1)"
@@ -25,13 +25,13 @@
                         </vue-circle>
                     </div>
                     <svg class="point-ring" height="90" width="90" >
-                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
-                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" :fill="getPointFill(i - 1)" r="29" cx="45" cy="45" />
+                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45"></circle>
+                        <circle class="point-ring__circle" :stroke="getPointColor(i - 1)" stroke-width="8" :fill="getPointFill(i - 1)" r="29" cx="45" cy="45"></circle>
                     </svg>
                 </div>
             </div>
         </div>
-        <div id='points-container' v-else-if="round.gameType == 'KOTH'">
+        <div id='points-container' v-else-if="round.gameType === 'KOTH'">
             <div class='point-info'>
                 <div class='point-ring-container'>
                     <div class="point-status-icon">
@@ -40,7 +40,7 @@
                     <div class='progress-point-ring' v-if='showPointRing[0]'>
                         <vue-circle
                             class='point-progress-ring__circle'
-                            :progress="getCaputreProgress(0)"
+                            :progress="getCaptureProgress(0)"
                             :size="66"
                             :ref="`pointProgress0`"
                             :reverse="false"
@@ -56,8 +56,8 @@
                         </vue-circle>
                     </div>
                     <svg class="point-ring" height="90" width="90" >
-                        <circle class="point-ring__circle" :stroke="getPointColor(0)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45" />
-                        <circle class="point-ring__circle" :stroke="getPointColor(0)" stroke-width="8" :fill="getPointFill(0)" r="29" cx="45" cy="45" />
+                        <circle class="point-ring__circle" :stroke="getPointColor(0)" stroke-width="8" fill="rgba(0, 0, 0, 0.5)" r="29" cx="45" cy="45"></circle>
+                        <circle class="point-ring__circle" :stroke="getPointColor(0)" stroke-width="8" :fill="getPointFill(0)" r="29" cx="45" cy="45"></circle>
                     </svg>
                 </div>
             </div>
@@ -81,120 +81,74 @@ export default {
     },
     methods: {
         getPointColor (i) {
-            if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff`
-            if (this.round[`cap${i}`].cappedTeam == 3) return `#1180d6`
-            if (this.round[`cap${i}`].cappedTeam == 2) return `#e12c23`
+            const value = parseInt(this.round[`cap${i}`].cappedTeam);
+            if (value === 0) return `#ffffff`;
+            if (value === 3) return `#1180d6`;
+            if (value === 2) return `#e12c23`
         },
 
         getPointProgressColor (i) {
-            if (this.round[`cap${i}`].cappingTeam == 3) return { color: "#1180d6" }
-            if (this.round[`cap${i}`].cappingTeam == 2) return { color: "#e12c23" }
+            const value = parseInt(this.round[`cap${i}`].cappingTeam);
+            if (value === 3) return { color: "#1180d6" };
+            if (value === 2) return { color: "#e12c23" };
 
             return { color: 'rgba(0, 0, 0, 0)' }
         },
 
         getPointFill (i) {
-            if (this.round[`cap${i}`].cappedTeam == 0) return `#ffffff44`
-            if (this.round[`cap${i}`].cappedTeam == 3) return `#1180d644`
-            if (this.round[`cap${i}`].cappedTeam == 2) return `#d9190044`
+            const value = parseInt(this.round[`cap${i}`].cappedTeam);
+            if (value === 0) return `#ffffff44`;
+            if (value === 3) return `#1180d644`;
+            if (value === 2) return `#d9190044`
         },
 
-        setPointProgress (i, percent) {
-            const circumference = 182.12
-            const offset = circumference - percent / 100 * circumference
-            this.$refs[`pointProgressBar${i}`][0].style.strokeDashoffset = offset
-
-            console.log(i, percent, offset)
-        },
-
-        getPointClasses(i) {
-            return {
-                'point-owned-none': this.round[`cap${i}`].cappedTeam == 0,
-                'point-owned-blue': this.round[`cap${i}`].cappedTeam == 2,
-                'point-owned-red': this.round[`cap${i}`].cappedTeam == 3,
-                'point-locked': this.round[`cap${i}`].locked == 1,
-                'point-unlocked': this.round[`cap${i}`].locked == 0,
-                'point-blocked': this.round[`cap${i}`].locked == 1,
-                'point-unblocked': this.round[`cap${i}`].locked == 0
-            }
-        },
-
-        getCaputreProgress (i) {
-            let percentage = parseInt(parseFloat(this.round[`cap${i}`].percentage) * 100)
-            percentage = percentage < 0 ? 0 : percentage > 100 ? 100 : percentage
+        getCaptureProgress (i) {
+            let percentage = parseInt(parseFloat(this.round[`cap${i}`].percentage) * 100);
+            percentage = percentage < 0 ? 0 : percentage > 100 ? 100 : percentage;
             
             return percentage
         },
 
-        getCaputreProgressStyle (i) {
-            const percentage = this.getCaputreProgress(i)
-            
-            return {
-                'width': `${percentage}%`
-            }
-        },
-
-        getCaputreProgressClass (i) {
-            return {
-                'cap-progress-red': this.getCappingTeam(i) == 2,
-                'cap-progress-blue': this.getCappingTeam(i) == 3,
-            }            
-        },
-
-        getNumCapping(i) {
-            if (this.isCapping(i)) {
-                return this.round[`cap${i}`].playersOnCap
-            }
-        },
-
-        isCapping(i) {
-            return this.round[`cap${i}`].cappingTeam != 0 && this.round[`cap${i}`].playersOnCap != 0
-        },
-
-        getCappingTeam(i) {
-            return this.round[`cap${i}`].cappingTeam
-        },
-
         isPointLocked(i) {
-            if (this.round.gameType == '5CP') {
-                const point0 = this.round.cap0
-                const point1 = this.round.cap1
-                const point2 = this.round.cap2
-                const point3 = this.round.cap3
-                const point4 = this.round.cap4
+            if (this.round.gameType === '5CP') {
+                const point0 = this.round.cap0;
+                const point1 = this.round.cap1;
+                const point2 = this.round.cap2;
+                const point3 = this.round.cap3;
+                const point4 = this.round.cap4;
 
-                if (i == 0) {
-                    if (point0.cappedTeam == 3 && point1.cappedTeam == 3) {
+                if (i === 0) {
+                    if (parseInt(point0.cappedTeam) === 3 && parseInt(point1.cappedTeam) === 3) {
                         return true
                     }
-                } else if (i == 1) {
-                    if (point1.cappedTeam == 3 && point2.cappedTeam == 3) {
+                } else if (i === 1) {
+                    if (parseInt(point1.cappedTeam) === 3 && parseInt(point2.cappedTeam) === 3) {
                         return true
-                    } else if (point2.cappedTeam == 0) {
+                    } else if (parseInt(point2.cappedTeam) === 0) {
                         return true
-                    } else if (point0.cappedTeam == 2) {
-                        return true
-                    }
-                } else if (i == 2) {
-                    if (point2.cappedTeam == 3 && point3.cappedTeam == 3) {
-                        return true
-                    } else if (point2.cappedTeam == 2 && point1.cappedTeam == 2) {
+                    } else if (parseInt(point0.cappedTeam) === 2) {
                         return true
                     }
-                } else if (i == 3) {
-                    if (point3.cappedTeam == 2 && point2.cappedTeam == 2) {
+                } else if (i === 2) {
+                    if (parseInt(point2.cappedTeam) === 3 && parseInt(point3.cappedTeam) === 3) {
                         return true
-                    } else if (point2.cappedTeam == 0) {
-                        return true
-                    } else if (point4.cappedTeam == 3) {
+                    } else if (parseInt(point2.cappedTeam) === 2 && parseInt(point1.cappedTeam) === 2) {
                         return true
                     }
-                } else if (i == 4) {
-                    if (point4.cappedTeam == 2 && point3.cappedTeam == 2) {
+                } else if (i === 3) {
+                    if (parseInt(point3.cappedTeam) === 2 && parseInt(point2.cappedTeam) === 2) {
+                        return true
+                    } else if (parseInt(point2.cappedTeam) === 0) {
+                        return true
+                    } else if (parseInt(point4.cappedTeam) === 3) {
+                        return true
+                    }
+                } else if (i === 4) {
+                    if (parseInt(point4.cappedTeam) === 2 && parseInt(point3.cappedTeam) === 2) {
                         return true
                     }
                 } 
-            } else if (this.round.gameType == 'KOTH') {
+            } else if (this.round.gameType === 'KOTH') {
                 if (this.round.cap0.unlockTime > 0)
                     return true
             }
@@ -203,42 +157,42 @@ export default {
         },
 
         getPointStatus(i) {
-            const point = this.round[`cap${i}`]
+            const point = this.round[`cap${i}`];
+            const playersOnCap = parseInt(point.playersOnCap);
 
-            if (this.isPointLocked(i) == 1) {
+            if (this.isPointLocked(i)) {
                 return this.$parent.controlPointIcons.locked
-            } else if (point.playersOnCap == 1) {
+            } else if (playersOnCap === 1) {
                 return this.$parent.controlPointIcons.oneOnPoint
-            } else if (point.playersOnCap == 2) {
+            } else if (playersOnCap === 2) {
                 return this.$parent.controlPointIcons.twoOnPoint
-            } else if (point.playersOnCap >= 3) {
+            } else if (playersOnCap >= 3) {
                 return this.$parent.controlPointIcons.threeOnPoint
             }
         },
 
         isProgressReverse(i) {
-            if (this.round[`cap${i}`].cappingTeam == 3) return true
-            else return false
+            return (parseInt(this.round[`cap${i}`].cappingTeam) === 3);
         }
     },
 
     updated () { 
-        if (this.round.gameType == '5CP') {
+        if (this.round.gameType === '5CP') {
             for (let i = 0; i < 5; i++) {
-                const perc = this.getCaputreProgress(i)
+                const percentage = parseFloat(this.getCaptureProgress(i));
 
-                if (perc == 0) {
+                if (percentage === 0) {
                     this.showPointRing[i] = false;
                 } else {                
                     this.showPointRing[i] = true;
                     this.$refs[`pointProgress${i}`][0].updateProgress(perc);
                 }
             }
-        } else if (this.round.gameType == 'KOTH') {
-            const i = 0
-            const perc = this.getCaputreProgress(i)
+        } else if (this.round.gameType === 'KOTH') {
+            const i = 0;
+            const percentage = parseFloat(this.getCaptureProgress(i));
 
-            if (perc == 0) {
+            if (percentage === 0) {
                 this.showPointRing[i] = false;
             } else {                
                 this.showPointRing[i] = true;

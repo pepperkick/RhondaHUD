@@ -1,6 +1,6 @@
 <template>
     <div class="player-info-container">
-        <div class='player-stats-container align-side-blu' v-if='player.team == 3'>
+        <div class='player-stats-container align-side-blu' v-if='parseInt(player.team) === 3'>
             <div class="player-info" :class="{ 'player-main-info-glow': active }" >
                 <div class="player-health-info">
                     <div class='player-health-bar-container'>
@@ -15,7 +15,7 @@
                         <div class='info-row-1 player-name'>
                             <span>{{ getName() }}</span>
                         </div>
-                        <div class='info-row-2 player-stats' v-if="player.class == 5">
+                        <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
                             <span>D {{ player.deaths }}</span>
                             <span v-if="player.assists">A {{ player.assists }}</span>
                             <span>H {{ player.healing }}</span>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="player-health">
                         <img class='health-effect-icon' :src='getHealthEffectIcon()' />
-                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>    
+                        <span :class='getHealthClass()'>{{ parseInt(player.alive) === 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
                     </div>     
                 </div>
             </div>
@@ -36,15 +36,15 @@
                 <div class='player-status-icons'>
                     <!-- <img class='player-status-icon' v-for='(i, index) in statusEffects' :key='index' :src='i' /> -->
                 </div>
-                <img class='player-weapon-icon' :src='GetWeaponIcon()' />
+                <img class='player-weapon-icon' :src='GetWeaponIcon' />
             </div>
         </div>
-        <div class='player-stats-container align-side-red' v-if='player.team == 2'>
+        <div class='player-stats-container align-side-red' v-if='parseInt(player.team) === 2'>
             <div class='player-extra-stats' v-if='player.alive'>
                 <div class='player-status-icons'>
                     <!-- <img class='player-status-icon' v-for='(i, index) in statusEffects' :key='index' :src='i' /> -->
                 </div>
-                <img class='player-weapon-icon' :src='GetWeaponIcon()' />
+                <img class='player-weapon-icon' :src='GetWeaponIcon' />
             </div>
             <div class="player-info" :class="{ 'player-main-info-glow': active }" >
                 <div class="player-health-info">
@@ -56,14 +56,14 @@
                 </div>
                 <div class='player-main-info'>
                     <div class="player-health">
-                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>    
+                        <span :class='getHealthClass()'>{{ parseInt(player.alive) === 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
                         <img class='health-effect-icon' :src='getHealthEffectIcon()' />
                     </div>     
                     <div class='player-basic-info'>
                         <div class='info-row-1 player-name'>
                             <span>{{ getName() }}</span>
                         </div>
-                        <div class='info-row-2 player-stats' v-if="player.class == 5">
+                        <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
                             <span>H {{ player.healing }}</span>
                             <span v-if="player.assists">A {{ player.assists }}</span>
                             <span>D {{ player.deaths }}</span>
@@ -82,20 +82,6 @@
 </template>
 
 <script>
-import { isArray } from 'util';
-
-function isArrayEqual(arr1, arr2) {
-    if (!isArray(arr1) || !isArray(arr2)) return false
-
-    if (arr1.length !== arr2.length) return false
-
-    for (let i in arr1) {
-        if (arr1[i] !== arr2[i]) return false
-    }
-
-    return true
-}
-
 export default {
     props: [ 'player', 'active' ],
     data () {
@@ -106,8 +92,8 @@ export default {
     },
     methods: {
         getName () {
-            const player = this.player
-            const cache = this.$parent.$parent.playerCache
+            const player = this.player;
+            const cache = this.$parent.$parent.playerCache;
 
             if (cache[player.steamid]) {
                 return cache[player.steamid].name
@@ -118,24 +104,25 @@ export default {
 
         getClass () {
             const player = this.player;
+            const value = parseInt(player.class);
 
-            if (player.class == 1) return "Scout"
-            else if (player.class == 2) return "Sniper"
-            else if (player.class == 3) return "Soldier"
-            else if (player.class == 4) return "Demoman"
-            else if (player.class == 5) return "Medic"
-            else if (player.class == 6) return "Heavy"
-            else if (player.class == 7) return "Pyro"
-            else if (player.class == 8) return "Spy"
-            else if (player.class == 9) return "Engineer"
+            if (value === 1) return "Scout";
+            else if (value === 2) return "Sniper";
+            else if (value === 3) return "Soldier";
+            else if (value === 4) return "Demoman";
+            else if (value === 5) return "Medic";
+            else if (value === 6) return "Heavy";
+            else if (value === 7) return "Pyro";
+            else if (value === 8) return "Spy";
+            else if (value === 9) return "Engineer";
             else return "Unknown"
         },
         
         getBarWidth() {
-            if (this.player.alive == 1) {
-                let width = (parseInt(this.player.health) / parseInt(this.player.maxHealth)) * 100
+            if (this.player.alive) {
+                let width = (parseInt(this.player.health) / parseInt(this.player.maxHealth)) * 100;
 
-                if (width > 100) width = 100
+                if (width > 100) width = 100;
 
                 return `${parseInt(width)}%`
             }
@@ -143,16 +130,16 @@ export default {
         }, 
         
         getOverhealBarWidth() {
-            const overheal = [ 0, 185, 185, 300, 260, 225, 450, 260, 185, 185 ]
+            const overheal = [ 0, 185, 185, 300, 260, 225, 450, 260, 185, 185 ];
 
-            if (this.player.alive == 1 && parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
-                const maxoverheal = overheal[this.player.class]
-                const overhealth = maxoverheal - parseInt(this.player.maxHealth)
-                const curoverhealth = parseInt(this.player.health) - parseInt(this.player.maxHealth)
+            if (this.player.alive && parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
+                const maxoverheal = overheal[this.player.class];
+                const overhealth = maxoverheal - parseInt(this.player.maxHealth);
+                const curoverhealth = parseInt(this.player.health) - parseInt(this.player.maxHealth);
 
-                let width = (curoverhealth / overhealth) * 100
+                let width = (curoverhealth / overhealth) * 100;
 
-                if (width > 100) width = 100
+                if (width > 100) width = 100;
 
                 return `${parseInt(width)}%`
             }
@@ -161,16 +148,16 @@ export default {
         },
 
         getHealthEffectIcon () {
-            if (this.player.alive == 1) {
+            if (this.player.alive) {
                 if (this.player.isUbered) {
-                    if (this.player.team == 3) 
-                        return this.$parent.bluUberedIcon
-                    else if (this.player.team == 2) 
+                    if (parseInt(this.player.team) === 3)
+                        return this.$parent.bluUberedIcon;
+                    else if (parseInt(this.player.team) === 2)
                         return this.$parent.redUberedIcon
                 }
                     
-                if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
-                    return this.$parent.$parent.makredForDeathIcon
+                if (this.player.weapon && parseInt(this.player.weapon.index) === 775 && this.player.isAllySpeedBuffed) {
+                    return this.$parent.$parent.markedForDeathIcon
                 }
 
                 if (this.player.isBleeding) {
@@ -184,7 +171,7 @@ export default {
         },
 
         getHealthClass () {
-            if (this.player.alive == 1) {
+            if (this.player.alive) {
                 return {
                     'overhealed-color': parseInt(this.player.health) > parseInt(this.player.maxHealth)
                 }
@@ -192,45 +179,27 @@ export default {
         },
 
         GetWeaponIcon () {
-            if (this.player.alive == 0) return
+            if (this.player.alive) return;
 
-            const wepindex = this.player.weapon.index
-            const wepclass = this.player.weapon.class
+            const wepindex = this.player.weapon.index;
+            const wepclass = this.player.weapon.class;
 
             if (this.$parent.$parent.weaponIcons[wepclass]) {
-                if (this.$parent.$parent.weaponIcons[wepclass][wepindex]) return this.$parent.$parent.weaponIcons[wepclass][wepindex]
+                if (this.$parent.$parent.weaponIcons[wepclass][wepindex]) return this.$parent.$parent.weaponIcons[wepclass][wepindex];
                 else return this.$parent.$parent.weaponIcons[wepclass][0]
             }
         },
 
-        GetStatusEffects() {
-            if (this.player.isAlive == 0) return
-
-            const effects = []
-
-            if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
-                effects.push(this.$parent.$parent.makredForDeathIcon)
-            }
-
-            if (!isArrayEqual(effects, this.statusEffects)) {
-                this.statusEffects = effects
-            }
-        },
-
         getDamage () {
-            const tDmg = this.player.totalDamage || this.player.damage
-            const matchtime = this.$parent.$parent.info.round.matchTimeLeft
-            const offset = this.$parent.$parent.config.matchTimeLeftOffset
-            const time = (30 * 60) - matchtime - offset
-            const mins = time / 60
+            const tDmg = this.player.totalDamage || this.player.damage;
+            const matchtime = this.$parent.$parent.info.round.matchTimeLeft;
+            const offset = this.$parent.$parent.config.matchTimeLeftOffset || 0;
+            const time = (30 * 60) - matchtime - offset;
+            const mins = time / 60;
 
-            if (mins > 0) return `DPM ${parseInt(tDmg / mins)}`
+            if (mins > 0) return `DPM ${parseInt(tDmg / mins)}`;
             else return `DPM 0`
         }
-    },
-
-    updated () {
-        // this.GetStatusEffects()
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="uber-info align-side-blu" v-if='player.team == 3'>
+        <div class="uber-info align-side-blu" v-if='parseInt(player.team) === 3'>
             <div class="uber-info-container">
                 <div class="uber-health-info">
                     <div class='uber-health-bar uber-bar-blu' :style='{ width: getBarWidth() }'></div>
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="uber-info align-side-red" v-if='player.team == 2'>
+        <div class="uber-info align-side-red" v-if='parseInt(player.team) === 2'>
             <div class="uber-info-container">
                 <div class="uber-health-info">
                     <div class='uber-health-bar uber-bar-red' :style='{ width: getBarWidth() }'></div>
@@ -46,23 +46,8 @@ export default {
         }    
     },
     methods: {
-        getClass () {
-            const player = this.player;
-
-            if (player.class == 1) return "Scout"
-            else if (player.class == 2) return "Sniper"
-            else if (player.class == 3) return "Soldier"
-            else if (player.class == 4) return "Demoman"
-            else if (player.class == 5) return "Medic"
-            else if (player.class == 6) return "Heavy"
-            else if (player.class == 7) return "Pyro"
-            else if (player.class == 8) return "Spy"
-            else if (player.class == 9) return "Engineer"
-            else return "Unknown"
-        },
-        
         getBarWidth() {
-            if (this.player.alive == 1) {
+            if (this.player.alive) {
                 let width = this.player.medigun.charge * 100;
 
                 if (width > 100) width = 100;
@@ -72,15 +57,15 @@ export default {
 
             return "0%"
         },
-        
+
         GetMedigunName() {
-            const medigun = this.player.medigun.type
+            const medigun = this.player.medigun.type;
 
             switch (medigun) {
-                case 'Unknown': return 'MediGun'
-                case 'MediGun': return 'MediGun'
-                case 'Kritzkrieg': return 'Kritzkrieg'
-                case 'QuickFix': return 'QuickFix'
+                case 'Unknown': return 'MediGun';
+                case 'MediGun': return 'MediGun';
+                case 'Kritzkrieg': return 'Kritzkrieg';
+                case 'QuickFix': return 'QuickFix';
                 case 'Vaccinator': return 'Vaccinator'
             }
         }

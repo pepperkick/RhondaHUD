@@ -2,14 +2,14 @@
     <div class="player-center-info">
         <div class='player-center-health-info'>
             <div class='player-center-health-bar-container '>
-                <div class='player-center-health-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}' :style='{ width: getBarWidth() }'></div>
+                <div class='player-center-health-bar' :class='{ "team-red-color": parseInt(player.team) === 2, "team-blue-color": parseInt(player.team) === 3}' :style='{ width: getBarWidth() }'></div>
                 <div class='player-center-health-bar-delay' :style='{ width: getBarWidth() }'></div>
             </div>
-            <div class='player-center-healthover-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}' :style='{ width: getOverhealBarWidth() }'></div>
+            <div class='player-center-healthover-bar' :class='{ "team-red-color": parseInt(player.team) === 2, "team-blue-color": parseInt(player.team) === 3}' :style='{ width: getOverhealBarWidth() }'></div>
         </div>
         <div class='player-center-main-info'>
             <div class='player-center-basic-info'>
-                <div class='flex flex-colum info-row-1'>
+                <div class='flex info-row-1'>
                     <img class='player-center-class' :src='$parent.classIcons[player.class]' />        
                     <img :class='{ "player-center-disguise-class": getDisguiseClassIcon() }' :src='getDisguiseClassIcon()' />          
                     <div class='player-center-name'>
@@ -17,11 +17,11 @@
                     </div>
                     <div class="player-center-health">   
                         <img class='center-health-effect-icon' :src='getHealthEffectIcon()' />
-                        <span :class='getHealthClass()'>{{ player.alive == 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span> 
+                        <span :class='getHealthClass()'>{{ parseInt(player.alive) === 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
                     </div>     
                 </div>
                 <div class='info-row-2'>
-                    <div class='player-center-stats' v-if="player.class == 5">
+                    <div class='player-center-stats' v-if="parseInt(player.class) === 5">
                         <span>D {{ player.deaths }}</span>
                         <span v-if="player.assists">A {{ player.assists }}</span>
                         <span>H {{ player.healing }}</span>
@@ -42,7 +42,7 @@
                 </div>
             </div>      
         </div>
-        <div class='player-center-bottom-bar' :class='{ "team-red-color": player.team == 2, "team-blue-color": player.team == 3}'></div>
+        <div class='player-center-bottom-bar' :class='{ "team-red-color": parseInt(player.team) === 2, "team-blue-color": parseInt(player.team) === 3}'></div>
     </div>
 </template>
 
@@ -51,8 +51,8 @@ export default {
     props: ["player"],
     methods: {
         getName () {
-            const player = this.player
-            const cache = this.$parent.playerCache
+            const player = this.player;
+            const cache = this.$parent.playerCache;
 
             if (cache[player.steamid]) {
                 return cache[player.steamid].name
@@ -63,21 +63,22 @@ export default {
 
         getClass () {
             const player = this.player;
+            const value = parseInt(player.class);
 
-            if (player.class == 1) return "Scout";
-            else if (player.class == 2) return "Sniper";
-            else if (player.class == 3) return "Soldier";
-            else if (player.class == 4) return "Demoman";
-            else if (player.class == 5) return "Medic";
-            else if (player.class == 6) return "Heavy";
-            else if (player.class == 7) return "Pyro";
-            else if (player.class == 8) return "Spy";
-            else if (player.class == 9) return "Engineer";
+            if (value === 1) return "Scout";
+            else if (value === 2) return "Sniper";
+            else if (value === 3) return "Soldier";
+            else if (value === 4) return "Demoman";
+            else if (value === 5) return "Medic";
+            else if (value === 6) return "Heavy";
+            else if (value === 7) return "Pyro";
+            else if (value === 8) return "Spy";
+            else if (value === 9) return "Engineer";
             else return "Unknown"
         },
 
         getDisguiseClassIcon() {
-            if (this.player.class == 8 && this.player.disguise.class > 0) {
+            if (parseInt(this.player.class) === 8 && parseInt(this.player.disguise.class) > 0) {
                 return this.$parent.classIcons[this.player.disguise.class]
             }
 
@@ -85,7 +86,7 @@ export default {
         },
         
         getBarWidth() {
-            if (this.player.alive == 1) {
+            if (this.player.alive) {
                 let width = (this.player.health / this.player.maxHealth) * 100;
 
                 if (width > 100) width = 100;
@@ -97,16 +98,16 @@ export default {
         },
         
         getOverhealBarWidth() {
-            const overheal = [ 0, 185, 185, 300, 260, 225, 450, 260, 185, 185 ]
+            const overheal = [ 0, 185, 185, 300, 260, 225, 450, 260, 185, 185 ];
 
-            if (this.player.alive == 1 && parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
-                const maxoverheal = overheal[this.player.class]
-                const overhealth = maxoverheal - parseInt(this.player.maxHealth)
-                const curoverhealth = parseInt(this.player.health) - parseInt(this.player.maxHealth)
+            if (this.player.alive && parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
+                const maxoverheal = overheal[this.player.class];
+                const overhealth = maxoverheal - parseInt(this.player.maxHealth);
+                const curoverhealth = parseInt(this.player.health) - parseInt(this.player.maxHealth);
 
-                let width = (curoverhealth / overhealth) * 100
+                let width = (curoverhealth / overhealth) * 100;
 
-                if (width > 100) width = 100
+                if (width > 100) width = 100;
 
                 return `${parseInt(width)}%`
             }
@@ -115,16 +116,16 @@ export default {
         },
 
         getHealthEffectIcon () {
-            if (this.player.alive == 1) {
+            if (this.player.alive) {
                 if (this.player.isUbered) {
-                    if (this.player.team == 3) 
-                        return this.$parent.bluUberedIcon
-                    else if (this.player.team == 2) 
+                    if (parseInt(this.player.team) === 3)
+                        return this.$parent.bluUberedIcon;
+                    else if (parseInt(this.player.team) === 2)
                         return this.$parent.redUberedIcon
                 }
                     
-                if (this.player.weapon && this.player.weapon.index == 775 && this.player.isAllySpeedBuffed) {
-                    return this.$parent.makredForDeathIcon
+                if (this.player.weapon && parseInt(this.player.weapon.index) === 775 && this.player.isAllySpeedBuffed) {
+                    return this.$parent.markedForDeathIcon
                 }
 
                 if (this.player.isBleeding) {
@@ -138,7 +139,7 @@ export default {
         },
 
         getHealthClass () {
-            if (this.player.alive == 1) {
+            if (this.player.alive) {
                 return {
                     'overhealed-color': parseInt(this.player.health) > parseInt(this.player.maxHealth)
                 }
@@ -146,15 +147,15 @@ export default {
         },
 
         getAmmo () {
-            if (this.player.alive == 0) return `- / -`
+            if (!this.player.alive) return `- / -`;
 
-            const pclass = this.player.class
-            const clip = this.player.weapon.clip1 == -1 ? '-' : this.player.weapon.clip1
-            const reserve = this.player.weapon.reserve == -1 ? '-' : this.player.weapon.reserve
+            const pclass = parseInt(this.player.class);
+            const clip = parseInt(this.player.weapon.clip1) === -1 ? '-' : this.player.weapon.clip1;
+            const reserve = parseInt(this.player.weapon.reserve) === -1 ? '-' : this.player.weapon.reserve;
 
-            if (pclass == 5 && this.player.weapon.class == 'CWeaponMedigun') {
+            if (pclass === 5 && this.player.weapon.class === 'CWeaponMedigun') {
                 return `${parseInt(this.player.medigun.charge * 100)}%`
-            } else if (pclass == 2 && this.player.weapon.class == 'CTFSniperRifle') {
+            } else if (pclass === 2 && this.player.weapon.class === 'CTFSniperRifle') {
                 return `${reserve}`
             } else {
                 return `${clip} / ${reserve}`
@@ -162,13 +163,13 @@ export default {
         },
 
         getDamage () {
-            const tDmg = this.player.totalDamage || this.player.damage
-            const matchtime = this.$parent.info.round.matchTimeLeft
-            const offset = this.$parent.config.matchTimeLeftOffset
-            const time = (30 * 60) - matchtime - offset
-            const mins = time / 60
+            const tDmg = this.player.totalDamage || this.player.damage;
+            const matchtime = this.$parent.info.round.matchTimeLeft;
+            const offset = this.$parent.config.matchTimeLeftOffset || 0;
+            const time = (30 * 60) - matchtime - offset;
+            const mins = time / 60;
 
-            if (mins > 0) return `DPM ${parseInt(tDmg / mins)}`
+            if (mins > 0) return `DPM ${parseInt(tDmg / mins)}`;
             else return `DPM 0`
         }
     }

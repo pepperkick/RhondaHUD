@@ -60,10 +60,10 @@ export default {
 
     methods: {
         async update () {
-            this.players = []
+            this.players = [];
 
             try {
-                const players = await this.$axios.get('/player')
+                const players = await this.$axios.get('/player');
 
                 this.players = players.data
             } catch (error) {
@@ -72,12 +72,12 @@ export default {
         },
         
         async openEditDialog (index) {
-            await this.update()
+            await this.update();
 
-            this.index = index
+            this.index = index;
 
             if (index != -1) {
-                this.steamid = this.players[index].steamid
+                this.steamid = this.players[index].steamid;
                 this.name = this.players[index].name
             }
 
@@ -90,8 +90,8 @@ export default {
 
         async submitData () {
             try {
-                const steamid = this.steamid
-                const name = this.name
+                const steamid = this.steamid;
+                const name = this.name;
 
                 await this.$axios.post('/player', {
                     steamid, name
@@ -100,20 +100,20 @@ export default {
                 console.log(error)
             }
 
-            this.editDialog = false
+            this.editDialog = false;
 
             await this.update()
         },
 
         validateData () {
-            if (this.steamid != '' && this.name != '') return true
+            if (this.steamid != '' && this.name != '') return true;
 
             return false
         },
 
         async deleteMessage (i) {
-            const id = this.players[i].steamid
-            await this.$axios.delete(`/player/${id}`)
+            const id = this.players[i].steamid;
+            await this.$axios.delete(`/player/${id}`);
             await this.update()
         },
     },

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "electron": "cross-env NODE_ENV=production electron electron/main.js",
+    "electron": "electron electron/main.js",
     "server": "cross-env NODE_ENV=production node server/main.js",
     "build-vue": "vue-cli-service build",
     "build-electron": "electron-packager . RhondaHUD --platform=win32 --arch=ia32",
