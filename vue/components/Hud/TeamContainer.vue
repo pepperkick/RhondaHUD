@@ -25,8 +25,8 @@ export default {
     data () {
         return {
             sortedPlayers: null,
-            bluMeidc: null,
-            redMeidc: null,
+            bluMedic: null,
+            redMedic: null,
         }
     },
     watch: {
@@ -38,8 +38,8 @@ export default {
 
                 if (!this.players || this.players.length === 0) {
                     this.sortedPlayers = null;
-                    this.bluMeidc = null;
-                    this.redMeidc = null;
+                    this.bluMedic = null;
+                    this.redMedic = null;
 
                     return
                 }
