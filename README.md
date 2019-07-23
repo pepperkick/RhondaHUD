@@ -16,29 +16,6 @@ npm install -g yarn npx
 yarn install
 ```
 
-## Server
-
-Server communicates with GSI for data and handles all the store data for the HUD.
-This must run on the same PC as GSI and TF2
-
-### Run
-
-```bash
-yarn server
-
-# Or for development server
-yarn dev-server
-```
-
-### Config
-
-```json
-"server": {
-    "socket_port": 5510,        // Socket port for communication with HUD
-    "api_port": 5515            // API port for storing data
-}
-```
-
 ### Collections
 
 The server uses NeDB to store all the data of the HUD
@@ -88,14 +65,11 @@ Webhud will try to connect with the server at `localhost:5510` and `localhost:55
 To change this, goto `vue.config.js` and change the values of the following and rebuild
 
 ```js
-process.env.VUE_APP_SERVER_HOST;            // Host location of server
-process.env.VUE_APP_SERVER_SOCKET_PORT;     // Socket port of server
-process.env.VUE_APP_SERVER_API_PORT;        // API port of server
 process.env.VUE_APP_ELECTRON_HOST;          // Host location of electron (required if running webhud inside electron)
 process.env.VUE_APP_ELECTRON_SOCKET_PORT;   // Socket port of electron (required if running webhud inside electron)
 ```
 
-## electron
+## Electron
 
 ### Run
 

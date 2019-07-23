@@ -11,11 +11,6 @@
         "host": "localhost",
         "socket_port": 5530
     },
-    "server": {
-        "host": "localhost",
-        "socket_port": 5510,
-        "api_port": 5515
-    },
     "vue": {
         "host": "localhost",
         "port": 5520

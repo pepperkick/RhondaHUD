@@ -117,7 +117,7 @@ export default {
     },
 
     async created () {
-        this.update()
+        // this.update()
     }
 }
 </script>
