@@ -103,7 +103,7 @@ export default {
                 name = player.name;
             }
 
-            if (name.length > 18) {
+            if (name.length > 15) {
                 name = `${name.substring(0, 15)}...`;
             }
 
