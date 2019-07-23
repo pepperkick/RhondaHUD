@@ -40,7 +40,7 @@
                             <span>{{ val }}</span>
                         </label>
                     </div>
-                    <div class="field" v-if="requriedMessage()">
+                    <div class="field" v-if="requiredMessage()">
                         <label class="input-label">Message</label>
                         <input class="input" type="text" v-model="message" />
                     </div>
@@ -80,23 +80,14 @@ export default {
             selectedType: -1,
             index: -1,
             message: '',
-            delay: ''
+            delay: 8
         }
     },
 
     methods: { 
         async update () {
-            try {
-                const announcements = await this.$axios.get('/config/announcements');
-                const announcementsDelay = await this.$axios.get('/config/announcementsDelay');
-
-                if (announcements.data.length > 0)
-                    this.announcements = announcements.data;
-
-                this.delay = announcementsDelay.data || 30
-            } catch (error) {
-                console.log(error)
-            }
+            this.announcements = this.$parent.config.announcements || [];
+            this.delay = this.$parent.config.announcementsDelay || 8;
         },
 
         async openEditDialog (index) {
@@ -146,12 +137,7 @@ export default {
         },
 
         async saveData () {
-            await this.$axios.post('/config', {
-                key: 'announcements',
-                value: this.announcements
-            });
-
-            await this.update()
+            this.$socket.emit('set-config', 'announcements', this.announcements);
         },
 
         validateData () {
@@ -166,7 +152,7 @@ export default {
             return false
         },
 
-        requriedMessage () {
+        requiredMessage () {
             if (this.selectedType > -1) {
                 if ([ 1, 2 ].includes(this.selectedType))
                     return true
@@ -204,12 +190,7 @@ export default {
         delay: {
             deep: true,
             async handler () {
-                await this.$axios.post('/config', {
-                    key: 'announcementsDelay',
-                    value: this.delay
-                });
-
-                await this.update()
+                this.$socket.emit('set-config', 'announcementsDelay', this.delay);
             }
         }
     }

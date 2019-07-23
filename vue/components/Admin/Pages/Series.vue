@@ -94,15 +94,10 @@ export default {
 
     methods: {
         async update () {
-            const bo = await this.$axios.get('/config/seriesBestOf');
-            const wins1 = await this.$axios.get('/config/seriesWinsTeamBlu');
-            const wins2 = await this.$axios.get('/config/seriesWinsTeamRed');
-            const timeLeftOffset = await this.$axios.get('/config/matchTimeLeftOffset');
-
-            this.selected = bo.data;
-            this.wins1 = wins1.data;
-            this.wins2 = wins2.data;
-            this.timeLeftOffset = timeLeftOffset.data || 0
+            this.selected = this.$parent.config.seriesBestOf || 5;
+            this.wins1 = this.$parent.config.seriesWinsTeamBlu || 0;
+            this.wins2 = this.$parent.config.seriesWinsTeamRed || 0;
+            this.timeLeftOffset = this.$parent.config.matchTimeLeftOffset || 0;
         }
     },
 
@@ -110,48 +105,28 @@ export default {
         selected: {
             deep: true,
             async handler () {
-                await this.$axios.post('/config', {
-                    key: 'seriesBestOf',
-                    value: this.selected
-                });
-
-                await this.update()
+                this.$socket.emit('set-config', 'seriesBestOf', this.selected);
             }
         },
 
         wins1: {
             deep: true,
             async handler () {
-                await this.$axios.post('/config', {
-                    key: 'seriesWinsTeamBlu',
-                    value: this.wins1
-                });
-
-                await this.update()
+                this.$socket.emit('set-config', 'seriesWinsTeamBlu', this.wins1);
             }
         },
 
         wins2: {
             deep: true,
             async handler () {
-                await this.$axios.post('/config', {
-                    key: 'seriesWinsTeamRed',
-                    value: this.wins2
-                });
-
-                await this.update()
+                this.$socket.emit('set-config', 'seriesWinsTeamRed', this.wins2);
             }
         },
 
         timeLeftOffset: {
             deep: true,
             async handler () {
-                await this.$axios.post('/config', {
-                    key: 'matchTimeLeftOffset',
-                    value: this.timeLeftOffset
-                });
-
-                await this.update()
+                this.$socket.emit('set-config', 'matchTimeLeftOffset', this.timeLeftOffset);
             }
         }
     },

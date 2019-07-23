@@ -17,16 +17,11 @@ var axiosInstance = axios.create({
 
 Vue.prototype.$axios = axiosInstance;
 
-Vue.use(new Socket({
-  connection: `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_SOCKET_PORT}`,
-  vuex: {
-    store,        
-    actionPrefix: 'SOCKET_',
-    mutationPrefix: 'SOCKET_'
-  }
-}));
-
 Vue.use(VueNativeSock, 'ws://localhost:5540', { protocol: 'game-data', format: 'json' });
+
+Vue.use(new Socket({
+  connection: `http://${process.env.VUE_APP_ELECTRON_HOST}:${process.env.VUE_APP_ELECTRON_SOCKET_PORT}`
+}));
 
 new Vue({
   router,

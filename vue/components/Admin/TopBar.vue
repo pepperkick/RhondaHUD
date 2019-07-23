@@ -1,6 +1,8 @@
 <template>
-    <div id='topbar'>
-        <div id="close-button" @click="closeWindow">
+    <div id="topbar-container">
+        <div id='drag-space'>
+        </div>
+        <div id="close-button" @click="closeWindow()">
             <span><i class='fas fa-times'></i></span>
         </div>
     </div>
@@ -10,21 +12,28 @@
 export default {
     methods: {
         closeWindow () {
-            this.$parent.socket.emit('admin-close', '')
+            console.log("click");
+            this.$socket.emit('admin-close');
         }
     }
 }
 </script>
 
 <style lang="less">
-    #topbar {
+    #topbar-container {
         position: fixed;
         top: 0; left: 0;
         width: 100vw;
         height: 32px;
-        background: @primary-color;
         display: flex;
-        -webkit-app-region: drag;
+        flex-direction: row;
+
+        #drag-space {
+            width: 100vw;
+            height: 100%;
+            background: @primary-color;
+            -webkit-app-region: drag;
+        }
 
         #close-button {
             width: 48px;
@@ -35,6 +44,7 @@ export default {
             display: flex;
             background: @red-team-color;
             cursor: pointer;
+            z-index: 5;
 
             span {
                 margin: auto;

@@ -20,20 +20,22 @@ import PlayerPage from '@/components/Admin/Pages/Player'
 import SeriesPage from '@/components/Admin/Pages/Series'
 import TickerPage from '@/components/Admin/Pages/Ticker'
 
-import io from 'socket.io-client'
-
 export default {
     components: { Sidebar, TopBar, TeamPage, PlayerPage, SeriesPage, TickerPage },
     data () {
         return {
-            socket: '',
             isElectron: false,
-            currentTab: 0
+            currentTab: 0,
+            config: {}
         }
     },
     created () {
-        this.socket = io(`http://${process.env.VUE_APP_ELECTRON_HOST}:${process.env.VUE_APP_ELECTRON_SOCKET_PORT}`);
         this.isElectron = this.$route.query.electron
+    },
+    sockets: {
+        config (data) {
+            this.config = data
+        }
     }
 }
 </script>

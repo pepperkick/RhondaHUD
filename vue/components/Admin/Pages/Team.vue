@@ -75,32 +75,13 @@ export default {
 
     methods: {        
         async Update () {
-            // const active_red = await this.$axios.get('/config/active_teamred')
-            // const active_blu = await this.$axios.get('/config/active_teamblu')
-
-            // const allteams = await this.$axios.get('/team')
-            // const teamred = await this.$axios.get(`/team/${active_red.data}`)
-            // const teamblu = await this.$axios.get(`/team/${active_blu.data}`)
-
-            // this.teams = allteams.data
-
-            const active_red = await this.$axios.get('/config/teamred_name');
-            const active_blu = await this.$axios.get('/config/teamblu_name');
-
-            this.team.red.name = active_red.data;
-            this.team.blu.name = active_blu.data
+            this.team.red.name = this.$parent.config.teamred_name || 'Team RED';
+            this.team.blu.name = this.$parent.config.teamblu_name || 'Team BLU';
         },
 
         async submitData () {
-            await this.$axios.post('/config', {
-                key: 'teamred_name',
-                value: this.team.red.name || ''
-            });
-
-            await this.$axios.post('/config', {
-                key: 'teamblu_name',
-                value: this.team.blu.name || ''
-            })
+            this.$socket.emit('set-config', 'teamred_name', this.team.red.name || '');
+            this.$socket.emit('set-config', 'teamblu_name', this.team.blu.name || '');
         },
 
         // async OpenTeamList () {

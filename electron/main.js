@@ -2,10 +2,14 @@ const { app, BrowserWindow, globalShortcut} = require('electron');
 const config = require('config');
 const debug = require('debug');
 const io = require('socket.io')(config.get('electron.socket_port'));
+const lowdb = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 
 const log = debug('app:main');
 const hudUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}`;
 const adminUrl = `${hudUrl}/admin?electron=true`;
+const adapter = new FileSync('db.json');
+const db = lowdb(adapter);
 
 const hudOptions = {
     width: config.get("electron.hud.width"),
@@ -31,8 +35,12 @@ const adminOptions = {
     resizable: false,
 };
 
-
-let mouseIgnored = false;
+db.defaults({ players: [],  teams: [],
+    config: {
+        announcements: [],
+        announcementsDelay: 8
+    }
+}).write();
 
 app.on('ready', () => {
     const overlay = new BrowserWindow(hudOptions);
@@ -44,48 +52,41 @@ app.on('ready', () => {
     admin.loadURL(adminUrl);
     admin.hide();
 
-    mouseIgnored = true;
-
     if (process.env.NODE_ENV === 'development') {
         globalShortcut.register('Alt+A', () => {
-            overlay.toggleDevTools()
-
-            // if (mouseIgnored)
-            //     overlay.setIgnoreMouseEvents(false)
-            // else
-            //     overlay.setIgnoreMouseEvents(true)
+            overlay.toggleDevTools();
         });
 
         globalShortcut.register('Alt+W', () => {
-            admin.toggleDevTools()
+            admin.toggleDevTools();
         });
     }
 
     globalShortcut.register('Alt+R', () => {
-        admin.reload()
+        admin.reload();
     });
 
     globalShortcut.register('Alt+D', () => {
-        overlay.reload()
+        overlay.reload();
     });
 
     globalShortcut.register('Alt+S', () => {
-        overlay.minimize()
+        overlay.minimize();
     });
 
     globalShortcut.register('Alt+Q', () => {
         if (overlay.isVisible()) {
-            overlay.hide()
+            overlay.hide();
         } else {
-            overlay.show()
+            overlay.show();
         }
     });
 
     globalShortcut.register('Alt+E', () => {
         if (admin.isVisible()) {
-            admin.hide()
+            admin.hide();
         } else {
-            admin.show()
+            admin.show();
         }
     });
 
@@ -93,8 +94,22 @@ app.on('ready', () => {
         log('Client connected');
 
         client.on('admin-close', () => {
-            console.log('Admin Close Event');
             admin.hide()
-        })
-    })
+        });
+
+        client.on('set-config', (key, value) => {
+            db.set(`config.${key}`, value).write();
+            updateConfig();
+        });
+
+        client.on('get-config', () => {
+            updateConfig();
+        });
+
+        updateConfig();
+    });
 });
+
+function updateConfig() {
+    io.sockets.emit('config', db.get('config').value());
+}

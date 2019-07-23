@@ -17,7 +17,7 @@
     components: { TeamContainer, TeamCenterPlayer, RoundInfo, ControlPoints },
     data () {
         return {
-            info: '',
+            info: {},
             config: '',
             playerCache: {},
             swap: false,
@@ -424,9 +424,6 @@
             checkCache: true
         }
     },
-    watch: {
-
-    },
     sockets: {
         config (data) {
             this.config = data
@@ -435,27 +432,29 @@
     beforeMount() {
         this.$options.sockets.onmessage = async (data) => {
             this.info = JSON.parse(data.data);
+
+            if (!this.info) return;
             
-            if (this.checkCache) {
-                for (let i in this.info.allplayers) {
-                    if (!this.info.allplayers.hasOwnProperty(i))
-                        return;
-
-                    try {
-                        const data = await this.$axios.get(`/player/${i}`);
-                        this.playerCache[i] = data.data;
-
-                        if (this.playerCache[i])
-                            this.info.allplayers[i].name = this.playerCache[i].name
-                    } catch (error) {
-                        console.log(error)
-                    }
-                }
-
-                this.checkCache = false;
-
-                setTimeout(() => this.checkCache = true, 30000)
-            }
+            // if (this.checkCache) {
+            //     for (let i in this.info.allplayers) {
+            //         if (!this.info.allplayers.hasOwnProperty(i))
+            //             return;
+            //
+            //         try {
+            //             const data = await this.$axios.get(`/player/${i}`);
+            //             this.playerCache[i] = data.data;
+            //
+            //             if (this.playerCache[i])
+            //                 this.info.allplayers[i].name = this.playerCache[i].name
+            //         } catch (error) {
+            //             console.log(error)
+            //         }
+            //     }
+            //
+            //     this.checkCache = false;
+            //
+            //     setTimeout(() => this.checkCache = true, 30000)
+            // }
         }
     }
 }
