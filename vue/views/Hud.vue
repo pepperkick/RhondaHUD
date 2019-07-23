@@ -413,6 +413,7 @@
             bluUberedIcon: require('@/assets/icons/status_effects/uber_blue.png'),
             markedForDeathIcon: require('@/assets/icons/status_effects/marked_for_death.png'),
             bleedingIcon: require('@/assets/icons/status_effects/bleed_drop.png'),
+            skullIcon: require('@/assets/icons/skull.png'),
             ammoIcon: require('@/assets/icons/ammo.png'),
             controlPointIcons: {
                 oneOnPoint: require('@/assets/icons/control_points/1s.png'),
