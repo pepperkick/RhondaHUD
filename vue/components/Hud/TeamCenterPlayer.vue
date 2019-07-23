@@ -10,7 +10,7 @@
         <div class='player-center-main-info'>
             <div class='player-center-basic-info'>
                 <div class='flex info-row-1'>
-                    <img class='player-center-class' :src='$parent.classIcons[player.class]' />        
+                    <img class='player-center-class' :src='player.alive ? $parent.classIcons[player.class] : $parent.skullIcon' />
                     <img :class='{ "player-center-disguise-class": getDisguiseClassIcon() }' :src='getDisguiseClassIcon()' />          
                     <div class='player-center-name'>
                         <span>{{ getName() }}</span>

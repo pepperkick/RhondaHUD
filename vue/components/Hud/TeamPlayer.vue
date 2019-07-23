@@ -10,7 +10,7 @@
                     <div class='player-healthover-bar' :style="{ width: getOverhealBarWidth() }"></div>
                 </div>
                 <div class='player-main-info'>
-                    <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />     
+                    <img class='player-class' :src='player.alive ? $parent.$parent.classIcons[player.class] : $parent.$parent.skullIcon' />
                     <div class='player-basic-info'>
                         <div class='info-row-1 player-name'>
                             <span>{{ getName() }}</span>
@@ -74,7 +74,7 @@
                             <span>K {{ player.kills }}</span>
                         </div>
                     </div>
-                    <img class='player-class' :src='$parent.$parent.classIcons[player.class]' />                
+                    <img class='player-class' :src='player.alive ? $parent.$parent.classIcons[player.class] : $parent.$parent.skullIcon' />
                 </div>
             </div>
         </div>
