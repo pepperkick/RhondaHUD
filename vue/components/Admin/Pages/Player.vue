@@ -22,7 +22,7 @@
         <div class='player-edit-dialog-container' v-if='editDialog'>
             <div class='player-edit-dialog'>
                 <div class='title'>
-                    <span v-if='index == -1'>Add Player</span>
+                    <span v-if='index === -1'>Add Player</span>
                     <span v-else>Edit Player</span>
                     <div class='actionbar'>
                         <span @click='closeEditDialog'><i class='fas fa-times'></i></span>
@@ -76,7 +76,7 @@ export default {
 
             this.index = index;
 
-            if (index != -1) {
+            if (index !== -1) {
                 this.steamid = this.players[index].steamid;
                 this.name = this.players[index].name
             }
@@ -106,9 +106,7 @@ export default {
         },
 
         validateData () {
-            if (this.steamid != '' && this.name != '') return true;
-
-            return false
+            return this.steamid !== '' && this.name !== '';
         },
 
         async deleteMessage (i) {

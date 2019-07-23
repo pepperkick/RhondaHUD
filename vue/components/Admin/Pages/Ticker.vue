@@ -24,7 +24,7 @@
         <div class='ticker-edit-dialog-container' v-if='editDialog'>
             <div class='ticker-edit-dialog'>
                 <div class='title'>
-                    <span v-if='index == -1'>Add Ticker</span>
+                    <span v-if='index === -1'>Add Ticker</span>
                     <span v-else>Edit Ticker</span>
                     <div class='actionbar'>
                         <span @click='closeEditDialog'><i class='fas fa-times'></i></span>
@@ -104,9 +104,9 @@ export default {
 
             this.index = index;
 
-            if (index != -1) {
+            if (index !== -1) {
                 for (let i in this.types) {
-                    if (this.types[i] == this.announcements[index].type) {
+                    if (this.types[i] === this.announcements[index].type) {
                         this.selectedType = i
                     }
                 }
@@ -124,11 +124,11 @@ export default {
         async submitData () {
             const type = this.types[this.selectedType];
             
-            if (this.selectedType == -1) return;
+            if (this.selectedType === -1) return;
 
-            if (this.selectedType > 0 && this.message == '') return;
+            if (this.selectedType > 0 && this.message === '') return;
 
-            if (this.index == -1) {
+            if (this.index === -1) {
                 if ([ 1, 2 ].includes(this.selectedType))
                     this.announcements.push({ type, message: this.message });
                 else
@@ -156,7 +156,7 @@ export default {
 
         validateData () {
             if (this.selectedType > -1) {
-                if (this.selectedType == 0)
+                if (this.selectedType === 0)
                     return true;
                 else if ([ 1, 2 ].includes(this.selectedType))
                     if (this.message !== '')
@@ -182,7 +182,7 @@ export default {
         },
 
         async moveUp (i) {
-            if (i == 0) return;
+            if (i === 0) return;
             this.announcements = array_move(this.announcements, i, i - 1);
 
             await this.saveData()
