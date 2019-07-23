@@ -36,7 +36,7 @@
                 <div class='player-status-icons'>
                     <!-- <img class='player-status-icon' v-for='(i, index) in statusEffects' :key='index' :src='i' /> -->
                 </div>
-                <img class='player-weapon-icon' :src='GetWeaponIcon' />
+                <img class='player-weapon-icon' :src='getWeaponIcon()' />
             </div>
         </div>
         <div class='player-stats-container align-side-red' v-if='parseInt(player.team) === 2'>
@@ -44,7 +44,7 @@
                 <div class='player-status-icons'>
                     <!-- <img class='player-status-icon' v-for='(i, index) in statusEffects' :key='index' :src='i' /> -->
                 </div>
-                <img class='player-weapon-icon' :src='GetWeaponIcon' />
+                <img class='player-weapon-icon' :src='getWeaponIcon()' />
             </div>
             <div class="player-info" :class="{ 'player-main-info-glow': active }" >
                 <div class="player-health-info">
@@ -186,8 +186,8 @@ export default {
             }
         },
 
-        GetWeaponIcon () {
-            if (this.player.alive) return;
+        getWeaponIcon () {
+            if (!this.player.alive) return;
 
             const wepindex = this.player.weapon.index;
             const wepclass = this.player.weapon.class;
