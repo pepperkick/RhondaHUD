@@ -30,6 +30,5 @@ Vue.use(VueNativeSock, 'ws://localhost:5540', { protocol: 'game-data', format: '
 
 new Vue({
   router,
-  store,
   render: function (h) { return h(App) }
 }).$mount('#app');
