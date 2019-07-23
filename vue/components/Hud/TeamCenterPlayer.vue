@@ -17,7 +17,7 @@
                     </div>
                     <div class="player-center-health">   
                         <img class='center-health-effect-icon' :src='getHealthEffectIcon()' />
-                        <span :class='getHealthClass()'>{{ parseInt(player.alive) === 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
+                        <span :class='getHealthClass()'>{{ player.alive ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
                     </div>     
                 </div>
                 <div class='info-row-2'>
@@ -54,11 +54,19 @@ export default {
             const player = this.player;
             const cache = this.$parent.playerCache;
 
+            let name;
+
             if (cache[player.steamid]) {
-                return cache[player.steamid].name
+                name = cache[player.steamid].name;
             } else {
-                return player.name
+                name = player.name;
             }
+
+            if (name.length > 18) {
+                name = `${name.substring(0, 15)}...`;
+            }
+
+            return name;
         },
 
         getClass () {

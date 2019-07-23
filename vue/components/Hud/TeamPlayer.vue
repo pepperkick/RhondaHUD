@@ -28,7 +28,7 @@
                     </div>
                     <div class="player-health">
                         <img class='health-effect-icon' :src='getHealthEffectIcon()' />
-                        <span :class='getHealthClass()'>{{ parseInt(player.alive) === 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
+                        <span :class='getHealthClass()'>{{ player.alive ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
                     </div>     
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 </div>
                 <div class='player-main-info'>
                     <div class="player-health">
-                        <span :class='getHealthClass()'>{{ parseInt(player.alive) === 1 ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
+                        <span :class='getHealthClass()'>{{ player.alive ? player.health : parseInt(player.respawnTime) > 0 ? `${parseInt(player.respawnTime)}s` : `1s` }}</span>
                         <img class='health-effect-icon' :src='getHealthEffectIcon()' />
                     </div>     
                     <div class='player-basic-info'>
@@ -95,11 +95,19 @@ export default {
             const player = this.player;
             const cache = this.$parent.$parent.playerCache;
 
+            let name;
+
             if (cache[player.steamid]) {
-                return cache[player.steamid].name
+                name = cache[player.steamid].name;
             } else {
-                return player.name
+                name = player.name;
             }
+
+            if (name.length > 18) {
+                name = `${name.substring(0, 15)}...`;
+            }
+
+            return name;
         },
 
         getClass () {
