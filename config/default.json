@@ -9,7 +9,8 @@
             "height": 960
         },
         "host": "localhost",
-        "socket_port": 5530
+        "socket_port": 5530,
+        "port": 5500
     },
     "vue": {
         "host": "localhost",

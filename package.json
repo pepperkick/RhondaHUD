@@ -1,12 +1,16 @@
 {
   "name": "rhondahud",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
+  "author": "PepperKick",
+  "description": "A WebHUD for TF2 based on custom GSI plugin",
+  "main": "electron/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "electron": "electron electron/main.js",
     "build-vue": "vue-cli-service build",
-    "build-electron": "electron-packager . RhondaHUD --platform=win32 --arch=ia32",
+    "pack-electron": "electron-builder --dir",
+    "dist-electron": "electron-builder",
     "dev-electron": "cross-env NODE_ENV=development DEBUG=app:* nodemon --watch electron --watch config --exec yarn electron",
     "dev-vue": "cross-env NODE_ENV=deveylopment DEBUG=app:* yarn serve"
   },
@@ -14,9 +18,10 @@
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "config": "^3.1.0",
+    "connect-history-api-fallback": "^1.6.0",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
-    "electron": "^5.0.5",
+    "electron-packager": "^14.0.2",
     "express": "^4.17.1",
     "image-webpack-loader": "^5.0.0",
     "json5": "^2.1.0",
@@ -37,8 +42,10 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "electron": "^5.0.5",
     "@vue/cli-service": "^3.8.0",
     "cross-env": "^5.2.0",
+    "electron-builder": "^21.1.1",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "nodemon": "^1.19.1",
@@ -47,5 +54,20 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "build": {
+    "appId": "com.pepperkick.rhondahud",
+    "productName": "RhondaHUD",
+    "win": {
+      "target": "portable",
+      "icon": "resources/icon.ico"
+    },
+    "files": [
+      "**/*",
+      {
+        "from": "dist/webhud",
+        "to": "dist/webhud"
+      }
+    ]
+  }
 }
