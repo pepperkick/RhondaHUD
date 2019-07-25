@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'development') {
     const config = require('config');
     hudUrl = `http://${config.get('vue.host')}:${config.get('vue.port')}`;
     adminUrl = `${hudUrl}/admin?electron=true`;
-    PORT = onfig.get('electron.port');
+    PORT = config.get('electron.port');
     SOCKET_PORT = config.get('electron.socket_port');
 }
 
