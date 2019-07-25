@@ -2,7 +2,7 @@
     <div class='container'>
         <TeamContainer :players='info.allplayers' :activePlayer='info.player' />
         <TeamCenterPlayer v-if='info.player' :player='info.allplayers[info.player.steamid]' />
-        <RoundInfo v-if='info.round' :round='info.round' :teams='info.teams' />
+        <RoundInfo v-if='info.round' :round='info.round' :teams='info.teams' ref="RoundInfo" />
         <ControlPoints v-if='info.round' :round='info.round' />
     </div>
 </template>
@@ -434,7 +434,7 @@
             this.info = JSON.parse(data.data);
 
             if (!this.info) return;
-            
+
             // if (this.checkCache) {
             //     for (let i in this.info.allplayers) {
             //         if (!this.info.allplayers.hasOwnProperty(i))

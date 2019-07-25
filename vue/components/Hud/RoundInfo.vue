@@ -2,9 +2,12 @@
     <div class='round-info'>
         <div class='match-info'>
             <div class="match-info-row-1">
-                <div class="team-name team1-name">{{ $parent.config.teamblu_name || 'Team BLU' }}</div>
-                <div class="team-score team1-score">
-                    <span class="team-score-text">{{ teams.team_blue.score }}</span>
+                <div class="team-info-container team1-info">
+                    <div class="team-name team1-name" ref="team1_name">{{ $parent.config.teamblu_name || 'Team BLU' }}</div>
+                    <div class="team-score team1-score">
+                        <span class="team-score-text">{{ teams.team_blue.score }}</span>
+                    </div>
+                    <div class="team-info-bg team1-bg" ref="team1_bg"></div>
                 </div>
                 <div class="timer-container timer-container-5cp" v-if="round.gameType === '5CP'">
                     <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft - parseInt(matchTimeLeftOffset)) }}</span>      
@@ -18,10 +21,13 @@
                         <span>{{ getFormattedTime(round.redTimeLeft) }}</span>
                     </div>                    
                 </div>
-                <div class="team-score team2-score">
-                    <span class="team-score-text">{{ teams.team_red.score }}</span>
+                <div class="team-info-container team2-info">
+                    <div class="team-info-bg team2-bg" ref="team2_bg"></div>
+                    <div class="team-score team2-score">
+                        <span class="team-score-text">{{ teams.team_red.score }}</span>
                     </div>
-                <div class="team-name team2-name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
+                    <div class="team-name team2-name" ref="team2_name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
+                </div>
             </div>
             <div class="match-info-row-2" v-if="announcements.length > 0">
                 <transition name="fade" mode="out-in" tag="div">
@@ -82,6 +88,24 @@ export default {
             return `${mins}:${secs}`
         },
 
+        eventTeamRoundWin (event) {
+            if (parseInt(event.team) === 2) {
+                this.$refs.team2_bg.classList.add('team-info-bg-full');
+                this.$refs.team2_name.classList.remove('team2-name');
+                setTimeout(() => {
+                    this.$refs.team2_bg.classList.remove('team-info-bg-full');
+                    this.$refs.team2_name.classList.add('team2-name');
+                }, 5 * 1000);
+            } else if (parseInt(event.team) === 3) {
+                this.$refs.team1_bg.classList.add('team-info-bg-full');
+                this.$refs.team1_name.classList.remove('team1-name');
+                setTimeout(() => {
+                    this.$refs.team1_bg.classList.remove('team-info-bg-full');
+                    this.$refs.team1_name.classList.add('team1-name');
+                }, 5 * 1000);
+            }
+        },
+
         update () {
             this.announcements = this.$parent.config.announcements || [];
             this.announcementsDelay = this.$parent.config.announcementsDelay;
@@ -136,36 +160,78 @@ export default {
         flex-direction: row;
         background: rgba(0, 0, 0, 0.5);
 
-        .team-name {
-            font-size: 44px;
-            font-weight: 900;
-            color: white;
-            text-transform: uppercase;
-            width: 480px;
-            margin-top: auto;
-            margin-bottom: auto;
-            text-shadow: 0 3px 5px #00000099;
-        }
-
-        .team-score {
-            width: 88px;
+        .team-info-container {
             height: 100%;
-            color: white;
-            font-size: 44px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin: auto;
             display: flex;
-            text-shadow: 0 3px 5px #00000099;
-    
-            .team-score-text {
+            flex-direction: row;
+            width: 546px;
+            position: relative;
+
+            .team-info-bg {
+                position: absolute;
+                height: 100%;
+                width: 84px;
+                transition: 0.75s ease-out;
+                top: 0;
+                z-index: 0;
+            }
+
+            .team-info-bg-full {
+                width: 100%;
+            }
+
+            .team-name {
+                font-size: 44px;
+                font-weight: 900;
+                color: white;
+                text-transform: uppercase;
+                width: 480px;
+                margin-top: auto;
+                margin-bottom: auto;
+                text-shadow: 0 3px 5px #00000099;
+                z-index: 3;
+                transition: 0.3s;
+            }
+
+            .team-score {
+                width: 88px;
+                height: 100%;
+                color: white;
+                font-size: 44px;
+                font-weight: 900;
+                text-transform: uppercase;
                 margin: auto;
+                display: flex;
+                text-shadow: 0 3px 5px #00000099;
+                z-index: 3;
+
+                .team-score-text {
+                    margin: auto;
+                }
+            }
+
+            .team1-name {
+                color: @blue-team-color;
+            }
+
+            .team2-name {
+                color: @red-team-color;
+            }
+
+            .team1-bg {
+                background: linear-gradient(30deg, @blue-team-color-dark 0%, @blue-team-color 100%);
+                right: 0;
+            }
+
+            .team2-bg {
+                background: linear-gradient(300deg, @red-team-color-dark 0%, @red-team-color 100%);
+                left: 0;
             }
         }
 
         .timer-container {
             height: 100%;
-            width: 192px;
+            min-width: 188px;
             display: flex;
         }
 
@@ -221,22 +287,6 @@ export default {
             .team2-timer {
                 background: linear-gradient(300deg, @red-team-color-dark 0%, @red-team-color 100%);
             }
-        }
-
-        .team1-name {
-            color: @blue-team-color;
-        }
-
-        .team2-name {
-            color: @red-team-color;
-        }
-
-        .team1-score {
-            background: linear-gradient(30deg, @blue-team-color-dark 0%, @blue-team-color 100%);
-        }
-
-        .team2-score {
-            background: linear-gradient(300deg, @red-team-color-dark 0%, @red-team-color 100%);
         }
     }
 
