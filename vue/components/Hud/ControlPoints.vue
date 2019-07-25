@@ -185,7 +185,7 @@ export default {
                     this.showPointRing[i] = false;
                 } else {                
                     this.showPointRing[i] = true;
-                    this.$refs[`pointProgress${i}`][0].updateProgress(perc);
+                    this.$refs[`pointProgress${i}`][0].updateProgress(percentage);
                 }
             }
         } else if (this.round.gameType === 'KOTH') {
@@ -196,7 +196,7 @@ export default {
                 this.showPointRing[i] = false;
             } else {                
                 this.showPointRing[i] = true;
-                this.$refs.pointProgress0.updateProgress(perc)
+                this.$refs.pointProgress0.updateProgress(percentage)
             }
         }
     }
