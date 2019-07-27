@@ -171,7 +171,7 @@ export default {
                 position: absolute;
                 height: 100%;
                 width: 84px;
-                transition: 0.75s ease-out;
+                transition: 0.3s ease-out;
                 top: 0;
                 z-index: 0;
             }
