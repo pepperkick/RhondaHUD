@@ -159,12 +159,16 @@ export default {
             if (this.player.alive) {
                 if (this.player.isUbered) {
                     if (parseInt(this.player.team) === 3)
-                        return this.$parent.bluUberedIcon;
+                        return this.$parent.$parent.bluUberedIcon;
                     else if (parseInt(this.player.team) === 2)
-                        return this.$parent.redUberedIcon
+                        return this.$parent.$parent.redUberedIcon
                 }
                     
                 if (this.player.weapon && parseInt(this.player.weapon.index) === 775 && this.player.isAllySpeedBuffed) {
+                    return this.$parent.$parent.markedForDeathIcon
+                }
+
+                if (this.player.isMarkedForDeath){
                     return this.$parent.$parent.markedForDeathIcon
                 }
 
