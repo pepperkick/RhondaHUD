@@ -415,6 +415,7 @@
             bleedingIcon: require('@/assets/icons/status_effects/bleed_drop.png'),
             skullIcon: require('@/assets/icons/skull.png'),
             ammoIcon: require('@/assets/icons/ammo.png'),
+            timerIcon: require('@/assets/icons/timer.png'),
             controlPointIcons: {
                 oneOnPoint: require('@/assets/icons/control_points/1s.png'),
                 twoOnPoint: require('@/assets/icons/control_points/2s.png'),

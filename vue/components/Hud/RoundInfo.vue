@@ -9,17 +9,23 @@
                     </div>
                     <div class="team-info-bg team1-bg" ref="team1_bg"></div>
                 </div>
-                <div class="timer-container timer-container-5cp" v-if="round.gameType === '5CP'">
-                    <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft - parseInt(matchTimeLeftOffset)) }}</span>      
-                    <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>                    
-                </div>
-                <div class="timer-container timer-container-koth" v-if="round.gameType === 'KOTH'">
-                    <div class="team-timer team1-timer" :class="{ 'koth-timer-active': parseInt(round.cap0.cappedTeam) === 3 }">
-                        <span>{{ getFormattedTime(round.blueTimeLeft) }}</span>
-                    </div>      
-                    <div class="team-timer team2-timer" :class="{ 'koth-timer-active': parseInt(round.cap0.cappedTeam) === 2 }">
-                        <span>{{ getFormattedTime(round.redTimeLeft) }}</span>
-                    </div>                    
+                <div class="timer-container">
+                    <div class="timer timer-paused" v-if="round.isPaused">
+                        <img id="timer-pause-icon" :src="$parent.timerIcon"/>
+                        <span>MATCH PAUSED</span>
+                    </div>
+                    <div class="timer timer-5cp" v-if="round.gameType === '5CP'">
+                        <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft - parseInt(matchTimeLeftOffset)) }}</span>
+                        <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>
+                    </div>
+                    <div class="timer timer-koth" v-if="round.gameType === 'KOTH'">
+                        <div class="team-timer team1-timer" :class="{ 'koth-timer-active': parseInt(round.cap0.cappedTeam) === 3 }">
+                            <span>{{ getFormattedTime(round.blueTimeLeft) }}</span>
+                        </div>
+                        <div class="team-timer team2-timer" :class="{ 'koth-timer-active': parseInt(round.cap0.cappedTeam) === 2 }">
+                            <span>{{ getFormattedTime(round.redTimeLeft) }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="team-info-container team2-info">
                     <div class="team-info-bg team2-bg" ref="team2_bg"></div>
@@ -230,16 +236,47 @@ export default {
         }
 
         .timer-container {
-            height: 100%;
-            min-width: 188px;
-            display: flex;
+            position: relative;
         }
 
-        .timer-container-5cp {
+
+        .timer {
+            height: 100%;
+            min-width: 188px;
+            position: relative;
+        }
+
+        .timer-paused {
+            background: linear-gradient(30deg, #aaaaaaee 0%, #ffffffee 100%);
+            flex-direction: column;
+            color: #000;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 3;
+            display: flex;
+            text-shadow: 0 3px 5px #00000033;
+
+            #timer-pause-icon {
+                height: 40px;
+                margin: auto;
+                margin-top: 8px;
+            }
+
+            span {
+                font-size: 20px;
+                line-height: 24px;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+        }
+
+        .timer-5cp {
             background: linear-gradient(30deg, #aaa 0%, #ffffff 100%);
             flex-direction: column;
             color: #000;
             text-shadow: 0 3px 5px #00000033;
+            display: flex;
+            z-index: 1;
 
             .timer-match {
                 margin-top: 8px;
@@ -255,7 +292,7 @@ export default {
             } 
         }
 
-        .timer-container-koth {
+        .timer-koth {
             display: flex;
             flex-direction: row;
             background: rgba(0, 0, 0, 0.5);
