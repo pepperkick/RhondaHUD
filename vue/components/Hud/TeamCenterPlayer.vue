@@ -10,8 +10,8 @@
         <div class='player-center-main-info'>
             <div class='player-center-basic-info'>
                 <div class='flex info-row-1'>
-                    <img class='player-center-class' :src='player.alive ? $parent.classIcons[player.class] : $parent.skullIcon' />
-                    <img :class='{ "player-center-disguise-class": getDisguiseClassIcon() }' :src='getDisguiseClassIcon()' />          
+                    <img class='player-center-class' :class='{ "player-center-class-transparent": player.isCloaked }' :src='player.alive ? $parent.classIcons[player.class] : $parent.skullIcon' />
+                    <img v-if="player.disguise" :class='{ "player-center-disguise-class": getDisguiseClassIcon(), "player-disguise-class-red": player.disguise.team === 2, "player-disguise-class-blue": player.disguise.team === 3 }' :src='getDisguiseClassIcon()' />
                     <div class='player-center-name'>
                         <span>{{ getName() }}</span>
                     </div>
@@ -87,7 +87,7 @@ export default {
 
         getDisguiseClassIcon() {
             if (parseInt(this.player.class) === 8 && parseInt(this.player.disguise.class) > 0) {
-                return this.$parent.classIcons[this.player.disguise.class]
+                return this.$parent.classIcons[this.player.disguise.class];
             }
 
             return false
@@ -165,6 +165,8 @@ export default {
                 return `${parseInt(this.player.medigun.charge * 100)}%`
             } else if (pclass === 2 && this.player.weapon.class === 'CTFSniperRifle') {
                 return `${reserve}`
+            } else if (clip === "-" && reserve !== "-") {
+               return `${reserve}`
             } else {
                 return `${clip} / ${reserve}`
             }
@@ -355,6 +357,11 @@ export default {
                     margin-bottom: auto;
                     margin-left: 16px;
                     height: 40px;
+                    transition: 0.5s;
+                }
+
+                .player-center-class-transparent {
+                    opacity: 0.5;
                 }
 
                 .player-center-disguise-class {
@@ -365,9 +372,17 @@ export default {
                     height: 24px;
                 }
 
+                .player-disguise-class-blue {
+                    filter: invert(49%) sepia(83%) saturate(7137%) hue-rotate(194deg) brightness(95%) contrast(103%);
+                }
+
+                .player-disguise-class-red {
+                    filter: invert(32%) sepia(100%) saturate(6987%) hue-rotate(15deg) brightness(91%) contrast(113%);
+                }
+
                 .player-center-health {
                     margin-bottom: auto;
-                    margin-top: 0px;
+                    margin-top: 0;
                     margin-left: auto;
                     margin-right: 16px;
                     font-size: 32px;

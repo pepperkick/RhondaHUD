@@ -10,7 +10,7 @@
                     <div class='player-healthover-bar' :style="{ width: getOverhealBarWidth() }"></div>
                 </div>
                 <div class='player-main-info'>
-                    <img class='player-class' :src='player.alive ? $parent.$parent.classIcons[player.class] : $parent.$parent.skullIcon' />
+                    <img class='player-class' :class='{ "player-center-class-transparent": player.isCloaked }' :src='player.alive ? $parent.$parent.classIcons[player.class] : $parent.$parent.skullIcon' />
                     <div class='player-basic-info'>
                         <div class='info-row-1 player-name'>
                             <span>{{ getName() }}</span>
@@ -74,7 +74,7 @@
                             <span>K {{ player.kills }}</span>
                         </div>
                     </div>
-                    <img class='player-class' :src='player.alive ? $parent.$parent.classIcons[player.class] : $parent.$parent.skullIcon' />
+                    <img class='player-class' :class='{ "player-center-class-transparent": player.isCloaked }' :src='player.alive ? $parent.$parent.classIcons[player.class] : $parent.$parent.skullIcon' />
                 </div>
             </div>
         </div>
@@ -344,6 +344,10 @@ export default {
                 margin-left: 8px;
                 margin-right: 8px;
                 height: 40px;
+            }
+
+            .player-center-class-transparent {
+                opacity: 0.5;
             }
 
             .player-basic-info {
