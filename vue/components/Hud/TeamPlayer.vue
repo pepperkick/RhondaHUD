@@ -233,16 +233,15 @@ export default {
         width: 72px;
 
         .player-status-icons {
-            height: 24px;
-            filter: brightness(0) invert(1);
-
-            img {
-                height: 18px;
-            }
+            height: 16px;
         }
 
         .player-weapon-icon {
+            max-height: 72px;
+            max-width: 72px;
             filter: brightness(0) invert(1);
+            margin-top: auto;
+            margin-bottom: auto;
         }
     }
     
