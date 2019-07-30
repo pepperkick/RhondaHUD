@@ -23,7 +23,7 @@
                         <div class='info-row-2 player-stats' v-else>
                             <span>K {{ player.kills }}</span>
                             <span>D {{ player.deaths }}</span>
-                            <span>{{ getDamage() }}</span>
+                            <span>A {{ player.assists }}</span>
                         </div>
                     </div>
                     <div class="player-health">
