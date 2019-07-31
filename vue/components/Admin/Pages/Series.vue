@@ -72,6 +72,15 @@
                         <span>4</span>
                     </label>
                 </div>
+                <div class="toggle">
+                    <div class='subtitle'>
+                        <span>Enable GoldenCap Mode</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" v-model="goldenCapMode">
+                      <span class="slider round"></span>
+                    </label>
+                </div>
                 <div class="field">
                     <label class="input-label">Match Time Left Offset</label>
                     <input class="input" type="number" v-model="timeLeftOffset" />
@@ -88,7 +97,8 @@ export default {
             selected: 5,
             wins1: 0,
             wins2: 0,
-            timeLeftOffset: 0
+            timeLeftOffset: 0,
+            goldenCapMode: false
         }
     },
 
@@ -98,6 +108,7 @@ export default {
             this.wins1 = this.$parent.config.seriesWinsTeamBlu || 0;
             this.wins2 = this.$parent.config.seriesWinsTeamRed || 0;
             this.timeLeftOffset = this.$parent.config.matchTimeLeftOffset || 0;
+            this.goldenCapMode = this.$parent.config.goldenCapMode || false;
         }
     },
 
@@ -127,6 +138,13 @@ export default {
             deep: true,
             async handler () {
                 this.$socket.emit('set-config', 'matchTimeLeftOffset', this.timeLeftOffset);
+            }
+        },
+
+        goldenCapMode: {
+            deep: true,
+            async handler () {
+                this.$socket.emit('set-config', 'goldenCapMode', this.goldenCapMode);
             }
         }
     },

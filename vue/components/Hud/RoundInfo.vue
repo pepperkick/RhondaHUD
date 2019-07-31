@@ -14,6 +14,13 @@
                         <img id="timer-pause-icon" :src="$parent.timerIcon"/>
                         <span>MATCH PAUSED</span>
                     </div>
+                    <div class="timer timer-golden-cap" v-if="$parent.config.goldenCapMode">
+                        <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>
+                        <div class="timer-golden-cap-text">
+                            <img id="timer-golden-cap-icon" :src="$parent.cupIcon"/>
+                            <span>GOLDEN CAP</span>
+                        </div>
+                    </div>
                     <div class="timer timer-5cp" v-if="round.gameType === '5CP'">
                         <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft - parseInt(matchTimeLeftOffset)) }}</span>
                         <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>
@@ -267,6 +274,43 @@ export default {
                 line-height: 24px;
                 font-weight: 600;
                 margin-bottom: 8px;
+            }
+        }
+
+        .timer-golden-cap {
+            background: linear-gradient(30deg, #fffc00ee 0%, #fffc00ee 100%);
+            flex-direction: column;
+            color: #000;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 2;
+            display: flex;
+            text-shadow: 0 3px 5px #00000033;
+
+            .timer-round {
+                margin-top: 8px;
+                font-size: 40px;
+                line-height: 40px;
+                font-weight: 900;
+            }
+
+            .timer-golden-cap-text {
+                display: flex;
+                flex-direction: row;
+
+                img {
+                    height: 20px;
+                    margin: auto;
+                    margin-right: 2px;
+                }
+
+                span {
+                    margin: auto;
+                    margin-left: 2px;
+                    font-size: 20px;
+                    line-height: 24px;
+                    font-weight: 600;
+                }
             }
         }
 

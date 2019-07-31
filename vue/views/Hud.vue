@@ -416,6 +416,7 @@
             skullIcon: require('@/assets/icons/skull.png'),
             ammoIcon: require('@/assets/icons/ammo.png'),
             timerIcon: require('@/assets/icons/timer.png'),
+            cupIcon: require('@/assets/icons/cup.png'),
             controlPointIcons: {
                 oneOnPoint: require('@/assets/icons/control_points/1s.png'),
                 twoOnPoint: require('@/assets/icons/control_points/2s.png'),
@@ -435,6 +436,9 @@
             this.info = JSON.parse(data.data);
 
             if (!this.info) return;
+
+            if (this.info.events.name)
+                console.log(this.info.events);
 
             // if (this.checkCache) {
             //     for (let i in this.info.allplayers) {

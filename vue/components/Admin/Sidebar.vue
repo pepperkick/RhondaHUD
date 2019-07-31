@@ -3,23 +3,23 @@
         <div class='sidebar-logo'>
             <img src='@/assets/logo.png' />
         </div>
-        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab == 0 }" @click="changeTab(0)">
+        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab === 0 }" @click="changeTab(0)">
             <i class='fas fa-users'></i>
             <span class='label'>Teams</span>
         </div>
-        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab == 1 }" @click="changeTab(1)">
+        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab === 1 }" @click="changeTab(1)">
             <i class='fas fa-user'></i>
             <span class='label'>Players</span>
         </div>
-        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab == 2 }" @click="changeTab(2)">
+        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab === 2 }" @click="changeTab(2)">
             <i class='fas fa-dice'></i>
             <span class='label'>Series</span>
         </div>
-        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab == 3 }" @click="changeTab(3)">
+        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab === 3 }" @click="changeTab(3)">
             <i class='fas fa-bullhorn'></i>
             <span class='label'>Ticker</span>
         </div>
-        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab == 4 }" @click="changeTab(4)">
+        <div class='sidebar-item' :class="{ 'sidebar-item-active': $parent.currentTab === 4 }" @click="changeTab(4)">
             <i class='fas fa-desktop'></i>
             <span class='label'>HUD</span>
         </div>
