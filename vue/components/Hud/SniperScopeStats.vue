@@ -14,8 +14,8 @@
 <style scoped>
 #sniper-headshots-stats {
     position: fixed;
-    top: 49.5%;
-    left: 55%;
+    top: calc(50% + 8px);
+    left: calc(50% + 144px);
     text-transform: uppercase;
     font-size: 24px;
     font-weight: 800;
