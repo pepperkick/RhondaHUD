@@ -4,6 +4,8 @@
         <TeamCenterPlayer v-if='info.player' :player='info.allplayers[info.player.steamid]' />
         <RoundInfo v-if='info.round' :round='info.round' :teams='info.teams' ref="RoundInfo" />
         <ControlPoints v-if='info.round' :round='info.round' />
+
+        <SniperScopeStats v-if="config.experimental.sniperScopeStats" :activePlayer='info.player' :player='info.allplayers[info.player.steamid]' />
     </div>
 </template>
 
@@ -12,9 +14,10 @@
     import TeamCenterPlayer from '@/components/Hud/TeamCenterPlayer'
     import RoundInfo from '@/components/Hud/RoundInfo'
     import ControlPoints from '@/components/Hud/ControlPoints'
+    import SniperScopeStats from '@/components/Hud/SniperScopeStats'
 
     export default {
-    components: { TeamContainer, TeamCenterPlayer, RoundInfo, ControlPoints },
+    components: { TeamContainer, TeamCenterPlayer, RoundInfo, ControlPoints, SniperScopeStats },
     data () {
         return {
             info: {},
@@ -423,12 +426,13 @@
                 threeOnPoint: require('@/assets/icons/control_points/3s.png'),
                 locked: require('@/assets/icons/control_points/rounded-lock.png'),
             },
-            checkCache: true
+            checkCache: true,
+            showSniperScopeStats: false
         }
     },
     sockets: {
         config (data) {
-            this.config = data
+            this.config = data;
         }
     },
     beforeMount() {

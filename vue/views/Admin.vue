@@ -7,6 +7,7 @@
             <PlayerPage v-else-if='currentTab === 1' />
             <SeriesPage v-else-if='currentTab === 2' />
             <TickerPage v-else-if='currentTab === 3' />
+            <HudPage v-else-if='currentTab === 4' />
         </div>
     </div>
 </template>
@@ -19,9 +20,10 @@ import TeamPage from '@/components/Admin/Pages/Team'
 import PlayerPage from '@/components/Admin/Pages/Player'
 import SeriesPage from '@/components/Admin/Pages/Series'
 import TickerPage from '@/components/Admin/Pages/Ticker'
+import HudPage from '@/components/Admin/Pages/Hud'
 
 export default {
-    components: { Sidebar, TopBar, TeamPage, PlayerPage, SeriesPage, TickerPage },
+    components: { Sidebar, TopBar, TeamPage, PlayerPage, SeriesPage, TickerPage, HudPage },
     data () {
         return {
             isElectron: false,

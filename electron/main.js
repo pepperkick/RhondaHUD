@@ -52,7 +52,8 @@ const adminOptions = {
 db.defaults({ players: [],  teams: [],
     config: {
         announcements: [],
-        announcementsDelay: 8
+        announcementsDelay: 8,
+        experimental: {}
     }
 }).write();
 

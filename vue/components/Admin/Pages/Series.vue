@@ -1,5 +1,5 @@
 <template>
-    <div vlass="admin-page" id='series-page'>        
+    <div class="admin-page" id='series-page'>
         <div class='title'>
             <span>Series Information</span>
         </div>
