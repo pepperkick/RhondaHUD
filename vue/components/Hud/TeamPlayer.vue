@@ -237,7 +237,7 @@ export default {
         }
 
         .player-weapon-icon {
-            max-height: 72px;
+            max-height: 34px;
             max-width: 72px;
             filter: brightness(0) invert(1);
             margin-top: auto;
