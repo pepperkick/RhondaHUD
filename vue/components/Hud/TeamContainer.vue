@@ -3,13 +3,13 @@
         <div class="team-blue">
             <Uber v-if="bluMedic" :player='bluMedic' />
             <div v-for="(player, key) of sortedPlayers" :key="`team3_${key}`">
-                <TeamPlayer v-if="parseInt(player.team) === 3" :player="player" :active="activePlayer && parseInt(player.steamid) === parseInt(activePlayer.steamid)" />
+                <TeamPlayer v-if="parseInt(player.team) === 3" :player="player" :slim="($parent.config && $parent.config.experimental.forceSlimHud) || sortedPlayers.length > 14" :active="activePlayer && parseInt(player.steamid) === parseInt(activePlayer.steamid)" />
             </div>
         </div>
         <div class="team-red">
             <Uber v-if="redMedic" :player='redMedic' />
             <div v-for="(player, key) of sortedPlayers" :key="`team2_${key}`">
-                <TeamPlayer v-if="parseInt(player.team) === 2" :player="player" :active="activePlayer && parseInt(player.steamid) === parseInt(activePlayer.steamid)" />
+                <TeamPlayer v-if="parseInt(player.team) === 2" :player="player" :slim="($parent.config && $parent.config.experimental.forceSlimHud) || sortedPlayers.length > 14" :active="activePlayer && parseInt(player.steamid) === parseInt(activePlayer.steamid)" />
             </div>
         </div>
     </div>
@@ -20,8 +20,8 @@ import TeamPlayer from "@/components/Hud/TeamPlayer"
 import Uber from "@/components/Hud/Uber"
 
 export default {
-    components: { TeamPlayer, Uber },
     props: [ 'players', 'activePlayer' ],
+    components: { TeamPlayer, Uber },
     data () {
         return {
             sortedPlayers: null,

@@ -5,7 +5,7 @@
         <RoundInfo v-if='info.round' :round='info.round' :teams='info.teams' ref="RoundInfo" />
         <ControlPoints v-if='info.round' :round='info.round' />
 
-        <SniperScopeStats v-if="config.experimental.sniperScopeStats" :activePlayer='info.player' :player='info.allplayers[info.player.steamid]' />
+        <SniperScopeStats v-if="config && config.experimental.sniperScopeStats && info && info.player" :activePlayer='info.player' :player='info.allplayers[info.player.steamid]' />
     </div>
 </template>
 

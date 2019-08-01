@@ -1,6 +1,6 @@
 <template>
     <div class="player-info-container">
-        <div class='player-stats-container align-side-blu' v-if='parseInt(player.team) === 3'>
+        <div class='player-stats-container align-side-blu' :class="{ 'slim': slim }" v-if='parseInt(player.team) === 3'>
             <div class="player-info" :class="{ 'player-main-info-glow': active }" >
                 <div class="player-health-info">
                     <div class='player-health-bar-container'>
@@ -15,15 +15,17 @@
                         <div class='info-row-1 player-name'>
                             <span>{{ getName() }}</span>
                         </div>
-                        <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
-                            <span>D {{ player.deaths }}</span>
-                            <span v-if="player.assists">A {{ player.assists }}</span>
-                            <span>H {{ player.healing }}</span>
-                        </div>
-                        <div class='info-row-2 player-stats' v-else>
-                            <span>K {{ player.kills }}</span>
-                            <span>D {{ player.deaths }}</span>
-                            <span>A {{ player.assists }}</span>
+                        <div class="info-row-2" v-if="!slim">
+                            <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
+                                <span>D {{ player.deaths }}</span>
+                                <span v-if="player.assists">A {{ player.assists }}</span>
+                                <span>H {{ player.healing }}</span>
+                            </div>
+                            <div class='info-row-2 player-stats' v-else>
+                                <span>K {{ player.kills }}</span>
+                                <span>D {{ player.deaths }}</span>
+                                <span>A {{ player.assists }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="player-health">
@@ -39,7 +41,7 @@
                 <img class='player-weapon-icon' :src='getWeaponIcon()' />
             </div>
         </div>
-        <div class='player-stats-container align-side-red' v-if='parseInt(player.team) === 2'>
+        <div class='player-stats-container align-side-red' :class="{ 'slim': slim }" v-if='parseInt(player.team) === 2'>
             <div class='player-extra-stats' v-if='player.alive'>
                 <div class='player-status-icons'>
                     <!-- <img class='player-status-icon' v-for='(i, index) in statusEffects' :key='index' :src='i' /> -->
@@ -63,15 +65,17 @@
                         <div class='info-row-1 player-name'>
                             <span>{{ getName() }}</span>
                         </div>
-                        <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
-                            <span>H {{ player.healing }}</span>
-                            <span v-if="player.assists">A {{ player.assists }}</span>
-                            <span>D {{ player.deaths }}</span>
-                        </div>
-                        <div class='info-row-2 player-stats' v-else>
-                            <span>A {{ player.assists }}</span>
-                            <span>D {{ player.deaths }}</span>
-                            <span>K {{ player.kills }}</span>
+                        <div class="info-row-2" v-if="!slim">
+                            <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
+                                <span>H {{ player.healing }}</span>
+                                <span v-if="player.assists">A {{ player.assists }}</span>
+                                <span>D {{ player.deaths }}</span>
+                            </div>
+                            <div class='info-row-2 player-stats' v-else>
+                                <span>A {{ player.assists }}</span>
+                                <span>D {{ player.deaths }}</span>
+                                <span>K {{ player.kills }}</span>
+                            </div>
                         </div>
                     </div>
                     <img class='player-class' :class='{ "player-center-class-transparent": player.isCloaked }' :src='player.alive ? $parent.$parent.classIcons[player.class] : $parent.$parent.skullIcon' />
@@ -83,7 +87,7 @@
 
 <script>
 export default {
-    props: [ 'player', 'active' ],
+    props: [ 'player', 'active', 'slim' ],
     data () {
         return {
             oldHealthBarWidth: '0',
@@ -355,7 +359,7 @@ export default {
                 flex-direction: column;
 
                 .player-name {
-                    margin-top: 6px;
+                    margin-top: 8px;
                     margin-bottom: -4px;    
                     font-size: 20px;
                     line-height: 20px;
@@ -372,12 +376,60 @@ export default {
                         opacity: 0.67;
                     }
                 }
+
+                .info-row-2 {
+                    margin-top: 2px;
+                }
             }
         }
     }
 
     .player-main-info-glow {
         transition: 0.3s;
+    }
+}
+
+.player-stats-container.slim {
+    height: 48px;
+
+    .player-status-icons {
+        height: 0;
+    }
+
+    .player-info {
+        height: 48px;
+
+        .health-effect-icon {
+            margin-top: auto;
+            margin-bottom: auto;
+            height: 12px;
+        }
+
+        .player-health-info {
+            height: 5px;
+        }
+        .player-main-info {
+            height: 48px;
+
+            .player-class {
+                margin-left: 16px;
+                margin-right: 16px;
+                height: 24px;
+            }
+
+            .player-health {
+                font-size: 24px;
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+
+            .player-name {
+                margin-top: auto;
+                margin-bottom: auto;
+                font-size: 20px;
+                line-height: 20px;
+            }
+        }
     }
 }
 
