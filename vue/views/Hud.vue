@@ -16,6 +16,10 @@
     import ControlPoints from '@/components/Hud/ControlPoints'
     import SniperScopeStats from '@/components/Hud/SniperScopeStats'
 
+    import WebSocket from 'websocket'
+
+    const wsc = WebSocket.client;
+
     export default {
     components: { TeamContainer, TeamCenterPlayer, RoundInfo, ControlPoints, SniperScopeStats },
     data () {
@@ -40,8 +44,14 @@
                 'CTFPistol': {
                     '0': require('@/assets/icons/weapon_icons/multi_class/pistols/pistol.png'),
                     '23': require('@/assets/icons/weapon_icons/multi_class/pistols/pistol.png'),
+                    '209': require('@/assets/icons/weapon_icons/multi_class/pistols/pistol.png'),
                     '294': require('@/assets/icons/weapon_icons/multi_class/pistols/lugermorph.png'),
                     '30666': require('@/assets/icons/weapon_icons/multi_class/pistols/capper.png'),
+                },
+                'CTFPistol_Scout': {
+                    '0': require('@/assets/icons/weapon_icons/multi_class/pistols/pistol.png'),
+                    '23': require('@/assets/icons/weapon_icons/multi_class/pistols/pistol.png'),
+                    '209': require('@/assets/icons/weapon_icons/multi_class/pistols/pistol.png'),
                 },
                 'CTFShotgun_Soldier': {
                     '0': require('@/assets/icons/weapon_icons/multi_class/allclass_shotguns/shotguns.png'),   
@@ -77,10 +87,6 @@
                 'CTFPistol_ScoutPrimary': {
                     '0': require('@/assets/icons/weapon_icons/scout/primary/shortstop.png'),     
                     '220': require('@/assets/icons/weapon_icons/scout/primary/shortstop.png'),          // TODO: Find proper class+
-                },
-                'CTFPEPBrawlerBlaster': {
-                    '0': require('@/assets/icons/weapon_icons/scout/primary/baby_face_blaster.png'),
-                    '772': require('@/assets/icons/weapon_icons/scout/primary/baby_face_blaster.png'),
                 },
                 'CTFPEPBrawlerBlaster': {
                     '0': require('@/assets/icons/weapon_icons/scout/primary/baby_face_blaster.png'),
@@ -433,6 +439,12 @@
     sockets: {
         config (data) {
             this.config = data;
+
+            if (this.config.serverSideCompanionPlugin) {
+                const client = new wsc();
+
+
+            }
         }
     },
     beforeMount() {
