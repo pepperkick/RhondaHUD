@@ -254,7 +254,7 @@ export default {
         }
 
         .timer-paused {
-            background: linear-gradient(30deg, #aaaaaaee 0%, #ffffffee 100%);
+            background: linear-gradient(30deg, #aaaaaaff 0%, #ffffffff 100%);
             flex-direction: column;
             color: #000;
             position: absolute;
