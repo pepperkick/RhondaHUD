@@ -88,6 +88,7 @@ export default {
         },
 
         async swapData () {
+            this.Update();
             this.$socket.emit('set-config', 'teamred_name', this.team.blu.name || '');
             this.$socket.emit('set-config', 'teamblu_name', this.team.red.name || '');
 
