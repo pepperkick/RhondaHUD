@@ -3,6 +3,9 @@
         <div class='submit-fab' @click="submitData">
             <i class="fas fa-check"></i>
         </div>
+        <div class='swap-fab' @click="swapData">
+            <i class="fas fa-retweet"></i>
+        </div>
         <div class='title' v-if='!teamList'>
             <span>Team Information</span>
             <div class='actionbar'>
@@ -83,6 +86,16 @@ export default {
             this.$socket.emit('set-config', 'teamred_name', this.team.red.name || '');
             this.$socket.emit('set-config', 'teamblu_name', this.team.blu.name || '');
         },
+
+        async swapData () {
+            this.$socket.emit('set-config', 'teamred_name', this.team.blu.name || '');
+            this.$socket.emit('set-config', 'teamblu_name', this.team.red.name || '');
+
+            const wins1 = this.$parent.config.seriesWinsTeamBlu || 0;
+            const wins2 = this.$parent.config.seriesWinsTeamRed || 0;
+            this.$socket.emit('set-config', 'seriesWinsTeamBlu', wins2);
+            this.$socket.emit('set-config', 'seriesWinsTeamRed', wins1);
+        }
 
         // async OpenTeamList () {
         //     const allteams = await this.$axios.get('/team')

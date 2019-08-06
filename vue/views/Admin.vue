@@ -167,6 +167,23 @@ export default {
     }
 }
 
+.swap-fab {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    color: #fff;
+    position: fixed;
+    bottom: 32px; right: 128px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+
+    i {
+        margin: auto;
+    }
+}
+
 .submit-dialog-fab {
     width: 64px;
     height: 64px;
