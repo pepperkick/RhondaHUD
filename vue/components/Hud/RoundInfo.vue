@@ -23,7 +23,12 @@
                     </div>
                     <div class="timer timer-5cp" v-if="round.gameType === '5CP'">
                         <span class="timer-match">{{ getFormattedTime(round.matchTimeLeft - parseInt(matchTimeLeftOffset)) }}</span>
-                        <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>
+                        <div v-if="parseInt(round.matchTimeLeft) > 0">
+                            <span class="timer-round">{{ getFormattedTime(round.roundTimeLeft) }}</span>
+                        </div>
+                        <div v-else>
+                            <span class="timer-round">MAP ENDED</span>
+                        </div>
                     </div>
                     <div class="timer timer-koth" v-if="round.gameType === 'KOTH'">
                         <div class="team-timer team1-timer" :class="{ 'koth-timer-active': parseInt(round.cap0.cappedTeam) === 3 }">
