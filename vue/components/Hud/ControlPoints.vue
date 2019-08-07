@@ -190,15 +190,6 @@ export default {
                     if (point && point[0])
                         point[0].updateProgress(percentage);
                 }
-
-                const point0 = this.round.cap0;
-                const point4 = this.round.cap4;
-                if (parseInt(point0.cappedTeam) === 2) {
-                    this.$parent.$refs.RoundInfo.eventTeamRoundWin({ team: 2 });
-                }
-                if (parseInt(point4.cappedTeam) === 3) {
-                    this.$parent.$refs.RoundInfo.eventTeamRoundWin({ team: 3 });
-                }
             }
         } else if (this.round.gameType === 'KOTH') {
             const i = 0;

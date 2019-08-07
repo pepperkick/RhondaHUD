@@ -433,18 +433,13 @@
                 locked: require('@/assets/icons/control_points/rounded-lock.png'),
             },
             checkCache: true,
-            showSniperScopeStats: false
+            showSniperScopeStats: false,
+            lastEventProcessed: 0
         }
     },
     sockets: {
         config (data) {
             this.config = data;
-
-            if (this.config.serverSideCompanionPlugin) {
-                const client = new wsc();
-
-
-            }
         }
     },
     beforeMount() {
@@ -453,8 +448,25 @@
 
             if (!this.info) return;
 
-            if (this.info.events.name)
-                console.log(this.info.events);
+            if (this.info.events.count !== this.lastEventProcessed) {
+                if (this.info.events.count - this.lastEventProcessed > 5) {
+                    this.lastEventProcessed = this.info.events.count - 5;
+                }
+
+                for (let i = this.lastEventProcessed; i < this.info.events.count; i++) {
+                    const event = this.info.events[`event${i}`];
+
+                    switch (event.name) {
+                        case "teamplay_win_panel":
+                            this.$refs.RoundInfo.eventTeamRoundWin(event);
+                            break;
+                        case "player_death":
+                            break;
+                    }
+                }
+
+                this.lastEventProcessed = this.info.events.count;
+            }
 
             // if (this.checkCache) {
             //     for (let i in this.info.allplayers) {
