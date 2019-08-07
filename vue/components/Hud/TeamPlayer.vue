@@ -72,9 +72,9 @@
                                 <span>D {{ player.deaths }}</span>
                             </div>
                             <div class='info-row-2 player-stats' v-else>
-                                <span>A {{ player.assists }}</span>
-                                <span>D {{ player.deaths }}</span>
                                 <span>K {{ player.kills }}</span>
+                                <span>D {{ player.deaths }}</span>
+                                <span>A {{ player.assists }}</span>
                             </div>
                         </div>
                     </div>
