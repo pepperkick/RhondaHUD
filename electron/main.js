@@ -49,7 +49,7 @@ const adminOptions = {
     resizable: false,
 };
 
-db.defaults({ players: [],  teams: [],
+db.defaults({ players: {},  teams: {},
     config: {
         announcements: [],
         announcementsDelay: 8,
@@ -68,11 +68,14 @@ app.on('ready', () => {
     admin.hide();
 
     overlay.on('closed', () => {
-        app.exit();
+        if (process.env.NODE_ENV !== 'development') {
+            app.exit();
+        }
     });
 
     if (process.env.NODE_ENV === 'development') {
         globalShortcut.register('Alt+A', () => {
+            if (!overlay) return;
             overlay.toggleDevTools();
         });
 
@@ -86,19 +89,27 @@ app.on('ready', () => {
     });
 
     globalShortcut.register('Alt+D', () => {
+        if (!overlay) return;
         overlay.reload();
     });
 
     globalShortcut.register('Alt+S', () => {
+        if (!overlay) return;
         overlay.minimize();
     });
 
     globalShortcut.register('Alt+Q', () => {
+        if (!overlay) return;
+
         if (overlay.isVisible()) {
             overlay.hide();
         } else {
             overlay.show();
         }
+    });
+
+    globalShortcut.register('Alt+Z', () => {
+        overlay.close()
     });
 
     globalShortcut.register('Alt+E', () => {
@@ -125,6 +136,15 @@ app.on('ready', () => {
             updateConfig();
         });
 
+        client.on('set-player', (key, value) => {
+            db.set(`players.${key}`, value).write();
+            updatePlayer(key);
+        });
+
+        client.on('get-player', (id) => {
+            updatePlayer(id);
+        });
+
         updateConfig();
     });
 
@@ -135,4 +155,8 @@ app.on('ready', () => {
 
 function updateConfig() {
     io.sockets.emit('config', db.get('config').value());
+}
+
+function updatePlayer(id) {
+    io.sockets.emit(`player.${id}`, db.get(`players.${id}`).value());
 }
