@@ -409,6 +409,14 @@ export default {
     .player-info {
         height: 48px;
 
+        span.player-class {
+            margin-top: auto;
+            margin-bottom: auto;
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+        }
+
         .health-effect-icon {
             margin-top: auto;
             margin-bottom: auto;
