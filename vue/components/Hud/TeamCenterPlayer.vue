@@ -62,8 +62,8 @@ export default {
                 name = player.name;
             }
 
-            if (name.length > 15) {
-                name = `${name.substring(0, 15)}...`;
+            if (name.length > 14) {
+                name = `${name.substring(0, 14)}...`;
             }
 
             return name;
@@ -131,13 +131,28 @@ export default {
                     else if (parseInt(this.player.team) === 2)
                         return this.$parent.redUberedIcon
                 }
+
+                if (this.player.isKritzkrieged) {
+                    if (parseInt(this.player.team) === 3)
+                        return this.$parent.bluKritzIcon;
+                    else if (parseInt(this.player.team) === 2)
+                        return this.$parent.redKritzIcon
+                }
                     
                 if (this.player.weapon && parseInt(this.player.weapon.index) === 775 && this.player.isAllySpeedBuffed) {
                     return this.$parent.markedForDeathIcon
                 }
 
+                if (this.player.isMarkedForDeath){
+                    return this.$parent.markedForDeathIcon
+                }
+
                 if (this.player.isBleeding) {
                     return this.$parent.bleedingIcon
+                }
+
+                if (this.player.isOnFire) {
+                    return this.$parent.burningIcon
                 }
 
                 if (parseInt(this.player.health) > parseInt(this.player.maxHealth)) {
@@ -149,7 +164,8 @@ export default {
         getHealthClass () {
             if (this.player.alive) {
                 return {
-                    'overhealed-color': parseInt(this.player.health) > parseInt(this.player.maxHealth)
+                    'overhealed-color': parseInt(this.player.health) > parseInt(this.player.maxHealth),
+                    'critical-color': parseInt(this.player.health) <= 50,
                 }
             }
         },
@@ -392,6 +408,10 @@ export default {
 
                     .overhealed-color {
                         color: @overheal-color;
+                    }
+
+                    .critical-color {
+                        color: @critical-color;
                     }
 
                     .bluubered-color {
