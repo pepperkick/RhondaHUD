@@ -28,7 +28,8 @@ export default {
         return {
             isElectron: false,
             currentTab: 0,
-            config: {}
+            config: {},
+            players: {}
         }
     },
     created () {
@@ -37,6 +38,10 @@ export default {
     sockets: {
         config (data) {
             this.config = data
+        },
+
+        players (data) {
+            this.players = data
         }
     }
 }
@@ -135,6 +140,46 @@ export default {
     margin-left: 32px;
     display: flex;
     flex-direction: row;
+
+    .actionbar {
+        width: 108px;
+        margin: auto;
+        margin-right: 36px;
+        display: flex;
+        flex-direction: row;
+
+        span {
+            margin-left: auto;
+            cursor: pointer;
+        }
+    }
+}
+
+.list-item {
+    color: @text-color;
+    margin-left: 32px;
+    display: flex;
+    flex-direction: row;
+
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        height: 32px;
+
+        .title {
+            text-transform: uppercase;
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        .subtitle {
+            text-transform: unset;
+            font-size: 16px;
+            font-weight: 400;
+            margin: 0;
+        }
+    }
 
     .actionbar {
         width: 108px;

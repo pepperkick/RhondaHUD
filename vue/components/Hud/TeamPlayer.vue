@@ -99,7 +99,7 @@ export default {
     methods: {
         getName () {
             const player = this.player;
-            const cache = this.$parent.$parent.playerCache;
+            const cache = this.$parent.$parent.players;
 
             let name;
 

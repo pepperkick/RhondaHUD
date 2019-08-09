@@ -52,7 +52,7 @@ export default {
     methods: {
         getName () {
             const player = this.player;
-            const cache = this.$parent.playerCache;
+            const cache = this.$parent.players;
 
             let name;
 

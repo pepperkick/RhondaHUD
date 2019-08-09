@@ -1,6 +1,6 @@
 <template>
     <div class='admin-page' id='player-page'>
-        <div class='team w-full h-12' id='player-edit-form'>
+        <div class='team w-full h-12'>
             <div class='title'>
                 <span>Player Information</span>
                 <div class='actionbar'>
@@ -8,10 +8,17 @@
                 </div>
             </div>
         </div>
-        <div class='player w-full h-full' id='player-edit-form'>
-            <div class='player-item' v-for='(val, i) in players' :key='i'>
-                <div class='subtitle'>
-                    <span>{{ val.steamid }} - {{ val.name }}</span>
+        <div class='player w-full h-full'>
+            <div class='player-item' v-for='(val, i) in $parent.players' :key='i'>
+                <div class="list-item">
+                    <div class="text-container">
+                        <div class="title">
+                            <span>{{ i }}</span>
+                        </div>
+                        <div class="subtitle">
+                            <span>{{ val.name }}</span>
+                        </div>
+                    </div>
                     <div class='actionbar'>
                         <span @click='deleteMessage(i)'><i class='fas fa-trash'></i></span>
                         <span @click='openEditDialog(i)'><i class='fas fa-edit'></i></span>
@@ -51,7 +58,6 @@ export default {
     data () {
         return {
             editDialog: false,
-            players: [],
             index: -1,
             steamid: '',
             name: ''
@@ -59,26 +65,18 @@ export default {
     },
 
     methods: {
-        async update () {
-            this.players = [];
-
-            try {
-                const players = await this.$axios.get('/player');
-
-                this.players = players.data
-            } catch (error) {
-                console.log(error)
-            }
+        update () {
+            this.$socket.emit('get-players');
         },
         
         async openEditDialog (index) {
-            await this.update();
+            this.update();
 
             this.index = index;
 
             if (index !== -1) {
-                this.steamid = this.players[index].steamid;
-                this.name = this.players[index].name
+                this.steamid = index;
+                this.name = this.$parent.players[index].name
             }
 
             this.editDialog = true
@@ -89,20 +87,13 @@ export default {
         },
 
         async submitData () {
-            try {
-                const steamid = this.steamid;
-                const name = this.name;
-
-                await this.$axios.post('/player', {
-                    steamid, name
-                })
-            } catch (error) {
-                console.log(error)
-            }
+            this.$socket.emit('set-player', this.steamid, {
+                name: this.name
+            });
 
             this.editDialog = false;
 
-            await this.update()
+            this.update()
         },
 
         validateData () {
@@ -110,14 +101,13 @@ export default {
         },
 
         async deleteMessage (i) {
-            const id = this.players[i].steamid;
-            await this.$axios.delete(`/player/${id}`);
-            await this.update()
+            this.$socket.emit('remove-player', i);
+            this.update()
         },
     },
 
     async created () {
-        // this.update()
+        this.update()
     }
 }
 </script>

@@ -25,7 +25,10 @@
     data () {
         return {
             info: {},
-            config: '',
+            config: {
+                experimental: {}
+            },
+            players: {},
             playerCache: {},
             swap: false,
             classIcons: [ 
@@ -440,6 +443,10 @@
     sockets: {
         config (data) {
             this.config = data;
+        },
+
+        players (data) {
+            this.players = data;
         }
     },
     beforeMount() {
@@ -467,27 +474,6 @@
 
                 this.lastEventProcessed = this.info.events.count;
             }
-
-            // if (this.checkCache) {
-            //     for (let i in this.info.allplayers) {
-            //         if (!this.info.allplayers.hasOwnProperty(i))
-            //             return;
-            //
-            //         try {
-            //             const data = await this.$axios.get(`/player/${i}`);
-            //             this.playerCache[i] = data.data;
-            //
-            //             if (this.playerCache[i])
-            //                 this.info.allplayers[i].name = this.playerCache[i].name
-            //         } catch (error) {
-            //             console.log(error)
-            //         }
-            //     }
-            //
-            //     this.checkCache = false;
-            //
-            //     setTimeout(() => this.checkCache = true, 30000)
-            // }
         }
     }
 }

@@ -139,13 +139,24 @@ app.on('ready', () => {
         client.on('set-player', (key, value) => {
             db.set(`players.${key}`, value).write();
             updatePlayer(key);
+            updatePlayers();
+        });
+
+        client.on('remove-player', (key) => {
+            db.unset(`players.${key}`).write();
+            updatePlayers();
         });
 
         client.on('get-player', (id) => {
             updatePlayer(id);
         });
 
+        client.on('get-players', () => {
+            updatePlayers();
+        });
+
         updateConfig();
+        updatePlayers();
     });
 
     express.use(history());
@@ -159,4 +170,8 @@ function updateConfig() {
 
 function updatePlayer(id) {
     io.sockets.emit(`player.${id}`, db.get(`players.${id}`).value());
+}
+
+function updatePlayers() {
+    io.sockets.emit(`players`, db.get(`players`).value());
 }
