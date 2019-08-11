@@ -20,7 +20,7 @@
                             <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
                                 <span>D {{ player.deaths }}</span>
                                 <span v-if="player.assists">A {{ player.assists }}</span>
-                                <span>H {{ player.healing }}</span>
+                                <span class="player-stat-heals">H {{ player.healing }}</span>
                             </div>
                             <div class='info-row-2 player-stats' v-else>
                                 <span>K {{ player.kills }}</span>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="info-row-2" v-if="!slim">
                             <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
-                                <span>H {{ player.healing }}</span>
+                                <span class="player-stat-heals">H {{ player.healing }}</span>
                                 <span v-if="player.assists">A {{ player.assists }}</span>
                                 <span>D {{ player.deaths }}</span>
                             </div>
@@ -373,6 +373,7 @@ export default {
                 margin-bottom: auto;
                 font-size: 24px;
                 width: 56px;
+                font-weight: 900;
                 text-align: center;
             }
 
@@ -395,11 +396,17 @@ export default {
                     margin-top: auto;
                     margin-bottom: auto;    
                     font-size: 14px;
+                    display: flex;
+                    flex-direction: row;
 
                     span {
-                        margin-left: 8px;
-                        margin-right: 8px;
+                        display: block;
                         opacity: 0.67;
+                        width: 48px;
+                    }
+
+                    .player-stat-heals {
+                        width: 72px;
                     }
                 }
 
@@ -513,6 +520,12 @@ export default {
         margin-right: auto;
     }
 
+    .player-stats {
+        span:first-child {
+            margin-left: 8px;
+        }
+    }
+
     .player-main-info-glow {
         box-shadow: 0 0 8px 0 @blue-team-color-dark;
     }
@@ -555,6 +568,12 @@ export default {
 
     .player-main-info {
         text-align: right;
+    }
+
+    .player-stats {
+        span:last-child {
+            margin-right: 8px;
+        }
     }
 
     .player-weapon-icon {
