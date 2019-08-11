@@ -3,7 +3,8 @@
         <div class='match-info'>
             <div class="match-info-row-1">
                 <div class="team-info-container team1-info">
-                    <div class="team-name team1-name" ref="team1_name">{{ $parent.config.teamblu_name || 'Team BLU' }}</div>
+                    <img v-if="$parent.config.teamblu_logo !== ''" class='team-logo team1-logo' :src="$parent.config.teamblu_logo"/>
+                    <div class="team-name team1-name" :style="{ 'font-size': getFontSize(2) }" ref="team1_name">{{ $parent.config.teamblu_name || 'Team BLU' }}</div>
                     <div class="team-score team1-score">
                         <span class="team-score-text">{{ teams.team_blue.score }}</span>
                     </div>
@@ -44,7 +45,8 @@
                     <div class="team-score team2-score">
                         <span class="team-score-text">{{ teams.team_red.score }}</span>
                     </div>
-                    <div class="team-name team2-name" ref="team2_name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
+                    <div class="team-name team2-name" :style="{ 'font-size': getFontSize(3) }" ref="team2_name">{{ $parent.config.teamred_name || 'Team RED' }}</div>
+                    <img v-if="$parent.config.teamred_logo !== ''" class='team-logo team2-logo' :src="$parent.config.teamred_logo"/>
                 </div>
             </div>
             <div class="match-info-row-2" v-if="announcements.length > 0">
@@ -104,6 +106,21 @@ export default {
             while (secs.length < 2) { secs = `0${secs}` }
 
             return `${mins}:${secs}`
+        },
+
+        getFontSize(team) {
+            let res, size;
+
+            if (team === 3) {
+                size = this.$parent.config.teamred_name_size;
+            } else if (team === 2) {
+                size = this.$parent.config.teamblu_name_size;
+            }
+
+            if (!size) res = '44px';
+            else res = `${size}px`;
+
+            return res;
         },
 
         eventTeamRoundWin (event) {
@@ -194,12 +211,25 @@ export default {
                 z-index: 0;
             }
 
+            .team-logo {
+                height: 40%;
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+
+            .team1-logo {
+                margin-left: 16px;
+            }
+
+            .team2-logo {
+                margin-right: 16px;
+            }
+
             .team-info-bg-full {
                 width: 100%;
             }
 
             .team-name {
-                font-size: 44px;
                 font-weight: 900;
                 color: white;
                 text-transform: uppercase;
@@ -212,7 +242,7 @@ export default {
             }
 
             .team-score {
-                width: 88px;
+                min-width: 88px;
                 height: 100%;
                 color: white;
                 font-size: 44px;
@@ -241,8 +271,16 @@ export default {
                 right: 0;
             }
 
+            .team1-logo {
+                right: 0;
+            }
+
             .team2-bg {
                 background: linear-gradient(300deg, @red-team-color-dark 0%, @red-team-color 100%);
+                left: 0;
+            }
+
+            .team2-logo {
                 left: 0;
             }
         }

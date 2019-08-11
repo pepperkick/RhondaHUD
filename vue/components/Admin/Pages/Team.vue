@@ -31,6 +31,14 @@
                     <label class="input-label">Team Name</label>
                     <input class="input" type="text" v-model="team.blu.name" />
                 </div>
+                <div class="field">
+                    <label class="input-label">Team Logo</label>
+                    <input class="input" type="text" v-model="team.blu.logo" />
+                </div>
+                <div class="field">
+                    <label class="input-label">Team Name Size</label>
+                    <input class="input" type="text" v-model="team.blu.nameSize" />
+                </div>
                 <!-- <div class="field">
                     <label class="input-label">Team Logo URL</label>
                     <input class="input" type="text" v-model="team.blu.logo" />
@@ -48,6 +56,14 @@
                     <label class="input-label">Team Name</label>
                     <input class="input" type="text" v-model="team.red.name" />
                 </div>
+                <div class="field">
+                    <label class="input-label">Team Logo</label>
+                    <input class="input" type="text" v-model="team.red.logo" />
+                </div>
+                <div class="field">
+                    <label class="input-label">Team Name Size</label>
+                    <input class="input" type="text" v-model="team.red.nameSize" />
+                </div>
                 <!-- <div class="field">
                     <label class="input-label">Team Logo URL</label>
                     <input class="input" type="text" v-model="team.red.logo" />
@@ -64,11 +80,13 @@ export default {
             team: {
                 blu: {
                     name: '',
-                    logo: ''
+                    logo: '',
+                    nameSize: 0
                 },
                 red: {
                     name: '',
-                    logo: ''
+                    logo: '',
+                    nameSize: 0
                 }
             },
             teams: [],
@@ -80,22 +98,35 @@ export default {
         async Update () {
             this.team.red.name = this.$parent.config.teamred_name || 'Team RED';
             this.team.blu.name = this.$parent.config.teamblu_name || 'Team BLU';
+            this.team.red.logo = this.$parent.config.teamred_logo || '';
+            this.team.blu.logo = this.$parent.config.teamblu_logo || '';
+            this.team.red.nameSize = this.$parent.config.teamred_name_size || 44;
+            this.team.blu.nameSize = this.$parent.config.teamblu_name_size || 44;
         },
 
         async submitData () {
             this.$socket.emit('set-config', 'teamred_name', this.team.red.name || '');
             this.$socket.emit('set-config', 'teamblu_name', this.team.blu.name || '');
+            this.$socket.emit('set-config', 'teamred_logo', this.team.red.logo || '');
+            this.$socket.emit('set-config', 'teamblu_logo', this.team.blu.logo || '');
+            this.$socket.emit('set-config', 'teamred_name_size', this.team.red.nameSize || '');
+            this.$socket.emit('set-config', 'teamblu_name_size', this.team.blu.nameSize || '');
         },
 
         async swapData () {
             this.Update();
             this.$socket.emit('set-config', 'teamred_name', this.team.blu.name || '');
             this.$socket.emit('set-config', 'teamblu_name', this.team.red.name || '');
+            this.$socket.emit('set-config', 'teamred_logo', this.team.blu.logo || '');
+            this.$socket.emit('set-config', 'teamblu_logo', this.team.red.logo || '');
+            this.$socket.emit('set-config', 'teamred_name_size', this.team.blu.nameSize || '');
+            this.$socket.emit('set-config', 'teamblu_name_size', this.team.red.nameSize || '');
 
             const wins1 = this.$parent.config.seriesWinsTeamBlu || 0;
             const wins2 = this.$parent.config.seriesWinsTeamRed || 0;
             this.$socket.emit('set-config', 'seriesWinsTeamBlu', wins2);
             this.$socket.emit('set-config', 'seriesWinsTeamRed', wins1);
+            this.Update();
         }
 
         // async OpenTeamList () {
