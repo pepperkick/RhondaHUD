@@ -5,6 +5,8 @@ const FileSync = require('lowdb/adapters/FileSync');
 const history = require('connect-history-api-fallback');
 const Express = require('express');
 
+app.disableHardwareAcceleration();
+
 const log = debug('app:main');
 const adapter = new FileSync('db.json');
 const db = lowdb(adapter);
