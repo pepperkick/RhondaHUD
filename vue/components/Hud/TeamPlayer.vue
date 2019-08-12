@@ -18,14 +18,14 @@
                         </div>
                         <div class="info-row-2" v-if="!slim">
                             <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
-                                <span>D {{ player.deaths }}</span>
-                                <span v-if="player.assists">A {{ player.assists }}</span>
-                                <span class="player-stat-heals">H {{ player.healing }}</span>
+                                <span>D {{ player.totalStats.deaths }}</span>
+                                <span>A {{ player.totalStats.assists }}</span>
+                                <span class="player-stat-heals">H {{ player.totalStats.healing }}</span>
                             </div>
                             <div class='info-row-2 player-stats' v-else>
-                                <span>K {{ player.kills }}</span>
-                                <span>D {{ player.deaths }}</span>
-                                <span>A {{ player.assists }}</span>
+                                <span>K {{ player.totalStats.kills }}</span>
+                                <span>D {{ player.totalStats.deaths }}</span>
+                                <span>A {{ player.totalStats.assists }}</span>
                             </div>
                         </div>
                     </div>
@@ -68,14 +68,14 @@
                         </div>
                         <div class="info-row-2" v-if="!slim">
                             <div class='info-row-2 player-stats' v-if="parseInt(player.class) === 5">
-                                <span class="player-stat-heals">H {{ player.healing }}</span>
-                                <span v-if="player.assists">A {{ player.assists }}</span>
-                                <span>D {{ player.deaths }}</span>
+                                <span class="player-stat-heals">H {{ player.totalStats.healing }}</span>
+                                <span>A {{ player.totalStats.assists }}</span>
+                                <span>D {{ player.totalStats.deaths }}</span>
                             </div>
                             <div class='info-row-2 player-stats' v-else>
-                                <span>K {{ player.kills }}</span>
-                                <span>D {{ player.deaths }}</span>
-                                <span>A {{ player.assists }}</span>
+                                <span>K {{ player.totalStats.kills }}</span>
+                                <span>D {{ player.totalStats.deaths }}</span>
+                                <span>A {{ player.totalStats.assists }}</span>
                             </div>
                         </div>
                     </div>
