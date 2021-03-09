@@ -3,6 +3,12 @@
 A GSI based webhud for TF2
 Depends on GSI client plugin for TF2
 
+## Credits
+
+UI Design
+- Mitch: https://github.com/mitch-cl
+- Core: https://github.com/itscoretf 
+
 ## Installation
 
 Make sure NodeJS LTS along with NPM is installed
